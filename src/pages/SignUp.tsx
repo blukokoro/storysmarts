@@ -46,7 +46,6 @@ const SignUp = () => {
       setIsSubmitting(true);
       await signUp(values.email, values.password, values.name);
     } catch (error) {
-      // Error is handled in the auth context
       console.error('Sign up error:', error);
     } finally {
       setIsSubmitting(false);

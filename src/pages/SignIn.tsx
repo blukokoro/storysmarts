@@ -39,7 +39,6 @@ const SignIn = () => {
       setIsSubmitting(true);
       await signIn(values.email, values.password);
     } catch (error) {
-      // Error is handled in the auth context
       console.error('Sign in error:', error);
     } finally {
       setIsSubmitting(false);
