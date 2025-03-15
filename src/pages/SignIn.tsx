@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -22,8 +23,8 @@ const formSchema = z.object({
 });
 
 const SignIn = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { signIn, user, loading } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,27 +35,21 @@ const SignIn = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
-    
-    // This is a mock authentication - would be replaced with actual auth
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demonstration purposes only
-      if (values.email === 'demo@example.com' && values.password === 'password123') {
-        toast.success('Signed in successfully');
-        localStorage.setItem('user', JSON.stringify({ email: values.email }));
-        navigate('/profile');
-      } else {
-        toast.error('Invalid email or password');
-      }
+      setIsSubmitting(true);
+      await signIn(values.email, values.password);
     } catch (error) {
-      toast.error('An error occurred during sign in');
+      // Error is handled in the auth context
+      console.error('Sign in error:', error);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
+
+  // Redirect if user is already logged in
+  if (user && !loading) {
+    return <Navigate to="/profile" />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 md:p-8 bg-background">
@@ -98,9 +93,16 @@ const SignIn = () => {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isLoading}
+                disabled={isSubmitting || loading}
               >
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Signing in...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
               </Button>
             </form>
           </Form>

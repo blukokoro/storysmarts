@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
 
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters long' }),
@@ -27,8 +28,8 @@ const formSchema = z.object({
 });
 
 const SignUp = () => {
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const { signUp, user, loading } = useAuth();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,22 +42,21 @@ const SignUp = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
-    
-    // This is a mock registration - would be replaced with actual auth
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast.success('Account created successfully');
-      localStorage.setItem('user', JSON.stringify({ name: values.name, email: values.email }));
-      navigate('/profile');
+      setIsSubmitting(true);
+      await signUp(values.email, values.password, values.name);
     } catch (error) {
-      toast.error('An error occurred during sign up');
+      // Error is handled in the auth context
+      console.error('Sign up error:', error);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
+
+  // Redirect if user is already logged in
+  if (user && !loading) {
+    return <Navigate to="/profile" />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 md:p-8 bg-background">
@@ -128,9 +128,16 @@ const SignUp = () => {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isLoading}
+                disabled={isSubmitting || loading}
               >
-                {isLoading ? 'Creating account...' : 'Create Account'}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Creating account...
+                  </>
+                ) : (
+                  'Create Account'
+                )}
               </Button>
             </form>
           </Form>
