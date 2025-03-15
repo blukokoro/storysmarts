@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AIService } from '@/utils/aiService';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Upload, FileText } from 'lucide-react';
 import { toast } from 'sonner';
+import PdfUploader from './PdfUploader';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface StoryInputProps {
   onAnalysisComplete: (analysis: any) => void;
@@ -29,6 +31,10 @@ const StoryInput: React.FC<StoryInputProps> = ({
     
     AIService.setApiKey(apiKey);
     setShowApiInput(false);
+  };
+
+  const handlePdfTextExtracted = (text: string) => {
+    setStory(text);
   };
 
   const handleAnalyze = async () => {
@@ -98,13 +104,41 @@ const StoryInput: React.FC<StoryInputProps> = ({
       <Card className="glass-card overflow-hidden">
         <CardContent className="p-6">
           <h3 className="text-xl font-medium mb-4 text-white">Your Story</h3>
-          <textarea
-            value={story}
-            onChange={(e) => setStory(e.target.value)}
-            placeholder="Enter your story or screenplay idea here... (minimum 100 words for accurate analysis)"
-            className="glass-input w-full h-64 p-4 rounded-md text-white placeholder:text-gray-500 resize-none"
-            disabled={isAnalyzing}
-          />
+          
+          <Tabs defaultValue="text" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger value="text">Write Text</TabsTrigger>
+              <TabsTrigger value="pdf">Upload PDF</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="text">
+              <textarea
+                value={story}
+                onChange={(e) => setStory(e.target.value)}
+                placeholder="Enter your story or screenplay idea here... (minimum 100 words for accurate analysis)"
+                className="glass-input w-full h-64 p-4 rounded-md text-white placeholder:text-gray-500 resize-none"
+                disabled={isAnalyzing}
+              />
+            </TabsContent>
+            
+            <TabsContent value="pdf">
+              <div className="mb-4">
+                <PdfUploader onTextExtracted={handlePdfTextExtracted} />
+              </div>
+              
+              {story && (
+                <div className="mt-4">
+                  <h4 className="text-sm font-medium text-gray-300 mb-2">Extracted Text Preview:</h4>
+                  <div className="glass-input w-full max-h-48 p-4 rounded-md text-white overflow-y-auto text-sm">
+                    {story.length > 500 
+                      ? story.substring(0, 500) + '...' 
+                      : story}
+                  </div>
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
+          
           <div className="mt-4">
             <Button 
               onClick={handleAnalyze} 
