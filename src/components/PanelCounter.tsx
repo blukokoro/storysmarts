@@ -1,18 +1,18 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ComicPanelsAnalysis } from '@/types';
+import { ComicPanelAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 interface PanelCounterProps {
-  data: ComicPanelsAnalysis;
+  data: ComicPanelAnalysis;
 }
 
 const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   // Calculate panel info to display
-  const totalPanels = data.recommendedPanels.reduce((sum, panel) => sum + panel.count, 0);
-  const totalPages = Math.ceil(totalPanels / 6); // Assuming average of 6 panels per page
+  const totalPanels = data.suggestedPanelCount;
+  const totalPages = data.suggestedPageCount;
 
   return (
     <Card className="glass-card h-full">
@@ -38,38 +38,26 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
 
         <div className="space-y-2">
           <h4 className="text-md font-medium text-white">Panel Breakdown</h4>
-          {data.recommendedPanels.map((panel, index) => (
-            <div key={index} className="bg-black/20 backdrop-blur-sm border border-white/5 p-3 rounded-lg">
-              <div className="flex justify-between items-center mb-1">
-                <span className="text-sm font-medium text-white">{panel.type}</span>
-                <span className="text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary">
-                  {panel.count} panels
-                </span>
-              </div>
-              <p className="text-xs text-gray-400">{panel.description}</p>
-            </div>
-          ))}
-        </div>
-        
-        <div className="space-y-2">
-          <h4 className="text-md font-medium text-white">Art Style</h4>
           <div className="bg-black/20 backdrop-blur-sm border border-white/5 p-3 rounded-lg">
-            <p className="text-sm text-gray-200">{data.recommendedArtStyle}</p>
-          </div>
-        </div>
-        
-        <div className="space-y-1">
-          <h4 className="text-md font-medium text-white">Character Focus</h4>
-          <div className="flex flex-wrap gap-2 mt-1">
-            {data.characterFocus.map((character, index) => (
-              <span 
-                key={index}
-                className="text-xs px-2 py-1 rounded-full bg-white/5 text-gray-300 border border-white/10"
-              >
-                {character}
-              </span>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm font-medium text-white">Key Scenes</span>
+            </div>
+            {data.keyScenesForPanels.map((scene, index) => (
+              <p key={index} className="text-xs text-gray-400 mb-1">{scene}</p>
             ))}
           </div>
+          <div className="bg-black/20 backdrop-blur-sm border border-white/5 p-3 rounded-lg">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm font-medium text-white">Layout Style</span>
+            </div>
+            <p className="text-xs text-gray-400">{data.panelLayout}</p>
+          </div>
+        </div>
+        
+        <div className="space-y-2 mt-4">
+          <Button asChild variant="outline" className="w-full bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">Get Your Comic Book</Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
