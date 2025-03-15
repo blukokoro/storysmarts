@@ -1,7 +1,9 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ComicPanelAnalysis } from '@/types';
+import { BookOpen, Layout, PanelRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface PanelCounterProps {
   data: ComicPanelAnalysis;
@@ -9,11 +11,16 @@ interface PanelCounterProps {
 
 const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   return (
-    <Card className="glass-card h-full overflow-hidden">
+    <Card className="glass-card h-full">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white">Comic Book Analysis</CardTitle>
+        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+          <span>Comic Book Panel Analysis</span>
+          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">Get Comic Book (€399)</Link>
+          </Button>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="pt-2 space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col items-center p-4 bg-black/30 backdrop-blur-sm rounded-lg">
             <span className="text-sm text-gray-400 mb-1">Suggested Pages</span>

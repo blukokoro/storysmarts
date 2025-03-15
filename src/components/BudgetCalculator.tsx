@@ -3,6 +3,9 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BudgetEstimate } from '@/types';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { CalendarClock } from 'lucide-react';
 
 interface BudgetCalculatorProps {
   data: BudgetEstimate;
@@ -19,7 +22,12 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
   return (
     <Card className="glass-card h-full overflow-hidden">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white">Budget Estimate</CardTitle>
+        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+          <span>Budget Estimate</span>
+          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">View Pricing Options</Link>
+          </Button>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex items-center justify-between mb-4">
@@ -33,8 +41,8 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
-        <div className="flex mb-6">
-          <div className="w-1/2 pr-2">
+        <div className="flex flex-col md:flex-row mb-6 gap-4">
+          <div className="md:w-1/2">
             <h4 className="text-sm font-medium text-white mb-2">Cost Factors</h4>
             <div className="space-y-2">
               {data.factors.map((factor, index) => (
@@ -49,7 +57,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
             </div>
           </div>
           
-          <div className="w-1/2 pl-2">
+          <div className="md:w-1/2">
             <h4 className="text-sm font-medium text-white mb-2">Cost Breakdown</h4>
             <div className="h-[180px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -84,6 +92,24 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
+        <div className="bg-black/20 rounded-md p-3 mb-4 border border-white/5">
+          <h4 className="text-sm font-medium text-white mb-2 flex items-center">
+            <CalendarClock className="w-4 h-4 mr-2 text-primary" />
+            Estimated Timeline
+          </h4>
+          <div className="space-y-2 text-sm">
+            <p className="text-gray-300">
+              <span className="text-primary font-medium">AI Short Film (€899):</span> 3-4 weeks for a 5-minute runtime
+            </p>
+            <p className="text-gray-300">
+              <span className="text-primary font-medium">Comic Book (€399):</span> 2-3 weeks for 10 pages
+            </p>
+            <p className="text-gray-400 text-xs mt-2">
+              Suggested marketing launch: 2 weeks after delivery for maximum impact
+            </p>
+          </div>
+        </div>
+        
         <div>
           <h4 className="text-sm font-medium text-white mb-2">Detailed Breakdown</h4>
           <div className="space-y-2">
@@ -105,6 +131,14 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
                 </div>
               </div>
             ))}
+          </div>
+          
+          <div className="mt-6 flex justify-center">
+            <Button asChild className="w-full">
+              <Link to="/pricing">
+                See Full Pricing Details
+              </Link>
+            </Button>
           </div>
         </div>
       </CardContent>

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AIService } from '@/utils/aiService';
@@ -23,6 +23,13 @@ const StoryInput: React.FC<StoryInputProps> = ({
   const [apiKey, setApiKey] = useState(AIService.getApiKey() || '');
   const [showApiInput, setShowApiInput] = useState(!AIService.getApiKey());
 
+  useEffect(() => {
+    // Persisting the API key in localStorage when component mounts
+    if (apiKey && !AIService.getApiKey()) {
+      AIService.setApiKey(apiKey);
+    }
+  }, [apiKey]);
+
   const handleApiKeySave = () => {
     if (!apiKey.trim()) {
       toast.error("Please enter a valid API key");
@@ -31,6 +38,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
     
     AIService.setApiKey(apiKey);
     setShowApiInput(false);
+    toast.success("API key saved and will be remembered for future sessions");
   };
 
   const handlePdfTextExtracted = (text: string) => {

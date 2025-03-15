@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { AudienceAnalysis as AudienceAnalysisType } from '@/types';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface AudienceAnalysisProps {
   data: AudienceAnalysisType;
@@ -16,9 +16,14 @@ const AudienceAnalysis: React.FC<AudienceAnalysisProps> = ({ data }) => {
   }));
 
   return (
-    <Card className="glass-card h-full overflow-hidden">
+    <Card className="glass-card h-full">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white">Audience Analysis</CardTitle>
+        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+          <span>Audience Analysis</span>
+          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">View Marketing Options</Link>
+          </Button>
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-4">

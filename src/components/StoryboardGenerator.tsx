@@ -1,7 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StoryboardAnalysis } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface StoryboardGeneratorProps {
   data: StoryboardAnalysis;
@@ -9,9 +10,14 @@ interface StoryboardGeneratorProps {
 
 const StoryboardGenerator: React.FC<StoryboardGeneratorProps> = ({ data }) => {
   return (
-    <Card className="glass-card h-full overflow-hidden">
+    <Card className="glass-card h-full">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white">Storyboard Analysis</CardTitle>
+        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+          <span>Storyboard Analysis</span>
+          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">Get Storyboard (€499)</Link>
+          </Button>
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex items-center justify-between bg-black/30 backdrop-blur-sm p-3 rounded-lg mb-4">

@@ -1,169 +1,86 @@
 
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { 
+  Book, 
+  Film, 
+  User, 
+  Menu, 
+  X,
+  LogIn
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
-import { FileText, LogIn, Menu, X } from 'lucide-react';
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 
 const Navbar = () => {
-  const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<{ name?: string, email: string } | null>(null);
-
-  useEffect(() => {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      try {
-        setUser(JSON.parse(userData));
-      } catch (error) {
-        localStorage.removeItem('user');
-      }
-    }
-  }, [location.pathname]);
-
-  const isActive = (path: string) => location.pathname === path;
-
-  // Close mobile menu when changing routes
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Link to="/" className="flex items-center gap-2">
-            <FileText className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">StorySmarts</span>
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-6">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link to="/" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      isActive('/') && "bg-accent text-accent-foreground"
-                    )}
-                  >
-                    Home
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/pricing" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={cn(
-                      navigationMenuTriggerStyle(),
-                      isActive('/pricing') && "bg-accent text-accent-foreground"
-                    )}
-                  >
-                    Pricing
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          <div className="flex items-center gap-2">
-            {user ? (
-              <Button asChild variant="outline">
-                <Link to="/profile">
-                  <span className="hidden sm:inline-block">My Profile</span>
-                </Link>
-              </Button>
-            ) : (
-              <>
-                <Button asChild variant="outline">
-                  <Link to="/sign-in">
-                    <LogIn className="mr-2 h-4 w-4" />
-                    <span className="hidden sm:inline-block">Sign In</span>
+    <nav className="bg-black/40 backdrop-blur-lg border-b border-white/10 sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <div className="flex-shrink-0 flex items-center">
+              <Link to="/" className="text-primary font-bold text-xl">
+                StorySmarts
+              </Link>
+            </div>
+            <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+              <Link to="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Home
+              </Link>
+              <Link to="/pricing" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                Pricing
+              </Link>
+            </div>
+          </div>
+          <div className="hidden md:flex items-center">
+            <Link to="/sign-in" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              Sign In
+            </Link>
+            <Button asChild size="sm" className="ml-4">
+              <Link to="/sign-up">
+                Get Started
+              </Link>
+            </Button>
+          </div>
+          <div className="flex items-center md:hidden">
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-gray-300">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-background border-l border-white/10">
+                <div className="flex flex-col space-y-4 mt-8">
+                  <Link to="/" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>
+                    <Book className="mr-2 h-4 w-4" /> Home
                   </Link>
-                </Button>
-                <Button asChild>
-                  <Link to="/sign-up">Sign Up</Link>
-                </Button>
-              </>
-            )}
+                  <Link to="/pricing" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>
+                    <Film className="mr-2 h-4 w-4" /> Pricing
+                  </Link>
+                  <Link to="/profile" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>
+                    <User className="mr-2 h-4 w-4" /> Profile
+                  </Link>
+                  <Link to="/sign-in" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white" onClick={() => setIsOpen(false)}>
+                    <LogIn className="mr-2 h-4 w-4" /> Sign In
+                  </Link>
+                  <Button asChild className="mt-4 mx-4">
+                    <Link to="/sign-up" onClick={() => setIsOpen(false)}>
+                      Get Started
+                    </Link>
+                  </Button>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X /> : <Menu />}
-          </Button>
-        </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden border-t border-white/10 bg-background">
-          <nav className="flex flex-col p-4 space-y-2">
-            <Link
-              to="/"
-              className={cn(
-                "px-4 py-2 rounded-md",
-                isActive('/') ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
-              )}
-            >
-              Home
-            </Link>
-            <Link
-              to="/pricing"
-              className={cn(
-                "px-4 py-2 rounded-md",
-                isActive('/pricing') ? "bg-accent text-accent-foreground" : "hover:bg-accent/50"
-              )}
-            >
-              Pricing
-            </Link>
-            <div className="border-t border-white/10 my-2 pt-2">
-              {user ? (
-                <Link
-                  to="/profile"
-                  className="w-full px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 flex justify-center"
-                >
-                  My Profile
-                </Link>
-              ) : (
-                <div className="space-y-2">
-                  <Link
-                    to="/sign-in"
-                    className="flex items-center px-4 py-2 rounded-md bg-transparent border border-white/20 hover:bg-accent/50 justify-center"
-                  >
-                    <LogIn className="mr-2 h-4 w-4" />
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/sign-up"
-                    className="flex items-center px-4 py-2 rounded-md bg-primary text-primary-foreground hover:bg-primary/90 justify-center"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
-            </div>
-          </nav>
-        </div>
-      )}
-    </header>
+    </nav>
   );
 };
 

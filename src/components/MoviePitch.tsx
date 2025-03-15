@@ -1,7 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MoviePitchAnalysis } from '@/types';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface MoviePitchProps {
   data: MoviePitchAnalysis;
@@ -9,11 +10,16 @@ interface MoviePitchProps {
 
 const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
   return (
-    <Card className="glass-card h-full overflow-hidden">
+    <Card className="glass-card h-full">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white">Movie Pitch Analysis</CardTitle>
+        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+          <span>Movie Pitch</span>
+          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+            <Link to="/pricing">Get Movie Pitch (€699)</Link>
+          </Button>
+        </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="pt-2 space-y-4">
         <div className="bg-black/30 backdrop-blur-sm p-4 rounded-lg border border-white/5">
           <h4 className="text-sm font-medium text-gray-400 mb-1">Logline</h4>
           <p className="text-white">{data.logline}</p>
