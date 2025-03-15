@@ -37,7 +37,7 @@ const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
               Download Free
             </Button>
             <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-              <Link to="/pricing">Get Movie Pitch (€199)</Link>
+              <Link to="/pricing">See Film Options</Link>
             </Button>
           </div>
         </CardTitle>
@@ -81,6 +81,21 @@ const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
                 {movie}
               </span>
             ))}
+          </div>
+        </div>
+        
+        <div className="mt-4">
+          <h4 className="text-sm font-medium text-gray-400 mb-2">AI Film Options</h4>
+          <div className="grid grid-cols-3 gap-2">
+            <Button asChild variant="outline" size="sm" className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20">
+              <Link to="/pricing">Basic €699</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/pricing">Standard €899</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/30 border-primary/50 text-primary hover:bg-primary/40">
+              <Link to="/pricing">Premium €1299</Link>
+            </Button>
           </div>
         </div>
       </CardContent>

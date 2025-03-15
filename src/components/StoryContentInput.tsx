@@ -2,6 +2,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import PdfUploader from './PdfUploader';
 
 interface StoryContentInputProps {
@@ -30,9 +31,13 @@ const StoryContentInput: React.FC<StoryContentInputProps> = ({
   return (
     <div className="space-y-4">
       <div className="mb-4">
-        <label htmlFor="story-title" className="block text-sm font-medium text-gray-300 mb-1">
-          Title
-        </label>
+        <div className="flex items-center mb-1">
+          <Label htmlFor="story-title" className="text-sm font-medium text-gray-300">
+            Title
+          </Label>
+          <span className="text-primary ml-1 text-sm">*</span>
+          <span className="text-xs text-gray-400 ml-2">(required)</span>
+        </div>
         <Input
           id="story-title"
           value={title}
@@ -40,6 +45,7 @@ const StoryContentInput: React.FC<StoryContentInputProps> = ({
           placeholder="Enter your story title"
           className="glass-input w-full px-4 py-2 rounded-md text-white placeholder:text-gray-500"
           disabled={isAnalyzing}
+          required
         />
       </div>
       

@@ -20,7 +20,7 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Comic Book Design</span>
           <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">Get Comic Book (€399 - 20 pages)</Link>
+            <Link to="/pricing">See Comic Pricing</Link>
           </Button>
         </CardTitle>
       </CardHeader>
@@ -55,9 +55,17 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
         </div>
         
         <div className="space-y-2 mt-4">
-          <Button asChild variant="outline" className="w-full bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">Get Your Comic Book</Link>
-          </Button>
+          <div className="grid grid-cols-3 gap-2">
+            <Button asChild variant="outline" size="sm" className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20">
+              <Link to="/pricing">Basic €299</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/pricing">Standard €399</Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/30 border-primary/50 text-primary hover:bg-primary/40">
+              <Link to="/pricing">Premium €599</Link>
+            </Button>
+          </div>
         </div>
       </CardContent>
     </Card>

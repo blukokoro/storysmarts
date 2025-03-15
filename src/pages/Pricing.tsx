@@ -75,63 +75,106 @@ const Pricing = () => {
           </p>
         </header>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <PricingCard
-            title="Comic Book"
-            price="399"
-            description="Transform your story into a professional comic book"
-            timeline="2-3 weeks for production • Launch 2 weeks after delivery"
-            features={[
-              "10 pages included",
-              "Character design",
-              "Full color illustrations",
-              "PDF & print-ready files",
-              "2 rounds of revisions"
-            ]}
-          />
-          
-          <PricingCard
-            title="Storyboard"
-            price="499"
-            description="Visualize your story with detailed storyboards"
-            timeline="2-3 weeks for production • Present 1 week after delivery"
-            features={[
-              "20 frames included",
-              "Professional shot composition",
-              "Scene transitions",
-              "Camera movement notes",
-              "Director's comments"
-            ]}
-            popular={true}
-          />
-          
-          <PricingCard
-            title="Movie Pitch"
-            price="699"
-            description="Professional pitch deck for film industry"
-            timeline="3-4 weeks for preparation • Pitch 2 weeks after delivery"
-            features={[
-              "Executive summary",
-              "Character breakdowns",
-              "Market analysis",
-              "Budget estimation",
-              "Presentation materials"
-            ]}
-          />
-          
-          <PricingCard
-            title="AI Short Film"
-            price="899"
-            description="Turn your story into a complete AI-generated short film"
-            timeline="3-4 weeks for production • Release 2-3 weeks after delivery"
-            features={[
-              "5 minutes runtime",
-              "Voice acting",
-              "Custom soundtrack",
-              "Special effects",
-              "Distribution package"
-            ]}
-          />
+        {/* Comic Book Pricing Tiers */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold mb-6 text-center">Comic Book Production</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <PricingCard
+              title="Comic Basic"
+              price="299"
+              description="Transform your story into a simple comic book"
+              timeline="2-3 weeks for production • Launch 2 weeks after delivery"
+              features={[
+                "8 pages included",
+                "Black & white illustrations",
+                "Basic character design",
+                "PDF files only",
+                "1 round of revisions"
+              ]}
+            />
+            
+            <PricingCard
+              title="Comic Standard"
+              price="399"
+              description="Transform your story into a professional comic book"
+              timeline="2-3 weeks for production • Launch 2 weeks after delivery"
+              features={[
+                "10 pages included",
+                "Full color illustrations",
+                "Character design",
+                "PDF & print-ready files",
+                "2 rounds of revisions"
+              ]}
+              popular={true}
+            />
+            
+            <PricingCard
+              title="Comic Premium"
+              price="599"
+              description="Create a deluxe comic book with enhanced features"
+              timeline="3-4 weeks for production • Launch 2 weeks after delivery"
+              features={[
+                "15 pages included",
+                "Premium color illustrations",
+                "Advanced character design",
+                "PDF, print-ready & digital interactive formats",
+                "3 rounds of revisions",
+                "Marketing materials included"
+              ]}
+            />
+          </div>
+        </div>
+        
+        {/* AI Short Film Pricing Tiers */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold mb-6 text-center">AI Short Film</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <PricingCard
+              title="Film Basic"
+              price="699"
+              description="Turn your story into a simple AI-generated film"
+              timeline="2-3 weeks for production • Release 2 weeks after delivery"
+              features={[
+                "3 minutes runtime",
+                "Standard AI voices",
+                "Basic soundtrack",
+                "Simple effects",
+                "720p resolution"
+              ]}
+            />
+            
+            <PricingCard
+              title="Film Standard"
+              price="899"
+              description="Turn your story into a complete AI-generated short film"
+              timeline="3-4 weeks for production • Release 2-3 weeks after delivery"
+              features={[
+                "5 minutes runtime",
+                "Professional voice acting",
+                "Custom soundtrack",
+                "Special effects",
+                "1080p resolution",
+                "Distribution package"
+              ]}
+              popular={true}
+            />
+            
+            <PricingCard
+              title="Film Premium"
+              price="1299"
+              description="Create a premium AI-generated film with advanced features"
+              timeline="4-5 weeks for production • Release 3 weeks after delivery"
+              features={[
+                "8 minutes runtime",
+                "Premium voice actors",
+                "Original music composition",
+                "Advanced special effects",
+                "4K resolution",
+                "Marketing & distribution package",
+                "Festival submission package"
+              ]}
+            />
+          </div>
         </div>
 
         <div className="mb-16">
@@ -140,7 +183,7 @@ const Pricing = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <Card className="bg-black/30 backdrop-blur-sm border border-white/10">
               <CardHeader>
-                <CardTitle className="text-xl">AI Short Film (€899)</CardTitle>
+                <CardTitle className="text-xl">AI Short Film (Standard - €899)</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -170,7 +213,7 @@ const Pricing = () => {
             
             <Card className="bg-black/30 backdrop-blur-sm border border-white/10">
               <CardHeader>
-                <CardTitle className="text-xl">Comic Book (€399)</CardTitle>
+                <CardTitle className="text-xl">Comic Book (Standard - €399)</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
