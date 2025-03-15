@@ -7,6 +7,7 @@ import { Loader2, Upload, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 import PdfUploader from './PdfUploader';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Input } from '@/components/ui/input';
 
 interface StoryInputProps {
   onAnalysisComplete: (analysis: any) => void;
@@ -19,6 +20,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
   isAnalyzing, 
   setIsAnalyzing 
 }) => {
+  const [title, setTitle] = useState('');
   const [story, setStory] = useState('');
   const [apiKey, setApiKey] = useState(AIService.getApiKey() || '');
   const [showApiInput, setShowApiInput] = useState(!AIService.getApiKey());
@@ -46,8 +48,13 @@ const StoryInput: React.FC<StoryInputProps> = ({
   };
 
   const handleAnalyze = async () => {
+    if (!title.trim()) {
+      toast.error("Please enter a title for your story");
+      return;
+    }
+
     if (!story.trim()) {
-      toast.error("Please enter your story first");
+      toast.error("Please enter your story plot");
       return;
     }
 
@@ -60,7 +67,12 @@ const StoryInput: React.FC<StoryInputProps> = ({
     try {
       setIsAnalyzing(true);
       const analysis = await AIService.analyzeStory(story);
-      onAnalysisComplete(analysis);
+      // Add title to the analysis result
+      const analysisWithTitle = {
+        ...analysis,
+        title
+      };
+      onAnalysisComplete(analysisWithTitle);
       toast.success("Story analysis complete!");
     } catch (error) {
       console.error(error);
@@ -113,17 +125,35 @@ const StoryInput: React.FC<StoryInputProps> = ({
         <CardContent className="p-6">
           <h3 className="text-xl font-medium mb-4 text-white">Your Story</h3>
           
+          <div className="mb-4">
+            <label htmlFor="story-title" className="block text-sm font-medium text-gray-300 mb-1">
+              Title
+            </label>
+            <Input
+              id="story-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter your story title"
+              className="glass-input w-full px-4 py-2 rounded-md text-white placeholder:text-gray-500"
+              disabled={isAnalyzing}
+            />
+          </div>
+          
           <Tabs defaultValue="text" className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-4">
-              <TabsTrigger value="text">Write Text</TabsTrigger>
+              <TabsTrigger value="text">Write Plot</TabsTrigger>
               <TabsTrigger value="pdf">Upload PDF</TabsTrigger>
             </TabsList>
             
             <TabsContent value="text">
+              <label htmlFor="story-plot" className="block text-sm font-medium text-gray-300 mb-1">
+                Story Plot
+              </label>
               <textarea
+                id="story-plot"
                 value={story}
                 onChange={(e) => setStory(e.target.value)}
-                placeholder="Enter your story or screenplay idea here... (minimum 100 words for accurate analysis)"
+                placeholder="Enter your story plot here... (minimum 100 words for accurate analysis)"
                 className="glass-input w-full h-64 p-4 rounded-md text-white placeholder:text-gray-500 resize-none"
                 disabled={isAnalyzing}
               />
@@ -150,7 +180,7 @@ const StoryInput: React.FC<StoryInputProps> = ({
           <div className="mt-4">
             <Button 
               onClick={handleAnalyze} 
-              disabled={isAnalyzing || !story.trim()} 
+              disabled={isAnalyzing || !story.trim() || !title.trim()} 
               className="w-full bg-primary hover:bg-primary/90 text-white transition-all duration-300"
             >
               {isAnalyzing ? (

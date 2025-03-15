@@ -1,22 +1,45 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MoviePitchAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface MoviePitchProps {
   data: MoviePitchAnalysis;
 }
 
 const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
+  const handleDownload = () => {
+    // In a real app, this would initiate a download of the movie pitch
+    toast.success("Movie pitch download started");
+    // Simulate a download for demo purposes
+    setTimeout(() => {
+      toast.success("Movie pitch downloaded successfully");
+    }, 1500);
+  };
+  
   return (
     <Card className="glass-card h-full">
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Movie Pitch</span>
-          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">Get Movie Pitch (€699)</Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+              onClick={handleDownload}
+            >
+              <Download className="h-4 w-4 mr-1" />
+              Download Free
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/pricing">Get Movie Pitch (€199)</Link>
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-2 space-y-4">

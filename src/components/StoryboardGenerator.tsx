@@ -1,22 +1,45 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { StoryboardAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface StoryboardGeneratorProps {
   data: StoryboardAnalysis;
 }
 
 const StoryboardGenerator: React.FC<StoryboardGeneratorProps> = ({ data }) => {
+  const handleDownload = () => {
+    // In a real app, this would initiate a download of the storyboard
+    toast.success("Storyboard download started");
+    // Simulate a download for demo purposes
+    setTimeout(() => {
+      toast.success("Storyboard downloaded successfully");
+    }, 1500);
+  };
+  
   return (
     <Card className="glass-card h-full">
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Storyboard Analysis</span>
-          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">Get Storyboard (€499)</Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20"
+              onClick={handleDownload}
+            >
+              <Download className="h-4 w-4 mr-1" />
+              Download Free
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/pricing">Get Storyboard (€499)</Link>
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { FileText, LogOut, Settings } from 'lucide-react';
+import { FileText, LogOut, Settings, CreditCard } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface StorySummary {
@@ -60,6 +60,13 @@ const Profile = () => {
     }
   }, [navigate]);
 
+  const handleViewStory = (storyId: string) => {
+    // In a real app, this would navigate to a detailed view of the story
+    toast.success(`Viewing story ${storyId}`);
+    // For demo purposes, we'll just show a toast
+    // In a real app: navigate(`/stories/${storyId}`);
+  };
+
   const handleSignOut = () => {
     localStorage.removeItem('user');
     toast.success('Signed out successfully');
@@ -102,9 +109,21 @@ const Profile = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  <Button variant="outline" className="w-full justify-start">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => navigate('/account-settings')}
+                  >
                     <Settings className="mr-2 h-4 w-4" />
                     Account Settings
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    onClick={() => navigate('/plans')}
+                  >
+                    <CreditCard className="mr-2 h-4 w-4" />
+                    My Plans
                   </Button>
                   <Button 
                     variant="outline" 
@@ -143,7 +162,13 @@ const Profile = () => {
                             </div>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm">View</Button>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => handleViewStory(story.id)}
+                        >
+                          View
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>
