@@ -13,6 +13,7 @@ import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
 import AccountSettings from "./pages/AccountSettings";
 import Plans from "./pages/Plans";
+import Marketing from "./pages/Marketing";
 import Navbar from "./components/Navbar";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Index />} />
     <Route path="/pricing" element={<Pricing />} />
+    <Route path="/marketing" element={<Marketing />} />
     <Route path="/sign-in" element={<SignIn />} />
     <Route path="/sign-up" element={<SignUp />} />
     <Route path="/profile" element={<Profile />} />

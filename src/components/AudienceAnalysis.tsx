@@ -23,7 +23,7 @@ const AudienceAnalysis: React.FC<AudienceAnalysisProps> = ({ data }) => {
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Audience Analysis</span>
           <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">View Marketing Options</Link>
+            <Link to="/marketing">View Marketing Options</Link>
           </Button>
         </CardTitle>
       </CardHeader>

@@ -25,6 +25,14 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   const weeksPerHundredPanels = 2;
   const estimatedWeeks = Math.ceil((calculatedPanels / 100) * weeksPerHundredPanels);
   const estimatedDays = estimatedWeeks * 7;
+  
+  // Multiple issues estimation
+  const panelsPerPage = Math.ceil(totalPanels / totalPages);
+  const minPagesPerIssue = 25;
+  const issueCount = Math.ceil(totalPages / minPagesPerIssue);
+  const pagesPerIssue = Math.ceil(totalPages / issueCount);
+  const panelsPerIssue = pagesPerIssue * panelsPerPage;
+  const pricePerIssue = Math.max(panelsPerIssue, minimumPanels) * pricePerPanel;
 
   return (
     <Card className="glass-card h-full">
@@ -50,6 +58,27 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
             <h4 className="text-sm text-gray-400">Estimated Price</h4>
             <p className="text-2xl font-semibold text-primary">€{estimatedPrice}</p>
             <p className="text-xs text-gray-500">@€9/panel</p>
+          </div>
+        </div>
+
+        {/* Multiple Issues Estimation */}
+        <div className="space-y-2">
+          <h4 className="text-md font-medium text-white">Multiple Issues</h4>
+          <div className="bg-black/20 backdrop-blur-sm border border-white/5 p-3 rounded-lg">
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <p className="text-xs text-gray-400">Recommended Issues</p>
+                <p className="text-xl font-semibold text-white">{issueCount}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-400">Pages per Issue</p>
+                <p className="text-xl font-semibold text-white">{pagesPerIssue}</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-400">Price per Issue</p>
+                <p className="text-xl font-semibold text-primary">€{pricePerIssue}</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -93,29 +122,47 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
             <div className="space-y-1 mt-3">
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Week 1-{Math.min(estimatedWeeks, 2)}: Concept & Sketches
+                  Style Definition
                 </div>
                 <div 
                   className="h-full bg-primary/40 rounded-l-md"
-                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${Math.min(0.2/estimatedWeeks, 1) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Week {Math.min(2, estimatedWeeks)}-{Math.min(4, estimatedWeeks)}: Linework & Inking
+                  Character Creation
+                </div>
+                <div 
+                  className="h-full bg-primary/45 rounded-l-md"
+                  style={{ width: `${Math.min(0.3/estimatedWeeks, 1) * 100}%` }}
+                ></div>
+              </div>
+              <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
+                  Panels & Structure
                 </div>
                 <div 
                   className="h-full bg-primary/50 rounded-l-md" 
-                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${Math.min(0.3/estimatedWeeks, 1) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Week {Math.min(3, estimatedWeeks)}-{estimatedWeeks}: Coloring & Finalization
+                  Pagination
+                </div>
+                <div 
+                  className="h-full bg-primary/55 rounded-l-md" 
+                  style={{ width: `${Math.min(0.1/estimatedWeeks, 1) * 100}%` }}
+                ></div>
+              </div>
+              <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
+                  Final PDF Delivery
                 </div>
                 <div 
                   className="h-full bg-primary/60 rounded-l-md" 
-                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${Math.min(0.1/estimatedWeeks, 1) * 100}%` }}
                 ></div>
               </div>
             </div>

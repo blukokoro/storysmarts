@@ -15,48 +15,44 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
   const weeksPerHundredPanels = 2;
   const estimatedWeeks = Math.ceil((panelCount / 100) * weeksPerHundredPanels);
   
-  // Create timeline data for Gantt chart
+  // Create timeline data for Gantt chart with comic book specific phases
   const timelineData = [
     {
-      name: 'Planning',
+      name: 'Style Definition',
       start: 0,
       duration: Math.ceil(estimatedWeeks * 0.2),
       fill: '#2563eb',
     },
     {
-      name: 'Concept Art',
+      name: 'Character Creation',
       start: Math.ceil(estimatedWeeks * 0.1),
       duration: Math.ceil(estimatedWeeks * 0.3),
       fill: '#4f46e5',
     },
     {
-      name: 'Line Art',
+      name: 'Panels & Structure',
       start: Math.ceil(estimatedWeeks * 0.3),
       duration: Math.ceil(estimatedWeeks * 0.3),
       fill: '#8b5cf6',
     },
     {
-      name: 'Coloring',
-      start: Math.ceil(estimatedWeeks * 0.5),
-      duration: Math.ceil(estimatedWeeks * 0.3),
+      name: 'Pagination',
+      start: Math.ceil(estimatedWeeks * 0.6),
+      duration: Math.ceil(estimatedWeeks * 0.2),
       fill: '#a855f7',
     },
     {
-      name: 'Lettering',
-      start: Math.ceil(estimatedWeeks * 0.7),
-      duration: Math.ceil(estimatedWeeks * 0.2),
-      fill: '#d946ef',
-    },
-    {
-      name: 'Revisions',
+      name: 'Final PDF Delivery',
       start: Math.ceil(estimatedWeeks * 0.8),
       duration: Math.ceil(estimatedWeeks * 0.2),
       fill: '#ec4899',
     },
   ];
 
-  // Create week labels for the chart
-  const weekLabels = Array.from({ length: estimatedWeeks }, (_, i) => `Week ${i + 1}`);
+  // Calculate multiple issues estimation
+  const minPagesPerIssue = 25;
+  const estimatedPages = Math.ceil(panelCount / 4); // Assuming an average of 4 panels per page
+  const issueCount = Math.ceil(estimatedPages / minPagesPerIssue);
 
   return (
     <Card className="glass-card h-full">
@@ -91,18 +87,17 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
           <div className="h-64">
             <ChartContainer
               config={{
-                planning: { label: 'Planning' },
-                concept: { label: 'Concept Art' },
-                lineart: { label: 'Line Art' },
-                coloring: { label: 'Coloring' },
-                lettering: { label: 'Lettering' },
-                revisions: { label: 'Revisions' },
+                style: { label: 'Style Definition' },
+                character: { label: 'Character Creation' },
+                panels: { label: 'Panels & Structure' },
+                pagination: { label: 'Pagination' },
+                delivery: { label: 'Final PDF Delivery' },
               }}
             >
               <BarChart
                 layout="vertical"
                 data={timelineData}
-                margin={{ top: 10, right: 30, left: 100, bottom: 20 }}
+                margin={{ top: 10, right: 30, left: 120, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                 <XAxis 
@@ -138,33 +133,33 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
               <h5 className="text-sm font-medium text-white mb-1">Delivery Breakdown</h5>
               <ul className="space-y-1 text-xs text-gray-400">
                 <li className="flex justify-between">
-                  <span>Initial Concepts:</span>
-                  <span>Week {Math.ceil(estimatedWeeks * 0.2)}</span>
+                  <span>Style & Character Concepts:</span>
+                  <span>Week {Math.ceil(estimatedWeeks * 0.3)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Draft Pages:</span>
-                  <span>Week {Math.ceil(estimatedWeeks * 0.5)}</span>
+                  <span>Full Panel Sketches:</span>
+                  <span>Week {Math.ceil(estimatedWeeks * 0.6)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Final Delivery:</span>
+                  <span>Final PDF Delivery:</span>
                   <span>Week {estimatedWeeks}</span>
                 </li>
               </ul>
             </div>
             <div>
-              <h5 className="text-sm font-medium text-white mb-1">Production Rate</h5>
+              <h5 className="text-sm font-medium text-white mb-1">Multi-Issue Publishing</h5>
               <ul className="space-y-1 text-xs text-gray-400">
                 <li className="flex justify-between">
-                  <span>Sketches:</span>
-                  <span>15-20 panels/day</span>
+                  <span>Recommended Issues:</span>
+                  <span>{issueCount}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Line Art:</span>
-                  <span>8-10 panels/day</span>
+                  <span>Pages per Issue:</span>
+                  <span>~{Math.ceil(estimatedPages / issueCount)}</span>
                 </li>
                 <li className="flex justify-between">
-                  <span>Coloring:</span>
-                  <span>6-8 panels/day</span>
+                  <span>Issue Release Cadence:</span>
+                  <span>{Math.ceil(estimatedWeeks / issueCount)} weeks</span>
                 </li>
               </ul>
             </div>
