@@ -11,43 +11,52 @@ interface TimelineGanttProps {
 }
 
 const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPrice }) => {
-  // Calculate timeline (2 weeks for 100 panels)
-  const weeksPerHundredPanels = 2;
-  const estimatedWeeks = Math.ceil((panelCount / 100) * weeksPerHundredPanels);
+  // Calculate timeline (1 week for 100 panels - updated production rate)
+  const panelsPerWeek = 100;
+  const estimatedWeeks = Math.ceil(panelCount / panelsPerWeek);
   
-  // Create timeline data for Gantt chart with comic book specific phases
+  // Create sequential timeline data for Gantt chart with comic book specific phases
   const timelineData = [
     {
       name: 'Style Definition',
       start: 0,
-      duration: Math.ceil(estimatedWeeks * 0.2),
+      duration: Math.max(1, Math.ceil(estimatedWeeks * 0.15)),
       fill: '#2563eb',
     },
     {
       name: 'Character Creation',
-      start: Math.ceil(estimatedWeeks * 0.1),
-      duration: Math.ceil(estimatedWeeks * 0.3),
+      // Start after Style Definition
+      start: Math.max(1, Math.ceil(estimatedWeeks * 0.15)),
+      duration: Math.max(1, Math.ceil(estimatedWeeks * 0.25)),
       fill: '#4f46e5',
     },
     {
       name: 'Panels & Structure',
-      start: Math.ceil(estimatedWeeks * 0.3),
-      duration: Math.ceil(estimatedWeeks * 0.3),
+      // Start after Character Creation
+      start: Math.max(2, Math.ceil(estimatedWeeks * 0.15) + Math.ceil(estimatedWeeks * 0.25)),
+      duration: Math.max(1, Math.ceil(estimatedWeeks * 0.4)),
       fill: '#8b5cf6',
     },
     {
       name: 'Pagination',
-      start: Math.ceil(estimatedWeeks * 0.6),
-      duration: Math.ceil(estimatedWeeks * 0.2),
+      // Start after Panels & Structure
+      start: Math.max(3, Math.ceil(estimatedWeeks * 0.15) + Math.ceil(estimatedWeeks * 0.25) + Math.ceil(estimatedWeeks * 0.4)),
+      duration: Math.max(1, Math.ceil(estimatedWeeks * 0.1)),
       fill: '#a855f7',
     },
     {
       name: 'Final PDF Delivery',
-      start: Math.ceil(estimatedWeeks * 0.8),
-      duration: Math.ceil(estimatedWeeks * 0.2),
+      // Start after Pagination
+      start: Math.max(4, Math.ceil(estimatedWeeks * 0.15) + Math.ceil(estimatedWeeks * 0.25) + Math.ceil(estimatedWeeks * 0.4) + Math.ceil(estimatedWeeks * 0.1)),
+      duration: Math.max(1, Math.ceil(estimatedWeeks * 0.1)),
       fill: '#ec4899',
     },
   ];
+  
+  // Calculate the total project duration (sum of all phase durations)
+  const totalProjectDuration = timelineData.reduce((total, phase) => {
+    return Math.max(total, phase.start + phase.duration);
+  }, 0);
 
   // Calculate multiple issues estimation
   const minPagesPerIssue = 25;
@@ -70,7 +79,7 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
           </div>
           <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg text-center">
             <h4 className="text-sm text-gray-400">Timeline</h4>
-            <p className="text-2xl font-semibold text-white">{estimatedWeeks} weeks</p>
+            <p className="text-2xl font-semibold text-white">{totalProjectDuration} weeks</p>
           </div>
           <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg text-center">
             <h4 className="text-sm text-gray-400">Budget</h4>
@@ -102,8 +111,8 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
                 <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
                 <XAxis 
                   type="number" 
-                  domain={[0, estimatedWeeks]} 
-                  ticks={Array.from({ length: estimatedWeeks + 1 }, (_, i) => i)}
+                  domain={[0, totalProjectDuration]} 
+                  ticks={Array.from({ length: totalProjectDuration + 1 }, (_, i) => i)}
                   tickFormatter={(value) => value === 0 ? '' : `Week ${value}`}
                 />
                 <YAxis 
@@ -134,15 +143,15 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
               <ul className="space-y-1 text-xs text-gray-400">
                 <li className="flex justify-between">
                   <span>Style & Character Concepts:</span>
-                  <span>Week {Math.ceil(estimatedWeeks * 0.3)}</span>
+                  <span>Week {Math.ceil(timelineData[1].start + timelineData[1].duration)}</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Full Panel Sketches:</span>
-                  <span>Week {Math.ceil(estimatedWeeks * 0.6)}</span>
+                  <span>Week {Math.ceil(timelineData[2].start + timelineData[2].duration)}</span>
                 </li>
                 <li className="flex justify-between">
                   <span>Final PDF Delivery:</span>
-                  <span>Week {estimatedWeeks}</span>
+                  <span>Week {totalProjectDuration}</span>
                 </li>
               </ul>
             </div>
@@ -159,7 +168,7 @@ const TimelineGantt: React.FC<TimelineGanttProps> = ({ panelCount, estimatedPric
                 </li>
                 <li className="flex justify-between">
                   <span>Issue Release Cadence:</span>
-                  <span>{Math.ceil(estimatedWeeks / issueCount)} weeks</span>
+                  <span>{Math.ceil(totalProjectDuration / issueCount)} weeks</span>
                 </li>
               </ul>
             </div>

@@ -21,9 +21,18 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   const calculatedPanels = Math.max(totalPanels, minimumPanels);
   const estimatedPrice = calculatedPanels * pricePerPanel;
 
-  // Calculate timeline (2 weeks for 100 panels)
-  const weeksPerHundredPanels = 2;
-  const estimatedWeeks = Math.ceil((calculatedPanels / 100) * weeksPerHundredPanels);
+  // Calculate timeline (1 week for 100 panels - updated production rate)
+  const panelsPerWeek = 100;
+  
+  // Calculate the phase durations
+  const styleDefinitionWeeks = Math.max(1, Math.ceil(calculatedPanels / panelsPerWeek * 0.15));
+  const characterCreationWeeks = Math.max(1, Math.ceil(calculatedPanels / panelsPerWeek * 0.25));
+  const panelsStructureWeeks = Math.max(1, Math.ceil(calculatedPanels / panelsPerWeek * 0.4));
+  const paginationWeeks = Math.max(1, Math.ceil(calculatedPanels / panelsPerWeek * 0.1));
+  const finalDeliveryWeeks = Math.max(1, Math.ceil(calculatedPanels / panelsPerWeek * 0.1));
+  
+  // Total project weeks (sum of all sequential phases)
+  const estimatedWeeks = styleDefinitionWeeks + characterCreationWeeks + panelsStructureWeeks + paginationWeeks + finalDeliveryWeeks;
   const estimatedDays = estimatedWeeks * 7;
   
   // Multiple issues estimation
@@ -123,54 +132,54 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
               </div>
               <div>
                 <p className="text-xs text-gray-400">Production Rate</p>
-                <p className="text-lg font-semibold text-white">50 panels/week</p>
+                <p className="text-lg font-semibold text-white">100 panels/week</p>
                 <p className="text-xs text-gray-500">(Standard production)</p>
               </div>
             </div>
             <div className="space-y-1 mt-3">
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Style Definition
+                  Style Definition ({styleDefinitionWeeks} weeks)
                 </div>
                 <div 
                   className="h-full bg-primary/40 rounded-l-md"
-                  style={{ width: `${Math.min(0.2/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${(styleDefinitionWeeks/estimatedWeeks) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Character Creation
+                  Character Creation ({characterCreationWeeks} weeks)
                 </div>
                 <div 
                   className="h-full bg-primary/45 rounded-l-md"
-                  style={{ width: `${Math.min(0.3/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${(characterCreationWeeks/estimatedWeeks) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Panels & Structure
+                  Panels & Structure ({panelsStructureWeeks} weeks)
                 </div>
                 <div 
                   className="h-full bg-primary/50 rounded-l-md" 
-                  style={{ width: `${Math.min(0.3/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${(panelsStructureWeeks/estimatedWeeks) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Pagination
+                  Pagination ({paginationWeeks} weeks)
                 </div>
                 <div 
                   className="h-full bg-primary/55 rounded-l-md" 
-                  style={{ width: `${Math.min(0.1/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${(paginationWeeks/estimatedWeeks) * 100}%` }}
                 ></div>
               </div>
               <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
-                  Final PDF Delivery
+                  Final PDF Delivery ({finalDeliveryWeeks} weeks)
                 </div>
                 <div 
                   className="h-full bg-primary/60 rounded-l-md" 
-                  style={{ width: `${Math.min(0.1/estimatedWeeks, 1) * 100}%` }}
+                  style={{ width: `${(finalDeliveryWeeks/estimatedWeeks) * 100}%` }}
                 ></div>
               </div>
             </div>

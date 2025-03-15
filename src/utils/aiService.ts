@@ -137,7 +137,42 @@ function generateCoreConcept(story: string): string {
 }
 
 function generateLogline(story: string): string {
+  // Create a 25-word synthesis of the story content for the logline
+  // This is especially important for PDF content
   const words = story.split(/\s+/);
-  const shortVersion = words.slice(0, 20).join(" ");
-  return `${shortVersion}... - a journey that challenges our understanding of reality and connection.`;
+  
+  // Extract important words, prioritizing the first few paragraphs but picking meaningful words
+  let keyWords: string[] = [];
+  
+  // Get some words from the beginning (usually setting or character intro)
+  keyWords = keyWords.concat(words.slice(0, 8));
+  
+  // Get some words from the middle (usually conflict)
+  if (words.length > 20) {
+    keyWords = keyWords.concat(words.slice(Math.floor(words.length / 2), Math.floor(words.length / 2) + 8));
+  }
+  
+  // Get some words from near the end (usually resolution)
+  if (words.length > 40) {
+    keyWords = keyWords.concat(words.slice(words.length - 12, words.length - 4));
+  }
+  
+  // Filter out common words and punctuation
+  const commonWords = ["the", "and", "a", "an", "of", "to", "in", "is", "that", "for", "on", "with"];
+  keyWords = keyWords.filter(word => 
+    !commonWords.includes(word.toLowerCase()) && 
+    word.length > 2 && 
+    !word.match(/^\W+$/)
+  );
+  
+  // Ensure we don't exceed 25 words
+  let logline = keyWords.slice(0, 25).join(" ");
+  
+  // Add a compelling ending if it's too short
+  if (logline.split(/\s+/).length < 20) {
+    logline += " - a compelling journey of transformation and discovery.";
+  }
+  
+  // Ensure exactly 25 words or less
+  return logline.split(/\s+/).slice(0, 25).join(" ") + ".";
 }
