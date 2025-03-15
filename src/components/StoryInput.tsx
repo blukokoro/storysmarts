@@ -33,6 +33,8 @@ const StoryInput: React.FC<StoryInputProps> = ({
 
   const handlePdfTextExtracted = (text: string) => {
     setStory(text);
+    // Adding a log to debug the PDF extraction
+    console.log('PDF text extracted:', text.substring(0, 100) + '...');
   };
 
   const handleAnalyze = async () => {

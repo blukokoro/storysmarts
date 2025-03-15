@@ -21,6 +21,12 @@ const StoryContentInput: React.FC<StoryContentInputProps> = ({
   isAnalyzing,
   onPdfTextExtracted
 }) => {
+  // Handle PDF text extraction and ensure it updates the story state
+  const handlePdfExtracted = (text: string) => {
+    setStory(text); // Update the story state directly
+    onPdfTextExtracted(text); // Also call the parent handler
+  };
+
   return (
     <div className="space-y-4">
       <div className="mb-4">
@@ -59,7 +65,7 @@ const StoryContentInput: React.FC<StoryContentInputProps> = ({
         
         <TabsContent value="pdf">
           <div className="mb-4">
-            <PdfUploader onTextExtracted={onPdfTextExtracted} />
+            <PdfUploader onTextExtracted={handlePdfExtracted} />
           </div>
           
           {story && (

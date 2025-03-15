@@ -19,6 +19,7 @@ const AnalyzeButton: React.FC<AnalyzeButtonProps> = ({
       onClick={onClick} 
       disabled={isAnalyzing || isDisabled} 
       className="w-full bg-primary hover:bg-primary/90 text-white transition-all duration-300"
+      data-testid="analyze-button"
     >
       {isAnalyzing ? (
         <>
