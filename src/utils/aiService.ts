@@ -26,7 +26,7 @@ export class AIService {
     return this.apiKey;
   }
 
-  public static async analyzeStory(story: string): Promise<StoryAnalysis> {
+  public static async analyzeStory(title: string, story: string): Promise<StoryAnalysis> {
     if (!this.apiKey) {
       throw new Error("API key not set. Please configure your API key first.");
     }
@@ -46,6 +46,7 @@ export class AIService {
     
     // Mock response
     return {
+      title,
       comicPanels: {
         suggestedPanelCount: panelEstimate,
         suggestedPageCount: pageEstimate,

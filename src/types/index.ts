@@ -1,5 +1,6 @@
 
 export interface StoryAnalysis {
+  title: string;
   comicPanels: ComicPanelAnalysis;
   storyboard: StoryboardAnalysis;
   moviePitch: MoviePitchAnalysis;

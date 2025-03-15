@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -66,13 +65,8 @@ const StoryInput: React.FC<StoryInputProps> = ({
 
     try {
       setIsAnalyzing(true);
-      const analysis = await AIService.analyzeStory(story);
-      // Add title to the analysis result
-      const analysisWithTitle = {
-        ...analysis,
-        title
-      };
-      onAnalysisComplete(analysisWithTitle);
+      const analysis = await AIService.analyzeStory(title, story);
+      onAnalysisComplete(analysis);
       toast.success("Story analysis complete!");
     } catch (error) {
       console.error(error);
