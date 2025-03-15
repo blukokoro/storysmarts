@@ -1,10 +1,11 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Plan {
   id: string;
@@ -17,56 +18,35 @@ interface Plan {
   nextBillingDate?: string;
 }
 
-const mockActivePlans: Plan[] = [
-  {
-    id: '1',
-    name: 'Comic Book Premium',
-    type: 'comic',
-    price: 399,
-    features: ['20 pages included', 'Character design', 'Full color illustrations', 'PDF & print-ready files', '2 rounds of revisions'],
-    active: true,
-    dateActivated: '2023-05-15',
-    nextBillingDate: '2023-06-15'
-  },
-  {
-    id: '2',
-    name: 'AI Short Film Basic',
-    type: 'film',
-    price: 899,
-    features: ['5 minutes runtime', 'Voice acting', 'Custom soundtrack', 'Special effects', 'Distribution package'],
-    active: true,
-    dateActivated: '2023-06-22',
-    nextBillingDate: '2023-07-22'
-  }
-];
-
 const Plans = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<{ name?: string, email: string } | null>(null);
-  const [activePlans, setActivePlans] = useState<Plan[]>(mockActivePlans);
+  const { user, loading } = useAuth();
+  const [activePlans, setActivePlans] = React.useState<Plan[]>([]);
 
   useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem('user');
-    if (!userData) {
+    // If user is not logged in, redirect to sign in page
+    if (!loading && !user) {
       navigate('/sign-in');
-      return;
     }
     
-    try {
-      setUser(JSON.parse(userData));
-    } catch (error) {
-      localStorage.removeItem('user');
-      navigate('/sign-in');
-    }
-  }, [navigate]);
+    // In a real app, we would fetch the user's active plans from an API
+    // For now, we'll just set an empty array since we don't want to show mock plans
+    // unless the user has actually activated them
+    setActivePlans([]);
+  }, [user, loading, navigate]);
 
   const handleDeactivatePlan = (planId: string) => {
     setActivePlans(activePlans.filter(plan => plan.id !== planId));
     toast.success('Plan deactivated successfully');
   };
 
-  if (!user) return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground p-6 md:p-8 flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   const getPlanIcon = (type: string) => {
     switch (type) {
