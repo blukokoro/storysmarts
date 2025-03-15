@@ -10,6 +10,7 @@ const Index = () => {
 
   const handleAnalysisComplete = (result: StoryAnalysis) => {
     setAnalysis(result);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -28,18 +29,20 @@ const Index = () => {
         </header>
 
         <main className="flex flex-col items-center">
+          {/* Analysis Results at the top */}
+          <div className="w-full max-w-4xl mb-10">
+            {analysis && (
+              <OutputSection analysis={analysis} isVisible={!isAnalyzing && !!analysis} />
+            )}
+          </div>
+
+          {/* Story Input Section below */}
           <div className="w-full max-w-3xl">
             <StoryInput 
               onAnalysisComplete={handleAnalysisComplete} 
               isAnalyzing={isAnalyzing}
               setIsAnalyzing={setIsAnalyzing}
             />
-          </div>
-
-          <div className="w-full max-w-4xl">
-            {analysis && (
-              <OutputSection analysis={analysis} isVisible={!isAnalyzing && !!analysis} />
-            )}
           </div>
         </main>
 
