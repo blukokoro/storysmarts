@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BudgetEstimate } from '@/types';
@@ -27,14 +26,12 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
     value: item.amount
   }));
 
-  // Comic book pricing tiers
   const comicTiers = [
     { name: "Comic Basic", price: 299, pages: "8 pages (40 panels)", features: "B&W illustrations, basic design" },
     { name: "Comic Standard", price: 399, pages: "10 pages (50 panels)", features: "Color illustrations, 2 revisions" },
     { name: "Comic Premium", price: 599, pages: "15 pages (75 panels)", features: "Premium illustrations, marketing materials" }
   ];
 
-  // Comic book breakdown data
   const comicBreakdown = [
     { category: "Concept & Character Design", amount: 75, percentage: 25 },
     { category: "Line Art & Inking", amount: 115, percentage: 38 },
@@ -42,7 +39,6 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
     { category: "Layout & Final Assembly", amount: 34, percentage: 12 }
   ];
 
-  // Development timeline data for Gantt chart
   const timelineData = [
     { name: "Film: Pre-Production", start: 0, duration: 14, type: "Film" },
     { name: "Film: Production", start: 14, duration: 7, type: "Film" },
@@ -54,7 +50,6 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
     { name: "Comic: Publishing", start: 21, duration: 7, type: "Comic" }
   ];
 
-  // Marketing suggestions based on target audience
   const marketingSuggestions = [
     { 
       title: "Seasonal Timing",
@@ -246,7 +241,6 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
-        {/* Development Timeline Gantt Chart */}
         <div className="mb-6">
           <h4 className="text-sm font-medium text-white mb-3 flex items-center">
             <BarChart2 className="w-4 h-4 mr-2 text-primary" />
@@ -292,7 +286,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
                 <Bar 
                   dataKey="duration" 
                   stackId="a" 
-                  fill={(entry) => entry.type === "Film" ? "#3B82F6" : "#10B981"}
+                  fill="#3B82F6"
                   name="Duration (weeks)"
                   barSize={15}
                   radius={[4, 4, 4, 4]}
@@ -303,7 +297,6 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
-        {/* Marketing Suggestions */}
         <div className="mb-6">
           <h4 className="text-sm font-medium text-white mb-3 flex items-center">
             <Megaphone className="w-4 h-4 mr-2 text-primary" />
