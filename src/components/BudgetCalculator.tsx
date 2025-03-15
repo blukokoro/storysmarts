@@ -30,7 +30,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
     <Card className="glass-card h-full overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
-          <span>Budget Estimate</span>
+          <span>Short Film Budget Estimate</span>
           <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
             <Link to="/pricing">View Pricing Options</Link>
           </Button>
@@ -50,7 +50,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
         
         <div className="flex flex-col md:flex-row mb-6 gap-4">
           <div className="md:w-1/2">
-            <h4 className="text-sm font-medium text-white mb-2">Cost Factors</h4>
+            <h4 className="text-sm font-medium text-white mb-2">Short Film Cost Factors</h4>
             <div className="space-y-2">
               {data.factors.map((factor, index) => (
                 <div key={index} className="bg-black/20 backdrop-blur-sm p-2 rounded border border-white/5">
@@ -65,7 +65,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
           
           <div className="md:w-1/2">
-            <h4 className="text-sm font-medium text-white mb-2">Cost Breakdown</h4>
+            <h4 className="text-sm font-medium text-white mb-2">Short Film Cost Breakdown</h4>
             <div className="h-[180px]">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
