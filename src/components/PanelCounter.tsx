@@ -13,6 +13,12 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   // Calculate panel info to display
   const totalPanels = data.suggestedPanelCount;
   const totalPages = data.suggestedPageCount;
+  
+  // Calculate price estimation (minimum 30 panels at €9 each)
+  const minimumPanels = 30;
+  const pricePerPanel = 9;
+  const calculatedPanels = Math.max(totalPanels, minimumPanels);
+  const estimatedPrice = calculatedPanels * pricePerPanel;
 
   return (
     <Card className="glass-card h-full">
@@ -25,7 +31,7 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-3 gap-4">
           <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg text-center">
             <h4 className="text-sm text-gray-400">Recommended Panels</h4>
             <p className="text-2xl font-semibold text-white">{totalPanels}</p>
@@ -33,6 +39,11 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
           <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg text-center">
             <h4 className="text-sm text-gray-400">Estimated Pages</h4>
             <p className="text-2xl font-semibold text-white">{totalPages}</p>
+          </div>
+          <div className="bg-black/30 backdrop-blur-sm p-3 rounded-lg text-center">
+            <h4 className="text-sm text-gray-400">Estimated Price</h4>
+            <p className="text-2xl font-semibold text-primary">€{estimatedPrice}</p>
+            <p className="text-xs text-gray-500">@€9/panel</p>
           </div>
         </div>
 
