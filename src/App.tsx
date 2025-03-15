@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import AccountSettings from "./pages/AccountSettings";
 import Plans from "./pages/Plans";
 import Marketing from "./pages/Marketing";
+import DiyComiCreation from "./pages/DiyComiCreation";
 import Navbar from "./components/Navbar";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const AppRoutes = () => (
     <Route path="/profile" element={<Profile />} />
     <Route path="/account-settings" element={<AccountSettings />} />
     <Route path="/plans" element={<Plans />} />
+    <Route path="/diy-comic-creation" element={<DiyComiCreation />} />
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>

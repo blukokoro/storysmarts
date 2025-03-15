@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ComicPanelAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { CalendarClock } from 'lucide-react';
+import { CalendarClock, Wrench } from 'lucide-react';
 
 interface PanelCounterProps {
   data: ComicPanelAnalysis;
@@ -39,9 +39,17 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Comic Book Design</span>
-          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/pricing">See Comic Pricing</Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild variant="outline" size="sm" className="bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 flex items-center">
+              <Link to="/diy-comic-creation">
+                <Wrench className="h-4 w-4 mr-1" />
+                Make Yourself
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/pricing">See Comic Pricing</Link>
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
