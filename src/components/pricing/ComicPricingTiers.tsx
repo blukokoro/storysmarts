@@ -13,7 +13,7 @@ const ComicPricingTiers: React.FC = () => {
           description="Transform your story into a simple comic book"
           timeline="2-3 weeks for production • Launch 2 weeks after delivery"
           features={[
-            "8 pages included",
+            "8 pages included (40 panels)",
             "Black & white illustrations",
             "Basic character design",
             "PDF files only",
@@ -27,7 +27,7 @@ const ComicPricingTiers: React.FC = () => {
           description="Transform your story into a professional comic book"
           timeline="2-3 weeks for production • Launch 2 weeks after delivery"
           features={[
-            "10 pages included",
+            "10 pages included (50 panels)",
             "Full color illustrations",
             "Character design",
             "PDF & print-ready files",
@@ -42,7 +42,7 @@ const ComicPricingTiers: React.FC = () => {
           description="Create a deluxe comic book with enhanced features"
           timeline="3-4 weeks for production • Launch 2 weeks after delivery"
           features={[
-            "15 pages included",
+            "15 pages included (75 panels)",
             "Premium color illustrations",
             "Advanced character design",
             "PDF, print-ready & digital interactive formats",

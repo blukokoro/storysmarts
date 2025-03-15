@@ -39,10 +39,14 @@ export class AIService {
     // For now, we'll simulate a delay and return mock data
     await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Word count based calculations
+    // Word count based calculations - updated to match comic book standards
     const wordCount = story.split(/\s+/).length;
-    const pageEstimate = Math.ceil(wordCount / 250);
-    const panelEstimate = Math.ceil(wordCount / 50);
+    
+    // Ensure minimum of 5 pages regardless of story length
+    const pageEstimate = Math.max(5, Math.ceil(wordCount / 200));
+    
+    // Each page should have around 5 panels
+    const panelEstimate = pageEstimate * 5;
     
     // Mock response
     return {
