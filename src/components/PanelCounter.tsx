@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ComicPanelAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { CalendarClock } from 'lucide-react';
 
 interface PanelCounterProps {
   data: ComicPanelAnalysis;
@@ -19,6 +20,11 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
   const pricePerPanel = 9;
   const calculatedPanels = Math.max(totalPanels, minimumPanels);
   const estimatedPrice = calculatedPanels * pricePerPanel;
+
+  // Calculate timeline (2 weeks for 100 panels)
+  const weeksPerHundredPanels = 2;
+  const estimatedWeeks = Math.ceil((calculatedPanels / 100) * weeksPerHundredPanels);
+  const estimatedDays = estimatedWeeks * 7;
 
   return (
     <Card className="glass-card h-full">
@@ -62,6 +68,57 @@ const PanelCounter: React.FC<PanelCounterProps> = ({ data }) => {
               <span className="text-sm font-medium text-white">Layout Style</span>
             </div>
             <p className="text-xs text-gray-400">{data.panelLayout}</p>
+          </div>
+        </div>
+        
+        {/* Project Timeline Section */}
+        <div className="space-y-2">
+          <h4 className="text-md font-medium text-white flex items-center gap-2">
+            <CalendarClock className="h-4 w-4 text-primary" />
+            Project Timeline
+          </h4>
+          <div className="bg-black/20 backdrop-blur-sm border border-white/5 p-3 rounded-lg">
+            <div className="grid grid-cols-2 gap-2 mb-2">
+              <div>
+                <p className="text-xs text-gray-400">Estimated Timeline</p>
+                <p className="text-lg font-semibold text-white">{estimatedWeeks} weeks</p>
+                <p className="text-xs text-gray-500">({estimatedDays} days)</p>
+              </div>
+              <div>
+                <p className="text-xs text-gray-400">Production Rate</p>
+                <p className="text-lg font-semibold text-white">50 panels/week</p>
+                <p className="text-xs text-gray-500">(Standard production)</p>
+              </div>
+            </div>
+            <div className="space-y-1 mt-3">
+              <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
+                  Week 1-{Math.min(estimatedWeeks, 2)}: Concept & Sketches
+                </div>
+                <div 
+                  className="h-full bg-primary/40 rounded-l-md"
+                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                ></div>
+              </div>
+              <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
+                  Week {Math.min(2, estimatedWeeks)}-{Math.min(4, estimatedWeeks)}: Linework & Inking
+                </div>
+                <div 
+                  className="h-full bg-primary/50 rounded-l-md" 
+                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                ></div>
+              </div>
+              <div className="w-full bg-black/30 h-7 rounded-md overflow-hidden relative">
+                <div className="absolute inset-0 flex items-center px-2 text-xs text-gray-300 font-medium">
+                  Week {Math.min(3, estimatedWeeks)}-{estimatedWeeks}: Coloring & Finalization
+                </div>
+                <div 
+                  className="h-full bg-primary/60 rounded-l-md" 
+                  style={{ width: `${Math.min(2/estimatedWeeks, 1) * 100}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
         </div>
         

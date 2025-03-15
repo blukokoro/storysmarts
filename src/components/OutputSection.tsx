@@ -5,6 +5,7 @@ import PanelCounter from './PanelCounter';
 import MoviePitch from './MoviePitch';
 import AudienceAnalysis from './AudienceAnalysis';
 import BudgetCalculator from './BudgetCalculator';
+import TimelineGantt from './TimelineGantt';
 import { StoryAnalysis } from '@/types';
 
 interface OutputSectionProps {
@@ -16,6 +17,12 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
   if (!isVisible) {
     return null;
   }
+
+  // Calculate price estimation for the comic (minimum 30 panels at €9 each)
+  const minimumPanels = 30;
+  const pricePerPanel = 9;
+  const calculatedPanels = Math.max(analysis.comicPanels.suggestedPanelCount, minimumPanels);
+  const estimatedPrice = calculatedPanels * pricePerPanel;
 
   return (
     <div className={`mt-8 w-full animate-slide-up transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
@@ -48,7 +55,13 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
         </TabsContent>
         
         <TabsContent value="budget" className="focus-visible:outline-none focus-visible:ring-0">
-          <BudgetCalculator data={analysis.budgetEstimate} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <BudgetCalculator data={analysis.budgetEstimate} />
+            <TimelineGantt 
+              panelCount={analysis.comicPanels.suggestedPanelCount} 
+              estimatedPrice={estimatedPrice} 
+            />
+          </div>
         </TabsContent>
       </Tabs>
     </div>
