@@ -10,6 +10,7 @@ import {
   Tooltip 
 } from 'recharts';
 import { ContentType } from '@/types/marketing';
+import { Sparkles } from 'lucide-react';
 
 interface ContentTypeDistributionProps {
   contentNeeds: ContentType[];
@@ -17,8 +18,11 @@ interface ContentTypeDistributionProps {
 
 const ContentTypeDistribution: React.FC<ContentTypeDistributionProps> = ({ contentNeeds }) => {
   return (
-    <div className="h-64">
-      <h3 className="text-sm font-medium mb-2">Content Type Distribution</h3>
+    <div className="bg-black/30 p-4 rounded-lg border border-white/10 h-64">
+      <h3 className="text-sm font-medium mb-2 flex items-center">
+        <Sparkles className="h-4 w-4 mr-2 text-primary" />
+        AI-Optimized Content Mix
+      </h3>
       <ResponsiveContainer width="100%" height="90%">
         <BarChart
           data={contentNeeds}
@@ -37,7 +41,7 @@ const ContentTypeDistribution: React.FC<ContentTypeDistributionProps> = ({ conte
             content={({ active, payload }) => {
               if (active && payload && payload.length) {
                 return (
-                  <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-xs">
+                  <div className="bg-black/90 border border-primary/50 p-2 rounded text-white text-xs">
                     <p className="font-medium">{payload[0].payload.type}</p>
                     <p>{`Count: ${payload[0].value} pieces`}</p>
                     <p>{`Percentage: ${payload[0].payload.percentage}%`}</p>
@@ -47,7 +51,7 @@ const ContentTypeDistribution: React.FC<ContentTypeDistributionProps> = ({ conte
               return null;
             }}
           />
-          <Bar dataKey="count" fill="#8884d8" name="Content Count" />
+          <Bar dataKey="count" fill="#8884d8" name="Content Count" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>

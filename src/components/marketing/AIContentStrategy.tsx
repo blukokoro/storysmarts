@@ -62,6 +62,7 @@ const AIContentStrategy: React.FC<AIContentStrategyProps> = ({ reachProjectionDa
       
       setGeneratedContent(exampleContent);
       setLoading(false);
+      toast.success("Content plan generated! Now you can create individual pieces with our AI Studio.");
     }, 1500);
   };
 
@@ -70,11 +71,11 @@ const AIContentStrategy: React.FC<AIContentStrategyProps> = ({ reachProjectionDa
       <Card className="bg-black/20 backdrop-blur-md border border-white/5">
         <CardHeader>
           <CardTitle className="flex items-center">
-            <Sparkles className="w-5 h-5 mr-2 text-primary" />
-            AI-Powered Content Strategy & Generation
+            <Sparkles className="w-5 h-5 mr-2 text-primary animate-pulse" />
+            AI Content Strategy & Production Studio
           </CardTitle>
           <CardDescription>
-            Estimate required content volume and automatically generate assets to meet your visibility goals
+            Create your entire content pipeline with AI - from planning to production to publishing
           </CardDescription>
         </CardHeader>
         <CardContent>

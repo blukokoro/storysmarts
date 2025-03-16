@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { ContentType, ReachProjectionData } from '@/types/marketing';
-import { Sparkles, RefreshCw } from 'lucide-react';
+import { Sparkles, RefreshCw, Zap } from 'lucide-react';
 
 interface StrategyControlsProps {
   postsPerDay: number;
@@ -45,7 +45,7 @@ const StrategyControls: React.FC<StrategyControlsProps> = ({
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <Label htmlFor="posts-per-day">Posts per day: {postsPerDay}</Label>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-primary">
               Est. daily reach: {Math.round(reachProjectionData.find(data => data.posts >= postsPerDay)?.reach || 5000).toLocaleString()}
             </span>
           </div>
@@ -84,24 +84,34 @@ const StrategyControls: React.FC<StrategyControlsProps> = ({
           <p className="text-xs text-gray-400">This helps calculate how many posts you need</p>
         </div>
         
-        <div className="flex items-center justify-between space-x-2">
-          <Label htmlFor="generate-content">Generate content with AI</Label>
-          <Switch
-            id="generate-content"
-            checked={generateContent}
-            onCheckedChange={setGenerateContent}
-          />
+        <div className="p-4 bg-gradient-to-r from-primary/20 to-black/30 rounded-lg border border-primary/20">
+          <div className="flex items-center justify-between space-x-2 mb-4">
+            <Label htmlFor="generate-content" className="text-primary font-medium flex items-center">
+              <Sparkles className="h-4 w-4 mr-2" />
+              AI Content Generation
+            </Label>
+            <Switch
+              id="generate-content"
+              checked={generateContent}
+              onCheckedChange={setGenerateContent}
+              className="data-[state=checked]:bg-primary"
+            />
+          </div>
+          
+          <p className="text-xs text-gray-300 mb-3">
+            Enable our AI engine to automatically generate a complete content plan and individual content pieces optimized for your audience.
+          </p>
         </div>
         
         <div className="p-4 bg-black/30 rounded-lg border border-white/10">
           <h3 className="text-sm font-medium mb-3">Content Requirements Summary</h3>
           
           <div className="grid grid-cols-2 gap-3 mb-4">
-            <div className="p-2 bg-black/40 rounded-lg text-center">
+            <div className="p-2 bg-gradient-to-br from-primary/20 to-black/40 rounded-lg text-center">
               <p className="text-xs text-gray-400">Total Content Pieces</p>
               <p className="text-2xl font-bold">{totalContentNeeded}</p>
             </div>
-            <div className="p-2 bg-black/40 rounded-lg text-center">
+            <div className="p-2 bg-gradient-to-br from-primary/20 to-black/40 rounded-lg text-center">
               <p className="text-xs text-gray-400">Est. Monthly Reach</p>
               <p className="text-2xl font-bold">
                 {Math.round(reachProjectionData.find(data => data.posts >= postsPerDay)?.reach * 30 || 150000).toLocaleString()}
@@ -118,14 +128,14 @@ const StrategyControls: React.FC<StrategyControlsProps> = ({
           {loading ? (
             <>
               <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-              Generating...
+              Generating AI Content Plan...
             </>
           ) : (
             <>
               {generateContent ? (
                 <>
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  Generate Content Plan
+                  <Zap className="w-4 h-4 mr-2" />
+                  Generate Content Plan with AI
                 </>
               ) : (
                 <>
