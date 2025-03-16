@@ -1,13 +1,11 @@
 
 import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ImageIcon, MessageSquareQuote, PenSquare } from 'lucide-react';
+import { Tabs, TabsContent } from '@/components/ui/tabs';
+import TabButtons from './TabButtons';
 import ImageGeneratorTab from './ImageGeneratorTab';
 import QuoteExtractorTab from './QuoteExtractorTab';
 import TextGeneratorTab from './TextGeneratorTab';
-
-type ModelType = 'stable-diffusion' | 'midjourney-style' | 'realistic' | 'comic-art' | 'pixel-art';
-type LoraType = 'street-photography' | 'comic-book' | 'anime-style' | 'fantasy' | 'realistic-portrait';
+import { ModelType, LoraType } from './types';
 
 interface ContentGeneratorTabsProps {
   activeTab: string;
@@ -62,20 +60,7 @@ const ContentGeneratorTabs: React.FC<ContentGeneratorTabsProps> = ({
 }) => {
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList className="grid grid-cols-3 mb-4">
-        <TabsTrigger value="image-generator" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          <ImageIcon className="h-4 w-4 mr-2" />
-          Images
-        </TabsTrigger>
-        <TabsTrigger value="quote-extractor" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          <MessageSquareQuote className="h-4 w-4 mr-2" />
-          Quotes
-        </TabsTrigger>
-        <TabsTrigger value="text-generator" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          <PenSquare className="h-4 w-4 mr-2" />
-          Text
-        </TabsTrigger>
-      </TabsList>
+      <TabButtons activeTab={activeTab} />
 
       <TabsContent value="image-generator">
         <ImageGeneratorTab 
