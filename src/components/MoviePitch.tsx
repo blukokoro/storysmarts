@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MoviePitchAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Download, Film } from 'lucide-react';
+import { Download, Film, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface MoviePitchProps {
@@ -35,6 +35,17 @@ const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
             >
               <Download className="h-4 w-4 mr-1" />
               Download Free
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30"
+            >
+              <Link to="/ai-refinement">
+                <Sparkles className="h-4 w-4 mr-1" />
+                Request AI Refinement
+              </Link>
             </Button>
           </div>
         </CardTitle>
