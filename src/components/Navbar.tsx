@@ -6,10 +6,8 @@ import {
   Film, 
   User, 
   Menu, 
-  X,
   LogIn,
-  Sparkles,
-  Zap
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -28,14 +26,12 @@ const Navbar = () => {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="text-primary font-bold text-xl flex items-center gap-2">
-                <div className="relative w-8 h-8 flex items-center justify-center overflow-hidden">
-                  {/* Sleek geometric logo design with lightning bolt */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-500 to-fuchsia-600 rounded-lg rotate-45 transform scale-[0.7]"></div>
-                  <div className="absolute inset-0 bg-gradient-to-tl from-cyan-400 to-blue-600 rounded-lg rotate-12 transform scale-[0.6] opacity-70"></div>
-                  {/* Lightning bolt icon */}
-                  <Zap className="absolute w-4 h-4 text-white/90 z-10" />
+                <div className="relative w-7 h-7 flex items-center justify-center">
+                  {/* Minimal logo with gradient circle and sparkle */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-fuchsia-500 rounded-full opacity-90"></div>
+                  <Sparkles className="relative w-3.5 h-3.5 text-white z-10" />
                 </div>
-                <span className="bg-gradient-to-r from-cyan-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent font-bold">
+                <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">
                   StorySmarts
                 </span>
               </Link>
