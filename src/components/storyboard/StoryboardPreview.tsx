@@ -7,9 +7,11 @@ import {
   Download, 
   FileText, 
   Layers,
-  ImageIcon 
+  ImageIcon,
+  Wand
 } from 'lucide-react';
 import { StoryboardFrame } from '@/types/storyboard';
+import { Link } from 'react-router-dom';
 
 interface StoryboardPreviewProps {
   frames: StoryboardFrame[];
@@ -44,7 +46,12 @@ export const StoryboardPreview: React.FC<StoryboardPreviewProps> = ({
             >
               Exit Preview
             </Button>
-            <Button size="sm">Request AI Refinement</Button>
+            <Button size="sm" asChild>
+              <Link to="/request-ai-refinement">
+                <Wand className="mr-2 h-4 w-4" />
+                Request AI Refinement
+              </Link>
+            </Button>
           </div>
         </div>
       </header>

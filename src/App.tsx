@@ -18,7 +18,8 @@ import DiyComiCreation from "./pages/DiyComiCreation";
 import Navbar from "./components/Navbar";
 import Analyze from "./pages/Analyze";
 import Storyboard from "./pages/Storyboard";
-import AIRefinement from "./pages/AIRefinement"; // Import the new AIRefinement page
+import AIRefinement from "./pages/AIRefinement";
+import RequestAIRefinement from "./pages/RequestAIRefinement"; // Import the new RequestAIRefinement page
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,8 @@ const AppRoutes = () => (
     <Route path="/diy-comic-creation" element={<DiyComiCreation />} />
     <Route path="/analyze" element={<Analyze />} />
     <Route path="/storyboard" element={<Storyboard />} />
-    <Route path="/ai-refinement" element={<AIRefinement />} /> {/* Add the new AIRefinement route */}
+    <Route path="/ai-refinement" element={<AIRefinement />} />
+    <Route path="/request-ai-refinement" element={<RequestAIRefinement />} /> {/* Add the new RequestAIRefinement route */}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>
