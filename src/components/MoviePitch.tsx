@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MoviePitchAnalysis } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Download } from 'lucide-react';
+import { Download, Film } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface MoviePitchProps {
@@ -37,7 +37,10 @@ const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
               Download Free
             </Button>
             <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-              <Link to="/pricing">See Film Options</Link>
+              <Link to="/storyboard">
+                <Film className="h-4 w-4 mr-1" />
+                Build Storyboard
+              </Link>
             </Button>
           </div>
         </CardTitle>
@@ -97,6 +100,20 @@ const MoviePitch: React.FC<MoviePitchProps> = ({ data }) => {
               <Link to="/pricing">Premium €1299</Link>
             </Button>
           </div>
+        </div>
+        
+        {/* Call to action for Storyboard */}
+        <div className="mt-4 p-3 bg-gradient-to-r from-primary/10 to-indigo-500/10 border border-primary/20 rounded-lg">
+          <h4 className="text-sm font-medium text-primary mb-2">Create Visual Storyboard</h4>
+          <p className="text-xs text-gray-300 mb-2">
+            Turn your story into a visual sequence with our storyboard builder. Perfect for pre-production planning and visual storytelling.
+          </p>
+          <Button asChild className="w-full mt-1">
+            <Link to="/storyboard">
+              <Film className="h-4 w-4 mr-1" />
+              Build Storyboard Now
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>

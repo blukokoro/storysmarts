@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BudgetEstimate } from '@/types';
@@ -88,6 +89,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
+        {/* Short Film Budget Summary */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <p className="text-sm text-gray-400">Base Amount</p>
@@ -99,6 +101,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
+        {/* Cost Factors and Breakdown - First visible section */}
         <div className="flex flex-col md:flex-row mb-6 gap-4">
           <div className="md:w-1/2">
             <h4 className="text-sm font-medium text-white mb-2">Short Film Cost Factors</h4>
@@ -150,6 +153,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
+        {/* Timeline section - Moved up as requested */}
         <div className="bg-black/20 rounded-md p-3 mb-4 border border-white/5">
           <h4 className="text-sm font-medium text-white mb-2 flex items-center">
             <CalendarClock className="w-4 h-4 mr-2 text-primary" />
@@ -168,166 +172,176 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
           </div>
         </div>
         
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-white mb-2">AI Short Film Breakdown</h4>
-          <div className="space-y-2">
-            {data.breakdown.map((item, index) => (
-              <div 
-                key={index} 
-                className="flex items-center justify-between py-1 border-b border-white/5 last:border-0"
-              >
-                <div className="flex items-center">
-                  <div 
-                    className="w-3 h-3 rounded-full mr-2" 
-                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                  ></div>
-                  <span className="text-sm text-gray-300">{item.category}</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-300 mr-2">€{item.amount}</span>
-                  <span className="text-xs text-gray-500">{item.percentage}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-white mb-2">Comic Book Production Breakdown</h4>
-          <div className="space-y-2">
-            {comicBreakdown.map((item, index) => (
-              <div 
-                key={index} 
-                className="flex items-center justify-between py-1 border-b border-white/5 last:border-0"
-              >
-                <div className="flex items-center">
-                  <div 
-                    className="w-3 h-3 rounded-full mr-2" 
-                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                  ></div>
-                  <span className="text-sm text-gray-300">{item.category}</span>
-                </div>
-                <div className="flex items-center">
-                  <span className="text-sm text-gray-300 mr-2">€{item.amount}</span>
-                  <span className="text-xs text-gray-500">{item.percentage}%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-white mb-2">Comic Book Production Tiers</h4>
-          <div className="space-y-3">
-            {comicTiers.map((tier, index) => (
-              <div 
-                key={index} 
-                className="bg-black/20 backdrop-blur-sm p-3 rounded border border-white/5"
-              >
-                <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm font-medium text-white">{tier.name}</span>
-                  <span className="text-sm font-medium text-primary">€{tier.price}</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <div className="text-xs text-gray-400">
-                    <span className="text-gray-300">Pages: </span>{tier.pages}
+        {/* Additional sections moved down */}
+        <div className="space-y-6 mt-8 pt-6 border-t border-white/10">
+          <h3 className="text-lg font-medium text-white">Detailed Breakdowns</h3>
+          
+          {/* AI Short Film Breakdown */}
+          <div>
+            <h4 className="text-sm font-medium text-white mb-2">AI Short Film Breakdown</h4>
+            <div className="space-y-2">
+              {data.breakdown.map((item, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center justify-between py-1 border-b border-white/5 last:border-0"
+                >
+                  <div className="flex items-center">
+                    <div 
+                      className="w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    ></div>
+                    <span className="text-sm text-gray-300">{item.category}</span>
                   </div>
-                  <div className="text-xs text-gray-400">
-                    <span className="text-gray-300">Features: </span>{tier.features}
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-300 mr-2">€{item.amount}</span>
+                    <span className="text-xs text-gray-500">{item.percentage}%</span>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-        
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-white mb-3 flex items-center">
-            <BarChart2 className="w-4 h-4 mr-2 text-primary" />
-            Development Timeline (weeks)
-          </h4>
-          <div className="h-[250px] bg-black/20 p-3 rounded-lg border border-white/5">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={timelineData}
-                layout="vertical"
-                margin={{ top: 10, right: 30, left: 100, bottom: 10 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                <XAxis 
-                  type="number" 
-                  domain={[0, 35]} 
-                  tickCount={6} 
-                  tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }}
-                  stroke="rgba(255,255,255,0.2)"
-                />
-                <YAxis 
-                  dataKey="name" 
-                  type="category" 
-                  width={100} 
-                  tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 10 }}
-                  stroke="rgba(255,255,255,0.2)"
-                />
-                <Tooltip
-                  formatter={(value, name, props) => {
-                    if (name === "start") return [`Week ${value}`, "Start"];
-                    if (name === "duration") return [`${value} weeks`, "Duration"];
-                    return [value, name];
-                  }}
-                  contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
-                  itemStyle={{ color: '#fff' }}
-                  labelStyle={{ color: '#fff' }}
-                />
-                <Legend 
-                  verticalAlign="top" 
-                  align="center"
-                  wrapperStyle={{ fontSize: 10, marginBottom: 10 }}
-                />
-                <Bar 
-                  dataKey="duration" 
-                  stackId="a" 
-                  fill="#3B82F6"
-                  name="Duration (weeks)"
-                  barSize={15}
-                  radius={[4, 4, 4, 4]}
-                  style={{ transform: `translateX(${timelineData[0]?.start || 0}px)` }}
-                />
-              </BarChart>
-            </ResponsiveContainer>
+          
+          {/* Comic Book Production Breakdown */}
+          <div>
+            <h4 className="text-sm font-medium text-white mb-2">Comic Book Production Breakdown</h4>
+            <div className="space-y-2">
+              {comicBreakdown.map((item, index) => (
+                <div 
+                  key={index} 
+                  className="flex items-center justify-between py-1 border-b border-white/5 last:border-0"
+                >
+                  <div className="flex items-center">
+                    <div 
+                      className="w-3 h-3 rounded-full mr-2" 
+                      style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                    ></div>
+                    <span className="text-sm text-gray-300">{item.category}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-300 mr-2">€{item.amount}</span>
+                    <span className="text-xs text-gray-500">{item.percentage}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        
-        <div className="mb-6">
-          <h4 className="text-sm font-medium text-white mb-3 flex items-center">
-            <Megaphone className="w-4 h-4 mr-2 text-primary" />
-            Marketing Suggestions
-          </h4>
-          <div className="space-y-3">
-            {marketingSuggestions.map((category, index) => (
-              <div 
-                key={index} 
-                className="bg-black/20 backdrop-blur-sm p-3 rounded border border-white/5"
-              >
-                <h5 className="text-sm font-medium text-primary mb-2 flex items-center">
-                  {index === 0 && <CalendarClock className="w-3 h-3 mr-1" />}
-                  {index === 1 && <Target className="w-3 h-3 mr-1" />}
-                  {index === 2 && <Megaphone className="w-3 h-3 mr-1" />}
-                  {category.title}
-                </h5>
-                <ul className="space-y-1">
-                  {category.suggestions.map((suggestion, idx) => (
-                    <li key={idx} className="text-xs text-gray-300 flex items-start">
-                      <span className="text-primary mr-1">•</span>
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          
+          {/* Comic Book Production Tiers */}
+          <div>
+            <h4 className="text-sm font-medium text-white mb-2">Comic Book Production Tiers</h4>
+            <div className="space-y-3">
+              {comicTiers.map((tier, index) => (
+                <div 
+                  key={index} 
+                  className="bg-black/20 backdrop-blur-sm p-3 rounded border border-white/5"
+                >
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-sm font-medium text-white">{tier.name}</span>
+                    <span className="text-sm font-medium text-primary">€{tier.price}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 mt-2">
+                    <div className="text-xs text-gray-400">
+                      <span className="text-gray-300">Pages: </span>{tier.pages}
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      <span className="text-gray-300">Features: </span>{tier.features}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <p className="text-xs text-gray-500 mt-2">
-            Based on your project's target audience of 25-34 year olds interested in science fiction and character-driven narratives.
-          </p>
+          
+          {/* Development Timeline - Moved down */}
+          <div>
+            <h4 className="text-sm font-medium text-white mb-3 flex items-center">
+              <BarChart2 className="w-4 h-4 mr-2 text-primary" />
+              Development Timeline (weeks)
+            </h4>
+            <div className="h-[250px] bg-black/20 p-3 rounded-lg border border-white/5">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart
+                  data={timelineData}
+                  layout="vertical"
+                  margin={{ top: 10, right: 30, left: 100, bottom: 10 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <XAxis 
+                    type="number" 
+                    domain={[0, 35]} 
+                    tickCount={6} 
+                    tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 10 }}
+                    stroke="rgba(255,255,255,0.2)"
+                  />
+                  <YAxis 
+                    dataKey="name" 
+                    type="category" 
+                    width={100} 
+                    tick={{ fill: 'rgba(255,255,255,0.7)', fontSize: 10 }}
+                    stroke="rgba(255,255,255,0.2)"
+                  />
+                  <Tooltip
+                    formatter={(value, name, props) => {
+                      if (name === "start") return [`Week ${value}`, "Start"];
+                      if (name === "duration") return [`${value} weeks`, "Duration"];
+                      return [value, name];
+                    }}
+                    contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)' }}
+                    itemStyle={{ color: '#fff' }}
+                    labelStyle={{ color: '#fff' }}
+                  />
+                  <Legend 
+                    verticalAlign="top" 
+                    align="center"
+                    wrapperStyle={{ fontSize: 10, marginBottom: 10 }}
+                  />
+                  <Bar 
+                    dataKey="duration" 
+                    stackId="a" 
+                    fill="#3B82F6"
+                    name="Duration (weeks)"
+                    barSize={15}
+                    radius={[4, 4, 4, 4]}
+                    style={{ transform: `translateX(${timelineData[0]?.start || 0}px)` }}
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          {/* Marketing Suggestions - Moved down */}
+          <div>
+            <h4 className="text-sm font-medium text-white mb-3 flex items-center">
+              <Megaphone className="w-4 h-4 mr-2 text-primary" />
+              Marketing Suggestions
+            </h4>
+            <div className="space-y-3">
+              {marketingSuggestions.map((category, index) => (
+                <div 
+                  key={index} 
+                  className="bg-black/20 backdrop-blur-sm p-3 rounded border border-white/5"
+                >
+                  <h5 className="text-sm font-medium text-primary mb-2 flex items-center">
+                    {index === 0 && <CalendarClock className="w-3 h-3 mr-1" />}
+                    {index === 1 && <Target className="w-3 h-3 mr-1" />}
+                    {index === 2 && <Megaphone className="w-3 h-3 mr-1" />}
+                    {category.title}
+                  </h5>
+                  <ul className="space-y-1">
+                    {category.suggestions.map((suggestion, idx) => (
+                      <li key={idx} className="text-xs text-gray-300 flex items-start">
+                        <span className="text-primary mr-1">•</span>
+                        {suggestion}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-gray-500 mt-2">
+              Based on your project's target audience of 25-34 year olds interested in science fiction and character-driven narratives.
+            </p>
+          </div>
         </div>
           
         <div className="mt-6 flex justify-center">
