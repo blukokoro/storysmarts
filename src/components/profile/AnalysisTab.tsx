@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ChartPie, ChartBar, TrendingUp } from 'lucide-react';
+import { ChartPie, ChartBar, TrendingUp, Zap } from 'lucide-react';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
 import { Analysis } from './types';
@@ -30,6 +30,12 @@ const AnalysisTab: React.FC<AnalysisTabProps> = ({ analyses }) => {
             <Link to="/marketing-plan">
               <TrendingUp className="h-4 w-4 mr-2" />
               Marketing Plan
+            </Link>
+          </Button>
+          <Button variant="outline" className="bg-primary/20 border-primary/30 text-primary hover:bg-primary/30" asChild>
+            <Link to="/content-creator">
+              <Zap className="h-4 w-4 mr-2" />
+              AI Content Creator
             </Link>
           </Button>
         </div>
@@ -84,10 +90,16 @@ const AnalysisTab: React.FC<AnalysisTabProps> = ({ analyses }) => {
                 
                 <div className="mt-3 text-xs text-gray-400 flex justify-between">
                   <span>Marketing Budget: {analysis.insights.marketingBudget}</span>
-                  <Link to="/marketing-plan" className="flex items-center text-primary hover:underline">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    <span>View Marketing Plan</span>
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <Link to="/marketing-plan" className="flex items-center text-primary hover:underline">
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      <span>Marketing Plan</span>
+                    </Link>
+                    <Link to="/content-creator" className="flex items-center text-primary hover:underline">
+                      <Zap className="h-3 w-3 mr-1" />
+                      <span>AI Content</span>
+                    </Link>
+                  </div>
                 </div>
               </CardContent>
             </Card>

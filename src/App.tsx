@@ -20,7 +20,8 @@ import Analyze from "./pages/Analyze";
 import Storyboard from "./pages/Storyboard";
 import AIRefinement from "./pages/AIRefinement";
 import RequestAIRefinement from "./pages/RequestAIRefinement";
-import MarketingPlan from "./pages/MarketingPlan"; // Import the new MarketingPlan page
+import MarketingPlan from "./pages/MarketingPlan";
+import ContentCreator from "./pages/ContentCreator"; // Import the new ContentCreator page
 
 const queryClient = new QueryClient();
 
@@ -39,7 +40,8 @@ const AppRoutes = () => (
     <Route path="/storyboard" element={<Storyboard />} />
     <Route path="/ai-refinement" element={<AIRefinement />} />
     <Route path="/request-ai-refinement" element={<RequestAIRefinement />} />
-    <Route path="/marketing-plan" element={<MarketingPlan />} /> {/* Add the new MarketingPlan route */}
+    <Route path="/marketing-plan" element={<MarketingPlan />} />
+    <Route path="/content-creator" element={<ContentCreator />} /> {/* Add the new ContentCreator route */}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>

@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { TrendingUp, Zap } from 'lucide-react';
 
 interface MarketingAnalysisProps {
   data: AudienceAnalysisType;
@@ -37,7 +38,7 @@ const MarketingAnalysis: React.FC<MarketingAnalysisProps> = ({ data }) => {
   // Content production plan
   const contentPlan = [
     { name: 'Social Posts', count: 30 },
-    { name: 'Reels/Shorts', count: 15 },
+    { name: 'Video/reels', count: 15 },
     { name: 'Stories', count: 45 },
     { name: 'Blog Articles', count: 5 },
   ];
@@ -58,9 +59,20 @@ const MarketingAnalysis: React.FC<MarketingAnalysisProps> = ({ data }) => {
       <CardHeader className="pb-2">
         <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
           <span>Marketing Analysis</span>
-          <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
-            <Link to="/marketing">View Marketing Options</Link>
-          </Button>
+          <div className="flex gap-2">
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/marketing">
+                <TrendingUp className="h-4 w-4 mr-2" />
+                Marketing Options
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
+              <Link to="/content-creator">
+                <Zap className="h-4 w-4 mr-2" />
+                AI Content Creator
+              </Link>
+            </Button>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -209,6 +221,24 @@ const MarketingAnalysis: React.FC<MarketingAnalysisProps> = ({ data }) => {
                     <li>• Periodic promotions</li>
                   </ul>
                 </div>
+              </div>
+              
+              <div className="mt-4 p-4 bg-gradient-to-r from-primary/20 to-black/30 rounded-lg border border-primary/30">
+                <div className="flex items-center justify-between mb-2">
+                  <h5 className="text-sm font-medium flex items-center">
+                    <Zap className="h-4 w-4 mr-2 text-primary" />
+                    AI Content Creation
+                  </h5>
+                </div>
+                <p className="text-xs mb-3">
+                  Generate all your social media content with our AI-powered content studio. Create professional images and text in bulk.
+                </p>
+                <Button asChild className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
+                  <Link to="/content-creator">
+                    <Zap className="h-4 w-4 mr-2" />
+                    Create Content with AI
+                  </Link>
+                </Button>
               </div>
             </div>
           </TabsContent>
