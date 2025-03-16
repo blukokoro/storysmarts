@@ -19,7 +19,7 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
   impressionsNeeded: propImpressionsNeeded,
   estimatedAdBudget: propEstimatedAdBudget
 }) => {
-  // Comic book production costs
+  // Comic book production costs (just for calculation, not displayed anymore)
   const comicProductionCosts = {
     conceptAndCharacterDesign: 375, // 25% of budget
     lineArtAndInking: 570, // 38% of budget
@@ -111,30 +111,6 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
                 <p className="text-lg font-bold">€{estimatedAdBudget}</p>
                 <p className="text-[10px] text-gray-500 mt-1">Based on €{averageCpm} CPM</p>
               </div>
-            </div>
-            
-            {/* Comic book production cost breakdown */}
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-2">
-              {Object.entries(comicProductionCosts).map(([category, cost], index) => {
-                const percent = Math.round((cost / productionCost) * 100);
-                const categories = {
-                  conceptAndCharacterDesign: "Concept & Character Design",
-                  lineArtAndInking: "Line Art & Inking",
-                  coloringAndLettering: "Coloring & Lettering",
-                  layoutAndFinalAssembly: "Layout & Assembly"
-                };
-                const categoryName = categories[category as keyof typeof categories];
-                
-                return (
-                  <div key={index} className="bg-black/20 p-2 rounded-lg border border-white/5">
-                    <p className="text-[10px] text-gray-400">{categoryName}</p>
-                    <p className="text-xs font-semibold flex justify-between">
-                      <span>€{cost}</span>
-                      <span className="text-primary">{percent}%</span>
-                    </p>
-                  </div>
-                );
-              })}
             </div>
           </div>
           
