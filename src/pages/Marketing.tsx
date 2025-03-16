@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MarketingSuggestions from '@/components/pricing/MarketingSuggestions';
+import { TrendingUp, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Marketing = () => {
   return (
@@ -15,6 +17,22 @@ const Marketing = () => {
             Amplify your comic's reach with our tailored marketing packages. 
             From social media campaigns to promotional materials, we've got your launch covered.
           </p>
+          
+          {/* Marketing Plan CTA */}
+          <div className="mt-6 p-4 flex flex-col sm:flex-row items-center justify-between gap-4 bg-primary/10 rounded-lg border border-primary/20">
+            <div className="text-left">
+              <h2 className="text-lg font-semibold flex items-center">
+                <TrendingUp className="h-5 w-5 mr-2 text-primary" />
+                Need a detailed marketing plan?
+              </h2>
+              <p className="text-sm text-gray-400">View our comprehensive marketing blueprint with budget projections and content strategy</p>
+            </div>
+            <Button asChild variant="default">
+              <Link to="/marketing-plan" className="flex items-center">
+                View Marketing Plan <ChevronRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
         
         <Tabs defaultValue="social" className="w-full mb-12">

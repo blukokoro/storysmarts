@@ -83,7 +83,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
               </div>
             </div>
             <Button asChild size="lg" className="w-full bg-primary/90 hover:bg-primary text-white font-medium">
-              <Link to="/marketing">
+              <Link to="/marketing-plan">
                 <TrendingUp className="h-5 w-5 mr-2" />
                 View Full Marketing Plan
               </Link>

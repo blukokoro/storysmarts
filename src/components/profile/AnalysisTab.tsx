@@ -5,20 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ChartPie, ChartBar, TrendingUp } from 'lucide-react';
 import { toast } from 'sonner';
-
-interface Analysis {
-  id: string;
-  title: string;
-  date: string;
-  type: string;
-  insights: {
-    audienceSize: string;
-    primaryGender: string;
-    potentialRevenue: string;
-    marketingBudget: string;
-    breakEvenPoint: string;
-  };
-}
+import { Link } from 'react-router-dom';
+import { Analysis } from './types';
 
 interface AnalysisTabProps {
   analyses: Analysis[];
@@ -36,7 +24,15 @@ const AnalysisTab: React.FC<AnalysisTabProps> = ({ analyses }) => {
     <>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">My Analysis Reports</h1>
-        <Button onClick={() => navigate('/analyze')}>Create New Analysis</Button>
+        <div className="flex space-x-2">
+          <Button onClick={() => navigate('/analyze')}>Create New Analysis</Button>
+          <Button variant="outline" asChild>
+            <Link to="/marketing-plan">
+              <TrendingUp className="h-4 w-4 mr-2" />
+              Marketing Plan
+            </Link>
+          </Button>
+        </div>
       </div>
       
       {analyses.length > 0 ? (
@@ -88,10 +84,10 @@ const AnalysisTab: React.FC<AnalysisTabProps> = ({ analyses }) => {
                 
                 <div className="mt-3 text-xs text-gray-400 flex justify-between">
                   <span>Marketing Budget: {analysis.insights.marketingBudget}</span>
-                  <div className="flex items-center text-primary">
+                  <Link to="/marketing-plan" className="flex items-center text-primary hover:underline">
                     <TrendingUp className="h-3 w-3 mr-1" />
-                    <span>Sales Prediction Available</span>
-                  </div>
+                    <span>View Marketing Plan</span>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
