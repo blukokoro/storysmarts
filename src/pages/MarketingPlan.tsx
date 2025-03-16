@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -205,11 +204,12 @@ const MarketingPlan = () => {
                           formatter={(value) => [`${value}%`, 'Budget Allocation']}
                           content={({ active, payload }) => {
                             if (active && payload && payload.length) {
+                              const payloadValue = payload[0].value as number;
                               return (
                                 <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-xs">
                                   <p className="font-medium">{payload[0].payload.name}</p>
-                                  <p>{`Budget share: ${payload[0].value}%`}</p>
-                                  <p>{`For €${estimatedAdBudget} budget: €${Math.round(estimatedAdBudget * payload[0].value / 100)}`}</p>
+                                  <p>{`Budget share: ${payloadValue}%`}</p>
+                                  <p>{`For €${estimatedAdBudget} budget: €${Math.round(estimatedAdBudget * payloadValue / 100)}`}</p>
                                 </div>
                               );
                             }
@@ -604,143 +604,4 @@ const MarketingPlan = () => {
                               const price = payload[0].payload.price;
                               const units = Math.ceil(productionCost / price);
                               return (
-                                <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-xs">
-                                  <p className="font-medium">{`Price: €${price}`}</p>
-                                  <p>{`Units to Break Even: ${units}`}</p>
-                                  <p>{`Impressions Needed: ${Math.ceil(units / conversionRate).toLocaleString()}`}</p>
-                                </div>
-                              );
-                            }
-                            return null;
-                          }}
-                        />
-                        <Line 
-                          data={[
-                            { price: 1.99, units: Math.ceil(productionCost / 1.99) },
-                            { price: 2.99, units: Math.ceil(productionCost / 2.99) },
-                            { price: 3.49, units: Math.ceil(productionCost / 3.49) },
-                            { price: 3.99, units: Math.ceil(productionCost / 3.99) },
-                            { price: 4.99, units: Math.ceil(productionCost / 4.99) },
-                            { price: 5.99, units: Math.ceil(productionCost / 5.99) }
-                          ]} 
-                          type="monotone" 
-                          dataKey="units" 
-                          stroke="#8884d8" 
-                          activeDot={{ r: 8 }} 
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                  
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                      <p className="text-xs text-gray-400">Economy Option</p>
-                      <p className="text-lg font-bold">€1.99</p>
-                      <p className="text-xs text-gray-400 mt-1">{Math.ceil(productionCost / 1.99)} sales to break even</p>
-                    </div>
-                    <div className="bg-primary/10 p-3 rounded-lg border border-primary/20">
-                      <p className="text-xs text-gray-400">Recommended Price</p>
-                      <p className="text-lg font-bold">€3.49</p>
-                      <p className="text-xs text-gray-400 mt-1">{Math.ceil(productionCost / 3.49)} sales to break even</p>
-                    </div>
-                    <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                      <p className="text-xs text-gray-400">Premium Option</p>
-                      <p className="text-lg font-bold">€4.99</p>
-                      <p className="text-xs text-gray-400 mt-1">{Math.ceil(productionCost / 4.99)} sales to break even</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-black/20 backdrop-blur-md border border-white/5">
-                <CardHeader>
-                  <CardTitle>Conversion Rate Impact</CardTitle>
-                  <CardDescription>How improving conversion affects profitability</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <p className="text-sm">
-                      Our projections use a conservative 1% conversion rate. Here's how improving conversion rates affects your bottom line:
-                    </p>
-                    
-                    <div className="space-y-3">
-                      <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-xs text-gray-400">Current (1%)</p>
-                          <p className="text-xs">€0 profit at break-even</p>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2.5">
-                          <div className="bg-yellow-500 h-2.5 rounded-full" style={{ width: "25%" }}></div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-xs text-gray-400">Improved (1.5%)</p>
-                          <p className="text-xs text-green-400">+50% profit</p>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2.5">
-                          <div className="bg-green-500 h-2.5 rounded-full" style={{ width: "37.5%" }}></div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-xs text-gray-400">Optimized (2%)</p>
-                          <p className="text-xs text-green-400">+100% profit</p>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2.5">
-                          <div className="bg-green-500 h-2.5 rounded-full" style={{ width: "50%" }}></div>
-                        </div>
-                      </div>
-                      
-                      <div className="bg-black/30 p-3 rounded-lg border border-white/10">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-xs text-gray-400">Expert (3%)</p>
-                          <p className="text-xs text-green-400">+200% profit</p>
-                        </div>
-                        <div className="w-full bg-gray-700 rounded-full h-2.5">
-                          <div className="bg-green-500 h-2.5 rounded-full" style={{ width: "75%" }}></div>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-primary/10 p-4 rounded-lg border border-primary/20 mt-4">
-                      <h4 className="text-sm font-medium text-primary mb-2">How to Improve Conversion</h4>
-                      <ul className="text-xs space-y-1">
-                        <li>• Optimize ad creatives with strong CTAs</li>
-                        <li>• Implement retargeting campaigns</li>
-                        <li>• A/B test landing pages</li>
-                        <li>• Offer limited-time discounts</li>
-                        <li>• Use social proof and testimonials</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-        </Tabs>
-        
-        <div className="mt-12 bg-black/20 backdrop-blur-md border border-white/5 rounded-lg p-6">
-          <h2 className="text-xl font-bold mb-4">Ready to Launch Your Marketing Campaign?</h2>
-          <p className="text-gray-400 mb-6">
-            Our experts can help you implement this marketing plan and optimize your campaign for maximum ROI.
-            Get started today and watch your audience grow.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-primary hover:bg-primary/90" size="lg">
-              Schedule Strategy Call
-            </Button>
-            <Button variant="outline" size="lg">
-              Download Marketing Plan
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default MarketingPlan;
+                                <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-
