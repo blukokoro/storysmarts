@@ -33,9 +33,9 @@ const AnalysisTab: React.FC<AnalysisTabProps> = ({ analyses }) => {
             </Link>
           </Button>
           <Button variant="outline" className="bg-primary/20 border-primary/30 text-primary hover:bg-primary/30" asChild>
-            <Link to="/content-creator">
+            <Link to="/content-generator">
               <Zap className="h-4 w-4 mr-2" />
-              AI Content Creator
+              AI Content Generator
             </Link>
           </Button>
         </div>

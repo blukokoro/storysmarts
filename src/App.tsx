@@ -21,7 +21,8 @@ import Storyboard from "./pages/Storyboard";
 import AIRefinement from "./pages/AIRefinement";
 import RequestAIRefinement from "./pages/RequestAIRefinement";
 import MarketingPlan from "./pages/MarketingPlan";
-import ContentCreator from "./pages/ContentCreator"; // Import the new ContentCreator page
+import ContentCreator from "./pages/ContentCreator";
+import ContentGenerator from "./pages/ContentGenerator"; // Import the new ContentGenerator page
 
 const queryClient = new QueryClient();
 
@@ -41,7 +42,8 @@ const AppRoutes = () => (
     <Route path="/ai-refinement" element={<AIRefinement />} />
     <Route path="/request-ai-refinement" element={<RequestAIRefinement />} />
     <Route path="/marketing-plan" element={<MarketingPlan />} />
-    <Route path="/content-creator" element={<ContentCreator />} /> {/* Add the new ContentCreator route */}
+    <Route path="/content-creator" element={<ContentCreator />} />
+    <Route path="/content-generator" element={<ContentGenerator />} /> {/* Add the new ContentGenerator route */}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>
