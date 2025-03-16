@@ -5,8 +5,8 @@ import {
   Clock, 
   CheckCircle2, 
   Hourglass, 
-  Flag, A
-  lertCircle, 
+  Flag, 
+  AlertCircle, 
   Lock, 
   Sparkles, 
   Zap, 
