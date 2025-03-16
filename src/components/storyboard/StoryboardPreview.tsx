@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { 
   Grid, 
@@ -12,6 +12,9 @@ import {
 } from 'lucide-react';
 import { StoryboardFrame } from '@/types/storyboard';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 interface StoryboardPreviewProps {
   frames: StoryboardFrame[];
@@ -24,6 +27,70 @@ export const StoryboardPreview: React.FC<StoryboardPreviewProps> = ({
   onExitPreview,
   onDownloadPDF
 }) => {
+  const storyboardRef = useRef<HTMLDivElement>(null);
+
+  const generatePDF = async () => {
+    if (!storyboardRef.current) return;
+
+    toast.info("Generating PDF...");
+    
+    try {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const contentWidth = pdf.internal.pageSize.getWidth();
+      const contentHeight = pdf.internal.pageSize.getHeight();
+      
+      // Capture the frames container
+      const canvas = await html2canvas(storyboardRef.current, {
+        scale: 2,
+        logging: false,
+        useCORS: true,
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      
+      // Title page
+      pdf.setFontSize(24);
+      pdf.setTextColor(40, 40, 40);
+      pdf.text('Storyboard', contentWidth / 2, 30, { align: 'center' });
+      pdf.setFontSize(12);
+      pdf.text(`Generated on ${new Date().toLocaleDateString()}`, contentWidth / 2, 40, { align: 'center' });
+      pdf.text(`Total frames: ${frames.length}`, contentWidth / 2, 50, { align: 'center' });
+      
+      // Add each frame to separate pages
+      frames.forEach((frame, index) => {
+        pdf.addPage();
+        
+        // Add frame title and information
+        pdf.setFontSize(16);
+        pdf.text(`Frame ${frame.id}: ${frame.title}`, 20, 20);
+        
+        pdf.setFontSize(12);
+        pdf.text(`Shot Type: ${frame.shotType}`, 20, 30);
+        
+        // Add description with text wrapping
+        const splitDescription = pdf.splitTextToSize(frame.description, contentWidth - 40);
+        pdf.text(splitDescription, 20, 40);
+        
+        // Add frame image if available
+        if (frame.image) {
+          pdf.addImage(frame.image, 'JPEG', 20, 70, contentWidth - 40, 60);
+        } else {
+          pdf.setDrawColor(200, 200, 200);
+          pdf.rect(20, 70, contentWidth - 40, 60);
+          pdf.setFontSize(12);
+          pdf.text('No image available', contentWidth / 2, 100, { align: 'center' });
+        }
+      });
+      
+      // Save the PDF
+      pdf.save('storyboard.pdf');
+      toast.success("PDF downloaded successfully!");
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      toast.error("Failed to generate PDF. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b border-white/10 bg-black/30 backdrop-blur-md p-4">
@@ -65,7 +132,7 @@ export const StoryboardPreview: React.FC<StoryboardPreviewProps> = ({
               <h1 className="text-5xl font-bold text-white mb-4">Storyboard Preview</h1>
               <p className="text-xl text-gray-300 mb-8">Your visual narrative sequence is ready for review and refinement.</p>
               <div className="flex space-x-4">
-                <Button className="bg-primary hover:bg-primary/90" onClick={onDownloadPDF}>
+                <Button className="bg-primary hover:bg-primary/90" onClick={generatePDF}>
                   <FileText className="mr-2 h-4 w-4" />
                   Export PDF
                 </Button>
@@ -78,7 +145,7 @@ export const StoryboardPreview: React.FC<StoryboardPreviewProps> = ({
           </div>
         </div>
 
-        <div className="bg-black/50 py-12">
+        <div className="bg-black/50 py-12" ref={storyboardRef}>
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-semibold text-white">Frame Sequence</h2>
@@ -91,7 +158,7 @@ export const StoryboardPreview: React.FC<StoryboardPreviewProps> = ({
                   <Search className="mr-2 h-4 w-4" />
                   Find Frame
                 </Button>
-                <Button variant="outline" size="sm" className="border-white/20 text-white" onClick={onDownloadPDF}>
+                <Button variant="outline" size="sm" className="border-white/20 text-white" onClick={generatePDF}>
                   <Download className="mr-2 h-4 w-4" />
                   Download PDF
                 </Button>
