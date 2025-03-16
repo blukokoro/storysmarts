@@ -9,8 +9,9 @@ import TimelineGantt from './TimelineGantt';
 import { StoryAnalysis } from '@/types';
 import StoryboardGenerator from './StoryboardGenerator';
 import { Button } from '@/components/ui/button';
-import { Film, TrendingUp } from 'lucide-react';
+import { Film, TrendingUp, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Card } from '@/components/ui/card';
 
 interface OutputSectionProps {
   analysis: StoryAnalysis;
@@ -38,6 +39,30 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
 
   return (
     <div className={`mt-8 w-full animate-slide-up transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {/* AI Content Generator Tool */}
+      <Card className="p-6 mb-6 bg-gradient-to-r from-indigo-900/60 to-purple-900/60 border border-primary/20 shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>
+            <h3 className="text-2xl font-bold text-gradient mb-2 flex items-center">
+              <Sparkles className="h-5 w-5 mr-2 text-primary animate-pulse" />
+              AI Content Generator
+            </h3>
+            <p className="text-gray-300 mb-2">
+              Transform your analysis into marketing content, images, and social media posts with our AI engine.
+            </p>
+            <p className="text-sm text-amber-400 italic">
+              Note: For best results, manually enter your text in the content generator rather than using the PDF uploader.
+            </p>
+          </div>
+          <Button asChild size="lg" className="whitespace-nowrap bg-primary hover:bg-primary/90">
+            <Link to="/content-generator">
+              <Sparkles className="h-4 w-4 mr-2" />
+              Generate AI Content
+            </Link>
+          </Button>
+        </div>
+      </Card>
+      
       {/* Sales Prediction & Storyboard Feature Box */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Storyboard Feature Highlight Box */}
