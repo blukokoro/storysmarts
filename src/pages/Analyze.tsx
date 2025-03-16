@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StoryInput from '@/components/StoryInput';
 import OutputSection from '@/components/OutputSection';
 import { StoryAnalysis } from '@/types';
@@ -12,20 +12,21 @@ import { useAuth } from '@/contexts/AuthContext';
 const Analyze = () => {
   const [analysis, setAnalysis] = useState<StoryAnalysis | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const { user } = useAuth();
   const navigate = useNavigate();
 
   const handleAnalysisComplete = (result: StoryAnalysis) => {
     setAnalysis(result);
-    // Scroll to results smoothly
-    const resultsElement = document.getElementById('analysis-results');
-    if (resultsElement) {
-      resultsElement.scrollIntoView({ behavior: 'smooth' });
-    }
+    setShowForm(false); // Hide the form after analysis is complete
+    // Scroll to top smoothly
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Function to scroll back to top
-  const scrollToTop = () => {
+  // Function to go back to form without losing analysis
+  const backToForm = () => {
+    setShowForm(true);
+    // Scroll to top smoothly
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -44,7 +45,7 @@ const Analyze = () => {
       savedAnalyses.push({
         id: Date.now(),
         date: new Date().toISOString(),
-        title: analysis?.title || 'Untitled Analysis', // Use the title from StoryAnalysis instead
+        title: analysis?.title || 'Untitled Analysis',
         analysis
       });
       localStorage.setItem('savedAnalyses', JSON.stringify(savedAnalyses));
@@ -58,56 +59,49 @@ const Analyze = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      {/* Story Input Section */}
-      <div 
-        className="relative py-16 px-6"
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-indigo-950/80" />
-        <div className="relative max-w-3xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-display font-bold mb-2 text-gradient">Analyze Your Story</h2>
-            <p className="text-gray-400">Upload your narrative to get started with your free analysis</p>
-          </div>
-          
-          <StoryInput 
-            onAnalysisComplete={handleAnalysisComplete} 
-            isAnalyzing={isAnalyzing}
-            setIsAnalyzing={setIsAnalyzing}
-          />
-        </div>
-      </div>
-      
-      {/* Analysis Results Section */}
-      {analysis && (
-        <div 
-          id="analysis-results" 
-          className="relative py-16 px-6"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-950/80 to-slate-950/80" />
+      {/* Results Section (shows at the top when analysis is complete) */}
+      {analysis && !showForm && (
+        <div className="relative py-12 px-6">
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-indigo-950/80" />
           <div className="relative max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-display font-bold mb-2 text-gradient">Your Story Analysis</h2>
-              <p className="text-gray-400">AI-generated insights for your narrative</p>
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-3xl font-display font-bold mb-2 text-gradient">Analysis Results: {analysis.title}</h2>
+                <p className="text-gray-400">AI-generated insights for your narrative</p>
+              </div>
+              <div className="flex space-x-4">
+                <Button variant="outline" onClick={backToForm}>
+                  Back to Input
+                </Button>
+                <Button 
+                  onClick={saveAnalysis}
+                  className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10"
+                >
+                  Save to Profile
+                </Button>
+              </div>
             </div>
             
             <OutputSection analysis={analysis} isVisible={!isAnalyzing && !!analysis} />
-            
-            <div className="flex justify-center mt-8 gap-4">
-              <Button 
-                onClick={saveAnalysis}
-                className="border-primary/20 bg-primary/5 text-primary hover:bg-primary/10"
-              >
-                Save Analysis to Profile
-              </Button>
-              
-              <Button 
-                variant="outline" 
-                onClick={scrollToTop}
-              >
-                <ArrowUp className="mr-2 h-4 w-4" />
-                Back to Top
-              </Button>
+          </div>
+        </div>
+      )}
+      
+      {/* Story Input Section (visible by default or when showForm is true) */}
+      {showForm && (
+        <div className="relative py-16 px-6">
+          <div className="absolute inset-0 bg-gradient-to-b from-slate-950 to-indigo-950/80" />
+          <div className="relative max-w-3xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-display font-bold mb-2 text-gradient">Analyze Your Story</h2>
+              <p className="text-gray-400">Upload your narrative to get started with your free analysis</p>
             </div>
+            
+            <StoryInput 
+              onAnalysisComplete={handleAnalysisComplete} 
+              isAnalyzing={isAnalyzing}
+              setIsAnalyzing={setIsAnalyzing}
+            />
           </div>
         </div>
       )}
