@@ -16,22 +16,22 @@ const ProjectTimeline: React.FC = () => {
             <div className="space-y-4">
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 1-2: Pre-Production</h3>
+                <h3 className="text-sm font-medium text-primary">Day 1: Pre-Production</h3>
                 <p className="text-sm text-gray-400">Script finalization, voice actor selection, storyboard preparation</p>
               </div>
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 2-3: Production</h3>
+                <h3 className="text-sm font-medium text-primary">Day 2: Production</h3>
                 <p className="text-sm text-gray-400">AI scene generation, voice recording, initial composition</p>
               </div>
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 3-4: Post-Production</h3>
+                <h3 className="text-sm font-medium text-primary">Day 3-4: Post-Production</h3>
                 <p className="text-sm text-gray-400">Sound design, music scoring, final edits and rendering</p>
               </div>
               <div className="relative pl-6">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 6-7: Marketing & Release</h3>
+                <h3 className="text-sm font-medium text-primary">Day 5-6: Marketing & Release</h3>
                 <p className="text-sm text-gray-400">Promotional materials, online distribution, social media campaign</p>
               </div>
             </div>
@@ -46,23 +46,23 @@ const ProjectTimeline: React.FC = () => {
             <div className="space-y-4">
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 1: Concept & Layout</h3>
-                <p className="text-sm text-gray-400">Character designs, script breakdown, layout sketches</p>
+                <h3 className="text-sm font-medium text-primary">Week 1: Style Definition</h3>
+                <p className="text-sm text-gray-400">Art style selection, concept art, overall visual direction</p>
               </div>
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 1-2: Line Art</h3>
-                <p className="text-sm text-gray-400">Detailed line drawings, panel composition, client review</p>
+                <h3 className="text-sm font-medium text-primary">Week 1-2: Character Creation</h3>
+                <p className="text-sm text-gray-400">Character designs, outfit variations, expression sheets</p>
               </div>
               <div className="relative pl-6 border-l border-primary/30">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 2-3: Coloring & Lettering</h3>
-                <p className="text-sm text-gray-400">Color application, speech bubbles, typography, final touches</p>
+                <h3 className="text-sm font-medium text-primary">Week 2-3: Panels & Structure</h3>
+                <p className="text-sm text-gray-400">Panel layout, scene composition, rough sketches, client review</p>
               </div>
               <div className="relative pl-6">
                 <div className="absolute w-3 h-3 bg-primary rounded-full -left-[6.5px] top-1"></div>
-                <h3 className="text-sm font-medium text-primary">Week 4-5: Publication</h3>
-                <p className="text-sm text-gray-400">Digital release, print preparation, marketing materials</p>
+                <h3 className="text-sm font-medium text-primary">Week 4: Pagination & Final PDF</h3>
+                <p className="text-sm text-gray-400">Final assembly, page numbering, digital formats, print preparation</p>
               </div>
             </div>
           </CardContent>

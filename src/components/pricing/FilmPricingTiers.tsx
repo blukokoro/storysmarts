@@ -11,7 +11,7 @@ const FilmPricingTiers: React.FC = () => {
           title="Film Basic"
           price="699"
           description="Turn your story into a simple AI-generated film"
-          timeline="2-3 weeks for production • Release 2 weeks after delivery"
+          timeline="2-3 days for production • Release 1 day after delivery"
           features={[
             "3 minutes runtime",
             "Standard AI voices",
@@ -25,7 +25,7 @@ const FilmPricingTiers: React.FC = () => {
           title="Film Standard"
           price="899"
           description="Turn your story into a complete AI-generated short film"
-          timeline="3-4 weeks for production • Release 2-3 weeks after delivery"
+          timeline="3-4 days for production • Release 1-2 days after delivery"
           features={[
             "5 minutes runtime",
             "Professional voice acting",
@@ -41,7 +41,7 @@ const FilmPricingTiers: React.FC = () => {
           title="Film Premium"
           price="1299"
           description="Create a premium AI-generated film with advanced features"
-          timeline="4-5 weeks for production • Release 3 weeks after delivery"
+          timeline="4-5 days for production • Release 2 days after delivery"
           features={[
             "8 minutes runtime",
             "Premium voice actors",
