@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { toast } from 'sonner';
-import { Sparkles, FileText, Brain, Wand, Loader, Robot, ArrowRight } from 'lucide-react';
+import { Sparkles, FileText, Brain, Wand, Loader, Bot, ArrowRight } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -23,7 +22,6 @@ const ContentGenerator = () => {
   const [contentPlan, setContentPlan] = useState<AIContentPlan | null>(null);
   const [analysisProgress, setAnalysisProgress] = useState<number>(0);
   
-  // Image generation settings
   const [imagePrompt, setImagePrompt] = useState<string>('');
   const [selectedModel, setSelectedModel] = useState<ModelType>('comic-art');
   const [selectedLora, setSelectedLora] = useState<LoraType>('comic-book');
@@ -34,7 +32,6 @@ const ContentGenerator = () => {
   const [useAdvancedSettings, setUseAdvancedSettings] = useState<boolean>(false);
   const [autoGenerateContent, setAutoGenerateContent] = useState<boolean>(false);
 
-  // Reset progress when documentText changes
   useEffect(() => {
     if (documentText) {
       setAnalysisProgress(0);
@@ -74,7 +71,6 @@ const ContentGenerator = () => {
     setIsAnalyzing(true);
     setAnalysisProgress(0);
     
-    // Simulate document analysis with progress updates
     const interval = setInterval(() => {
       setAnalysisProgress(prev => {
         const newProgress = prev + Math.random() * 15;
@@ -82,23 +78,21 @@ const ContentGenerator = () => {
       });
     }, 500);
     
-    // Simulate API call with delay
     setTimeout(() => {
       clearInterval(interval);
       setAnalysisProgress(100);
       
-      // Mock analysis results
       const mockAnalysis: ContentAnalysis = {
         keyThemes: ['perseverance', 'triumph', 'adversity', 'journey', 'transformation'],
         suggestedTopics: [
           'Overcoming challenges in life',
           'Finding inner strength',
-          "The hero's journey", // Fixed: properly escaped the apostrophe with double quotes
+          "The hero's journey",
           'Transformative experiences',
           'Victory against the odds'
         ],
         keyTerms: ['protagonist', 'battle', 'victory', 'odds', 'confrontation', 'emerge'],
-        sentimentScore: 0.75, // Positive sentiment
+        sentimentScore: 0.75,
         audienceMatch: [
           { demographic: 'Young Adults (18-24)', score: 0.85 },
           { demographic: 'Adults (25-34)', score: 0.78 },
@@ -106,7 +100,6 @@ const ContentGenerator = () => {
         ]
       };
       
-      // Mock content plan
       const mockContentPlan: AIContentPlan = {
         contentTypes: [
           { 
@@ -150,7 +143,6 @@ const ContentGenerator = () => {
       setContentAnalysis(mockAnalysis);
       setContentPlan(mockContentPlan);
       
-      // Generate some initial content based on analysis
       const initialQuotes = [
         "The protagonist battles against all odds to emerge victorious.",
         "In the final confrontation, the truth is revealed."
@@ -168,7 +160,6 @@ const ContentGenerator = () => {
       setIsAnalyzing(false);
       toast.success("Document analysis complete!");
       
-      // Move to the "content-plan" tab
       setActiveTab('content-plan');
     }, 4000);
   };
@@ -266,7 +257,6 @@ const ContentGenerator = () => {
 
     setIsLoading(true);
     setTimeout(() => {
-      // Generate a mix of content based on the analysis
       const newImages: GeneratedContent[] = [
         {
           type: 'image',
@@ -447,7 +437,7 @@ const ContentGenerator = () => {
               <Card className="bg-black/30 backdrop-blur-sm border border-white/10 lg:col-span-1">
                 <CardHeader>
                   <CardTitle className="flex items-center">
-                    <Robot className="h-5 w-5 mr-2 text-primary" />
+                    <Bot className="h-5 w-5 mr-2 text-primary" />
                     AI Content Plan
                   </CardTitle>
                   <CardDescription>
