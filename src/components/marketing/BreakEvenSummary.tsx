@@ -1,7 +1,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Download } from 'lucide-react';
+import { Download, ChevronLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 interface BreakEvenSummaryProps {
   productionCost: number;
@@ -16,8 +19,42 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
   impressionsNeeded,
   estimatedAdBudget
 }) => {
+  const handleDownloadReport = async () => {
+    const marketingPlanElement = document.getElementById('marketing-plan');
+    if (!marketingPlanElement) return;
+
+    try {
+      const canvas = await html2canvas(marketingPlanElement);
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 30;
+
+      pdf.setFontSize(20);
+      pdf.text('Marketing Plan Report', pdfWidth / 2, 20, { align: 'center' });
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save('marketing-plan-report.pdf');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
+
   return (
     <div className="mb-12">
+      <div className="flex items-center gap-2 mb-6">
+        <Button variant="outline" size="sm" asChild>
+          <Link to="/marketing">
+            <ChevronLeft className="w-4 h-4" />
+            Back to Marketing
+          </Link>
+        </Button>
+      </div>
+      
       <h1 className="text-4xl font-bold mb-4">Marketing Plan</h1>
       <p className="text-gray-400 max-w-3xl">
         This comprehensive analysis provides detailed advertising budget projections, content strategy recommendations, 
@@ -50,7 +87,11 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
             </div>
           </div>
           
-          <Button className="bg-primary hover:bg-primary/90" size="lg">
+          <Button 
+            className="bg-primary hover:bg-primary/90" 
+            size="lg" 
+            onClick={handleDownloadReport}
+          >
             <Download className="w-4 h-4 mr-2" />
             Download Full Report
           </Button>

@@ -1,12 +1,20 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BudgetProjections from '@/components/marketing/BudgetProjections';
 import ContentStrategy from '@/components/marketing/ContentStrategy';
 import RevenueAnalysis from '@/components/marketing/RevenueAnalysis';
 import BreakEvenSummary from '@/components/marketing/BreakEvenSummary';
+import SalesForecasting from '@/components/marketing/SalesForecasting'; 
+import AIContentStrategy from '@/components/marketing/AIContentStrategy';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Info } from 'lucide-react';
 
 const MarketingPlan = () => {
+  // State for toggling new features
+  const [showNewFeatures, setShowNewFeatures] = useState(false);
+
   // Platform CPM data (2023)
   const platformCpmData = [
     { platform: 'LinkedIn', cpm: 6.59, color: '#0077B5' },
@@ -84,7 +92,7 @@ const MarketingPlan = () => {
   
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-8">
-      <div className="max-w-6xl mx-auto">
+      <div id="marketing-plan" className="max-w-6xl mx-auto">
         <BreakEvenSummary
           productionCost={productionCost}
           targetSales={targetSales}
@@ -92,8 +100,19 @@ const MarketingPlan = () => {
           estimatedAdBudget={estimatedAdBudget}
         />
         
+        <div className="flex justify-end mb-4">
+          <Button 
+            variant="outline" 
+            className="flex items-center gap-2"
+            onClick={() => setShowNewFeatures(!showNewFeatures)}
+          >
+            <Info size={16} />
+            {showNewFeatures ? "Hide Advanced Features" : "Show Advanced Features"}
+          </Button>
+        </div>
+        
         <Tabs defaultValue="budget" className="w-full">
-          <TabsList className="grid grid-cols-3 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+          <TabsList className="grid grid-cols-3 md:grid-cols-5 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
             <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               Advertising Budget
             </TabsTrigger>
@@ -103,6 +122,16 @@ const MarketingPlan = () => {
             <TabsTrigger value="projection" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               Revenue Projections
             </TabsTrigger>
+            {showNewFeatures && (
+              <>
+                <TabsTrigger value="sales" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+                  Sales Forecasting
+                </TabsTrigger>
+                <TabsTrigger value="ai-content" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+                  AI Content
+                </TabsTrigger>
+              </>
+            )}
           </TabsList>
           
           <TabsContent value="budget" className="focus-visible:outline-none focus-visible:ring-0">
@@ -135,6 +164,26 @@ const MarketingPlan = () => {
               priceData={priceData}
             />
           </TabsContent>
+          
+          {showNewFeatures && (
+            <>
+              <TabsContent value="sales" className="focus-visible:outline-none focus-visible:ring-0">
+                <SalesForecasting 
+                  productionCost={productionCost}
+                  averagePrice={averagePrice}
+                  estimatedAdBudget={estimatedAdBudget}
+                  targetSales={targetSales}
+                  platformCpmData={platformCpmData}
+                />
+              </TabsContent>
+              
+              <TabsContent value="ai-content" className="focus-visible:outline-none focus-visible:ring-0">
+                <AIContentStrategy 
+                  reachProjectionData={reachProjectionData}
+                />
+              </TabsContent>
+            </>
+          )}
         </Tabs>
       </div>
     </div>
