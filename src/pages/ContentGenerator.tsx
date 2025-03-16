@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -24,7 +23,7 @@ import {
   Plus, 
   X
 } from 'lucide-react';
-import { PdfUploader } from '@/components/PdfUploader';
+import PdfUploader from '@/components/PdfUploader';
 
 type ModelType = 'stable-diffusion' | 'midjourney-style' | 'realistic' | 'comic-art' | 'pixel-art';
 type LoraType = 'street-photography' | 'comic-book' | 'anime-style' | 'fantasy' | 'realistic-portrait';
@@ -49,12 +48,9 @@ const ContentGenerator = () => {
   const [cfgScale, setCfgScale] = useState<number>(7.5);
   const [useAdvancedSettings, setUseAdvancedSettings] = useState<boolean>(false);
 
-  // Handle file upload and extract text
   const handleFileUpload = async (file: File) => {
     try {
       setIsLoading(true);
-      // In a real implementation, this would use an API to extract text
-      // For demo purposes, we'll simulate text extraction
       setTimeout(() => {
         const mockExtractedText = `This is extracted text from the uploaded PDF.
         It contains several paragraphs of content that can be used to generate
@@ -72,7 +68,6 @@ const ContentGenerator = () => {
     }
   };
 
-  // Generate image based on prompt
   const handleGenerateImage = () => {
     if (!imagePrompt.trim()) {
       toast.error("Please enter an image prompt");
@@ -80,8 +75,6 @@ const ContentGenerator = () => {
     }
 
     setIsLoading(true);
-    // This would normally call an API like Runware or other image generation API
-    // For demo purposes, we'll simulate image generation
     setTimeout(() => {
       const mockGeneratedImageUrl = "/lovable-uploads/aba2b6fd-509a-45f5-9146-31ccf17ad0e7.png";
       
@@ -97,7 +90,6 @@ const ContentGenerator = () => {
     }, 3000);
   };
 
-  // Generate quotes from document
   const handleGenerateQuotes = () => {
     if (!documentText.trim()) {
       toast.error("Please upload a document first");
@@ -105,8 +97,6 @@ const ContentGenerator = () => {
     }
 
     setIsLoading(true);
-    // This would normally use an LLM to extract quotes
-    // For demo purposes, we'll simulate quote extraction
     setTimeout(() => {
       const mockQuotes = [
         "The protagonist battles against all odds to emerge victorious.",
@@ -125,7 +115,6 @@ const ContentGenerator = () => {
     }, 2000);
   };
 
-  // Generate marketing text
   const handleGenerateMarketingText = () => {
     if (!documentText.trim()) {
       toast.error("Please upload a document first");
@@ -133,8 +122,6 @@ const ContentGenerator = () => {
     }
 
     setIsLoading(true);
-    // This would normally use an LLM to generate marketing text
-    // For demo purposes, we'll simulate text generation
     setTimeout(() => {
       const mockMarketingTexts = [
         "Experience the epic journey of our hero as they face impossible challenges and emerge triumphant! #ComingSoon #MustRead",
@@ -167,9 +154,7 @@ const ContentGenerator = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Controls */}
           <div className="lg:col-span-1 space-y-6">
-            {/* Document Upload Section */}
             <Card className="bg-black/30 backdrop-blur-sm border border-white/10">
               <CardHeader>
                 <CardTitle>Document Upload</CardTitle>
@@ -198,7 +183,6 @@ const ContentGenerator = () => {
               </CardContent>
             </Card>
 
-            {/* Content Type Selection */}
             <Card className="bg-black/30 backdrop-blur-sm border border-white/10">
               <CardHeader>
                 <CardTitle>Content Generator</CardTitle>
@@ -425,7 +409,6 @@ const ContentGenerator = () => {
             </Card>
           </div>
 
-          {/* Right Column - Generated Content */}
           <div className="lg:col-span-2">
             <Card className="bg-black/30 backdrop-blur-sm border border-white/10 h-full">
               <CardHeader>
