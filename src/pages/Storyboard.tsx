@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,8 @@ import {
   Search,
   FileText,
   Layers,
-  Grid
+  Grid,
+  Download
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
@@ -153,6 +153,16 @@ const Storyboard = () => {
     ));
   };
 
+  const handleDownloadPDF = () => {
+    // In a real app, this would generate and download a PDF
+    toast.success("Generating PDF...");
+    
+    // Simulate processing time
+    setTimeout(() => {
+      toast.success("Storyboard PDF downloaded successfully");
+    }, 1500);
+  };
+
   const togglePreview = () => {
     setShowPreview(!showPreview);
     if (!showPreview) {
@@ -163,9 +173,7 @@ const Storyboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 to-indigo-950/90 text-foreground">
       {showPreview ? (
-        // Preview Mode inspired by the uploaded reference image
         <div className="min-h-screen flex flex-col">
-          {/* Navigation Header */}
           <header className="border-b border-white/10 bg-black/30 backdrop-blur-md p-4">
             <div className="max-w-7xl mx-auto flex justify-between items-center">
               <div className="flex space-x-8 items-center">
@@ -191,9 +199,7 @@ const Storyboard = () => {
             </div>
           </header>
 
-          {/* Main Content Area */}
           <div className="flex-grow flex flex-col">
-            {/* Hero Section */}
             <div className="relative py-16">
               <div className="absolute inset-0 bg-[url('/lovable-uploads/6bc482be-4753-4673-aa4d-0783a7f2aa34.png')] bg-cover bg-center opacity-20"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-transparent"></div>
@@ -202,7 +208,7 @@ const Storyboard = () => {
                   <h1 className="text-5xl font-bold text-white mb-4">Storyboard Preview</h1>
                   <p className="text-xl text-gray-300 mb-8">Your visual narrative sequence is ready for review and refinement.</p>
                   <div className="flex space-x-4">
-                    <Button className="bg-primary hover:bg-primary/90">
+                    <Button className="bg-primary hover:bg-primary/90" onClick={handleDownloadPDF}>
                       <FileText className="mr-2 h-4 w-4" />
                       Export PDF
                     </Button>
@@ -215,7 +221,6 @@ const Storyboard = () => {
               </div>
             </div>
 
-            {/* Storyboard Frames Display */}
             <div className="bg-black/50 py-12">
               <div className="max-w-7xl mx-auto px-4">
                 <div className="flex justify-between items-center mb-8">
@@ -228,6 +233,10 @@ const Storyboard = () => {
                     <Button variant="outline" size="sm" className="border-white/20 text-white">
                       <Search className="mr-2 h-4 w-4" />
                       Find Frame
+                    </Button>
+                    <Button variant="outline" size="sm" className="border-white/20 text-white" onClick={handleDownloadPDF}>
+                      <Download className="mr-2 h-4 w-4" />
+                      Download PDF
                     </Button>
                   </div>
                 </div>
@@ -266,9 +275,7 @@ const Storyboard = () => {
           </div>
         </div>
       ) : (
-        // Editor Mode
         <div className="container mx-auto px-4 py-8">
-          {/* Storyboard Header */}
           <header className="mb-8">
             <div className="flex justify-between items-center">
               <h1 className="text-3xl font-display font-bold text-gradient">Storyboard Creator</h1>
@@ -295,9 +302,7 @@ const Storyboard = () => {
             </p>
           </header>
 
-          {/* Storyboard Grid Layout */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Left Sidebar - Frame Navigation */}
             <div className="lg:col-span-1 bg-black/30 rounded-lg border border-white/10 p-4 h-[calc(100vh-10rem)] overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold text-white">Frames</h2>
@@ -354,14 +359,12 @@ const Storyboard = () => {
               </Button>
             </div>
             
-            {/* Main Content - Active Frame Editor */}
             <div className="lg:col-span-3 space-y-6">
               {frames.filter(frame => frame.id === activeFrame).map(frame => (
                 <div key={frame.id} className="space-y-4">
                   <Card className="bg-black/30 border-white/10">
                     <CardContent className="pt-6">
                       <div className="flex flex-col md:flex-row gap-4">
-                        {/* Left column - Image upload */}
                         <div className="w-full md:w-1/2">
                           <div className="rounded-lg border border-dashed border-white/20 flex flex-col items-center justify-center p-4 h-[300px] relative overflow-hidden bg-black/20">
                             {frame.image ? (
@@ -402,7 +405,6 @@ const Storyboard = () => {
                           </div>
                         </div>
                         
-                        {/* Right column - Frame details */}
                         <div className="w-full md:w-1/2 space-y-4">
                           <div>
                             <label className="text-xs text-gray-400 mb-1 block">Frame Title</label>
@@ -455,7 +457,6 @@ const Storyboard = () => {
                     </CardContent>
                   </Card>
                   
-                  {/* Shot Suggestions */}
                   <div className="bg-black/20 border border-white/10 rounded-lg p-4">
                     <h3 className="text-sm font-medium text-white mb-3">
                       <Film className="h-4 w-4 inline mr-2 text-primary" />
@@ -477,7 +478,6 @@ const Storyboard = () => {
                     </div>
                   </div>
                   
-                  {/* Timeline Preview */}
                   <div className="bg-black/20 border border-white/10 rounded-lg p-4">
                     <h3 className="text-sm font-medium text-white mb-3">Timeline Position</h3>
                     <div className="flex items-center space-x-1 overflow-x-auto py-2">
