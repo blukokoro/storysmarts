@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PanelCounter from './PanelCounter';
@@ -38,26 +39,45 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
 
   return (
     <div className={`mt-8 w-full animate-slide-up transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {/* AI Content Generator Tool */}
-      <Card className="p-6 mb-6 bg-gradient-to-r from-indigo-900/60 to-purple-900/60 border border-primary/20 shadow-lg">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <div>
-            <h3 className="text-2xl font-bold text-gradient mb-2 flex items-center">
-              <Sparkles className="h-5 w-5 mr-2 text-primary animate-pulse" />
-              AI Content Generator
-            </h3>
-            <p className="text-gray-300 mb-2">
-              Transform your analysis into marketing content, images, and social media posts with our AI engine.
-            </p>
+      {/* Analysis Results Tabs - Now at the top */}
+      <Tabs defaultValue="comic" className="w-full mb-6">
+        <TabsList className="grid grid-cols-4 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+          <TabsTrigger value="comic" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Comic Book
+          </TabsTrigger>
+          <TabsTrigger value="marketing" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Marketing
+          </TabsTrigger>
+          <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Budget
+          </TabsTrigger>
+          <TabsTrigger value="pitch" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Movie Pitch
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="comic" className="focus-visible:outline-none focus-visible:ring-0">
+          <PanelCounter data={analysis.comicPanels} />
+        </TabsContent>
+        
+        <TabsContent value="marketing" className="focus-visible:outline-none focus-visible:ring-0">
+          <MarketingAnalysis data={analysis.audienceAnalysis} />
+        </TabsContent>
+        
+        <TabsContent value="budget" className="focus-visible:outline-none focus-visible:ring-0">
+          <div className="flex flex-col gap-6">
+            <BudgetCalculator data={analysis.budgetEstimate} />
+            <TimelineGantt 
+              panelCount={analysis.comicPanels.suggestedPanelCount} 
+              estimatedPrice={estimatedPrice} 
+            />
           </div>
-          <Button asChild size="lg" className="whitespace-nowrap bg-primary hover:bg-primary/90">
-            <Link to="/content-generator">
-              <Sparkles className="h-4 w-4 mr-2" />
-              Generate AI Content
-            </Link>
-          </Button>
-        </div>
-      </Card>
+        </TabsContent>
+        
+        <TabsContent value="pitch" className="focus-visible:outline-none focus-visible:ring-0">
+          <MoviePitch data={analysis.moviePitch} />
+        </TabsContent>
+      </Tabs>
       
       {/* Sales Prediction & Storyboard Feature Box */}
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -112,45 +132,27 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
           </div>
         </div>
       </div>
-
-      <Tabs defaultValue="comic" className="w-full">
-        <TabsList className="grid grid-cols-4 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
-          <TabsTrigger value="comic" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Comic Book
-          </TabsTrigger>
-          <TabsTrigger value="marketing" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Marketing
-          </TabsTrigger>
-          <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Budget
-          </TabsTrigger>
-          <TabsTrigger value="pitch" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Movie Pitch
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="comic" className="focus-visible:outline-none focus-visible:ring-0">
-          <PanelCounter data={analysis.comicPanels} />
-        </TabsContent>
-        
-        <TabsContent value="marketing" className="focus-visible:outline-none focus-visible:ring-0">
-          <MarketingAnalysis data={analysis.audienceAnalysis} />
-        </TabsContent>
-        
-        <TabsContent value="budget" className="focus-visible:outline-none focus-visible:ring-0">
-          <div className="flex flex-col gap-6">
-            <BudgetCalculator data={analysis.budgetEstimate} />
-            <TimelineGantt 
-              panelCount={analysis.comicPanels.suggestedPanelCount} 
-              estimatedPrice={estimatedPrice} 
-            />
+      
+      {/* AI Content Generator Tool - Now below the analysis results */}
+      <Card className="p-6 mb-6 bg-gradient-to-r from-indigo-900/60 to-purple-900/60 border border-primary/20 shadow-lg">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <div>
+            <h3 className="text-2xl font-bold text-gradient mb-2 flex items-center">
+              <Sparkles className="h-5 w-5 mr-2 text-primary animate-pulse" />
+              AI Content Generator
+            </h3>
+            <p className="text-gray-300 mb-2">
+              Transform your analysis into marketing content, images, and social media posts with our AI engine.
+            </p>
           </div>
-        </TabsContent>
-        
-        <TabsContent value="pitch" className="focus-visible:outline-none focus-visible:ring-0">
-          <MoviePitch data={analysis.moviePitch} />
-        </TabsContent>
-      </Tabs>
+          <Button asChild size="lg" className="whitespace-nowrap bg-primary hover:bg-primary/90">
+            <Link to="/content-generator">
+              <Sparkles className="h-4 w-4 mr-2" />
+              Generate AI Content
+            </Link>
+          </Button>
+        </div>
+      </Card>
     </div>
   );
 };
