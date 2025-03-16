@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, FileSearch } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Hero: React.FC = () => {
@@ -55,9 +55,11 @@ const Hero: React.FC = () => {
               Turn your creative ideas into ready-to-produce comics, storyboards, and film pitches with powerful AI analysis.
             </p>
             <div className="flex flex-col md:flex-row gap-4 justify-center pt-4">
-              <Button size="lg" className="group">
-                Start Creating
-                <Sparkles className="ml-2 w-4 h-4 group-hover:animate-pulse" />
+              <Button size="lg" className="group" asChild>
+                <Link to="/analyze">
+                  Analyze for Free
+                  <FileSearch className="ml-2 w-4 h-4 group-hover:animate-pulse" />
+                </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
                 <Link to="/pricing">

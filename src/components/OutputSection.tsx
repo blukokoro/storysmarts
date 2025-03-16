@@ -55,7 +55,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
         </TabsContent>
         
         <TabsContent value="budget" className="focus-visible:outline-none focus-visible:ring-0">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col gap-6">
             <BudgetCalculator data={analysis.budgetEstimate} />
             <TimelineGantt 
               panelCount={analysis.comicPanels.suggestedPanelCount} 

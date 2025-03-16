@@ -16,6 +16,7 @@ import Plans from "./pages/Plans";
 import Marketing from "./pages/Marketing";
 import DiyComiCreation from "./pages/DiyComiCreation";
 import Navbar from "./components/Navbar";
+import Analyze from "./pages/Analyze"; // Add the new Analyze page
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const AppRoutes = () => (
     <Route path="/account-settings" element={<AccountSettings />} />
     <Route path="/plans" element={<Plans />} />
     <Route path="/diy-comic-creation" element={<DiyComiCreation />} />
+    <Route path="/analyze" element={<Analyze />} /> {/* Add the new route */}
     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
     <Route path="*" element={<NotFound />} />
   </Routes>

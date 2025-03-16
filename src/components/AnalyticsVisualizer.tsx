@@ -34,7 +34,7 @@ const PieChartCard = ({ title, description, data }: { title: string; description
         <CardTitle className="text-xl">{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="h-[240px]">
+      <CardContent className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -42,8 +42,7 @@ const PieChartCard = ({ title, description, data }: { title: string; description
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              outerRadius={80}
+              outerRadius={60}
               fill="#8884d8"
               dataKey="value"
             >
@@ -54,8 +53,14 @@ const PieChartCard = ({ title, description, data }: { title: string; description
             <Tooltip 
               formatter={(value) => [`${value}%`, 'Percentage']}
               contentStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', borderColor: 'rgba(255, 255, 255, 0.1)' }}
+              itemStyle={{ color: '#fff' }}
             />
-            <Legend />
+            <Legend 
+              layout="horizontal" 
+              verticalAlign="bottom"
+              align="center"
+              wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }}
+            />
           </PieChart>
         </ResponsiveContainer>
       </CardContent>
