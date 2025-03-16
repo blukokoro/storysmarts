@@ -44,7 +44,7 @@ const Analyze = () => {
       savedAnalyses.push({
         id: Date.now(),
         date: new Date().toISOString(),
-        title: analysis?.moviePitch?.title || 'Untitled Analysis',
+        title: analysis?.title || 'Untitled Analysis', // Use the title from StoryAnalysis instead
         analysis
       });
       localStorage.setItem('savedAnalyses', JSON.stringify(savedAnalyses));
