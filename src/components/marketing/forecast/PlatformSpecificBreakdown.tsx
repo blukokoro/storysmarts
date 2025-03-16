@@ -2,9 +2,8 @@
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
 import { Target } from 'lucide-react';
-import PlatformBreakdownChart from './PlatformBreakdownChart';
-import CampaignTimeline from './CampaignTimeline';
-import AIRecommendations from './AIRecommendations';
+import PlatformBreakdownSection from './PlatformBreakdownSection';
+import TimelineRecommendationsSection from './TimelineRecommendationsSection';
 
 interface PlatformSpecificBreakdownProps {
   forecastData: any;
@@ -30,15 +29,12 @@ const PlatformSpecificBreakdown: React.FC<PlatformSpecificBreakdownProps> = ({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <PlatformBreakdownChart 
+          <PlatformBreakdownSection 
             platformBreakdown={forecastData.platformBreakdown} 
             customTarget={customTarget}
           />
           
-          <div className="space-y-6">
-            <CampaignTimeline />
-            <AIRecommendations customTarget={customTarget} />
-          </div>
+          <TimelineRecommendationsSection customTarget={customTarget} />
         </div>
       </CardContent>
     </Card>
