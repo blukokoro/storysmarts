@@ -79,8 +79,9 @@ const Hero: React.FC = () => {
         ))}
       </div>
       
-      {/* Add keyframes for 3D animations */}
-      <style jsx>{`
+      {/* Add keyframes for 3D animations using className instead of jsx style tag */}
+      <style>
+        {`
         @keyframes float {
           0% { transform: translateY(0) rotate(0deg); }
           100% { transform: translateY(-20px) rotate(5deg); }
@@ -95,7 +96,8 @@ const Hero: React.FC = () => {
           0% { opacity: 0.4; transform: scale(1); }
           100% { opacity: 0.8; transform: scale(1.2); }
         }
-      `}</style>
+        `}
+      </style>
       
       <div className="relative pt-10 pb-16 px-6 md:pt-16 md:pb-24 max-w-6xl mx-auto">
         <div className="animate-fade-in space-y-8">
