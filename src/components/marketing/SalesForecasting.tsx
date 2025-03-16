@@ -202,11 +202,12 @@ const SalesForecasting: React.FC<SalesForecastingProps> = ({
                     <Tooltip
                       content={({ active, payload }) => {
                         if (active && payload && payload.length) {
+                          const targetNum = parseInt(customTarget);
                           return (
                             <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-xs">
                               <p className="font-medium">{payload[0].payload.platform}</p>
                               <p>{`Estimated Sales: ${payload[0].value}`}</p>
-                              <p>{`Percentage: ${Math.round((payload[0].value / parseInt(customTarget)) * 100)}%`}</p>
+                              <p>{`Percentage: ${Math.round((payload[0].value / targetNum) * 100)}%`}</p>
                             </div>
                           );
                         }
