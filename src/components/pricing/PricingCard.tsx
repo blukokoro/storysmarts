@@ -13,6 +13,7 @@ interface PricingCardProps {
   timeline: string;
   popular?: boolean;
   cta?: string;
+  icon?: React.ReactNode;
 }
 
 const PricingCard: React.FC<PricingCardProps> = ({ 
@@ -22,22 +23,33 @@ const PricingCard: React.FC<PricingCardProps> = ({
   features, 
   timeline,
   popular = false,
-  cta = "Get Started"
+  cta = "Get Started",
+  icon
 }) => (
-  <Card className={`flex flex-col h-full ${popular ? 'border-primary' : 'border-gray-700'}`}>
-    <CardHeader className={popular ? 'bg-primary/10' : ''}>
+  <Card className={`flex flex-col h-full transition-all duration-300 hover:translate-y-[-4px] hover:shadow-lg ${popular ? 'border-primary' : 'border-gray-700'}`}>
+    <CardHeader className={`${popular ? 'bg-primary/10' : ''} rounded-t-lg`}>
       {popular && (
         <div className="flex items-center mb-2 text-primary">
           <Star className="w-4 h-4 mr-1 fill-primary" />
           <span className="text-xs font-medium">MOST POPULAR</span>
         </div>
       )}
-      <CardTitle className="text-xl">{title}</CardTitle>
+      <div className="flex items-center gap-2">
+        {icon && (
+          <div className={`p-1.5 rounded-full ${popular ? 'bg-primary/20' : 'bg-gray-800'}`}>
+            {icon}
+          </div>
+        )}
+        <CardTitle className="text-xl">{title}</CardTitle>
+      </div>
       <CardDescription>{description}</CardDescription>
     </CardHeader>
     <CardContent className="flex-grow">
       <div className="mb-4">
-        <span className="text-3xl font-bold">€{price}</span>
+        <span className="text-3xl font-bold">{popular ? 
+          <span className="bg-gradient-to-r from-primary to-cyan-400 bg-clip-text text-transparent">€{price}</span> : 
+          <span>€{price}</span>
+        }</span>
         <span className="text-muted-foreground ml-1 text-sm">/project</span>
       </div>
       
