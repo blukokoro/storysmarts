@@ -93,7 +93,7 @@ const ContentGenerator = () => {
         suggestedTopics: [
           'Overcoming challenges in life',
           'Finding inner strength',
-          'The hero's journey',
+          "The hero's journey", // Fixed: properly escaped the apostrophe with double quotes
           'Transformative experiences',
           'Victory against the odds'
         ],
