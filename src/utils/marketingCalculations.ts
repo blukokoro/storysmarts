@@ -10,7 +10,7 @@ export const calculateProjections = (impressions: number) => {
     impressions,
     conversions: Math.round(conversions),
     revenue: Math.round(revenue),
-    adSpend: Math.round(impressions / 1000 * 5.12) // Average CPM across platforms
+    adSpend: Math.round(impressions / 1000 * 4.62) // Updated to use the same CPM as in other calculations
   };
 };
 
@@ -21,7 +21,7 @@ export const calculateBreakEvenMetrics = (productionCost: number) => {
   const targetSales = Math.ceil(productionCost / averagePrice);
   const impressionsNeeded = targetSales / conversionRate;
   
-  // Calculate average CPM (simplified for refactoring)
+  // Calculate average CPM (consistent with BreakEvenSummary)
   const averageCpm = 4.62; 
   const estimatedAdBudget = Math.ceil((impressionsNeeded / 1000) * averageCpm);
   

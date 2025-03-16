@@ -10,8 +10,7 @@ import MarketingTabsContainer from '@/components/marketing/MarketingTabsContaine
 import { 
   platformCpmData, 
   budgetAllocationData, 
-  reachProjectionData, 
-  productionCost 
+  reachProjectionData
 } from '@/constants/marketingData';
 import { 
   calculateProjections, 
@@ -22,6 +21,11 @@ import {
 const MarketingPlan = () => {
   // State for toggling new features
   const [showNewFeatures, setShowNewFeatures] = useState(false);
+  
+  // Comic book production costs - using the same calculation as in OutputSection
+  const minimumPanels = 30;
+  const pricePerPanel = 9;
+  const productionCost = minimumPanels * pricePerPanel; // Same calculation as OutputSection
   
   // Get break-even metrics
   const { targetSales, impressionsNeeded, estimatedAdBudget, averagePrice } = calculateBreakEvenMetrics(productionCost);

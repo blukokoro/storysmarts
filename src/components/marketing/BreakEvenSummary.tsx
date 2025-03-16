@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, ChevronLeft } from 'lucide-react';
@@ -19,17 +18,14 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
   impressionsNeeded: propImpressionsNeeded,
   estimatedAdBudget: propEstimatedAdBudget
 }) => {
-  // Comic book production costs (just for calculation, not displayed anymore)
-  const comicProductionCosts = {
-    conceptAndCharacterDesign: 375, // 25% of budget
-    lineArtAndInking: 570, // 38% of budget
-    coloringAndLettering: 375, // 25% of budget
-    layoutAndFinalAssembly: 180, // 12% of budget
-  };
+  // Comic book production costs - using the same calculation as in OutputSection
+  const minimumPanels = 30;
+  const pricePerPanel = 9;
+  const calculatedPanels = minimumPanels; // We don't have access to analysis here, so use minimum
+  const comicBookProductionCost = calculatedPanels * pricePerPanel;
 
   // Calculate total production cost
-  const productionCost = propProductionCost || 
-    Object.values(comicProductionCosts).reduce((sum, cost) => sum + cost, 0);
+  const productionCost = propProductionCost || comicBookProductionCost;
   
   // Calculate other metrics based on production cost
   const averagePrice = 3.49; // Average digital comic price
