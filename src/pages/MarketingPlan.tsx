@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -71,6 +72,16 @@ const MarketingPlan = () => {
   // Calculate average CPM from the platform data
   const averageCpm = platformCpmData.reduce((sum, platform) => sum + platform.cpm, 0) / platformCpmData.length;
   const estimatedAdBudget = Math.ceil((impressionsNeeded / 1000) * averageCpm);
+  
+  // Data for price sensitivity chart
+  const priceData = [
+    { price: 1.99, units: Math.ceil(productionCost / 1.99) },
+    { price: 2.99, units: Math.ceil(productionCost / 2.99) },
+    { price: 3.49, units: Math.ceil(productionCost / 3.49) },
+    { price: 3.99, units: Math.ceil(productionCost / 3.99) },
+    { price: 4.99, units: Math.ceil(productionCost / 4.99) },
+    { price: 5.99, units: Math.ceil(productionCost / 5.99) },
+  ];
   
   return (
     <div className="min-h-screen bg-background text-foreground p-6 md:p-8">
@@ -586,7 +597,7 @@ const MarketingPlan = () => {
                 <CardContent>
                   <div className="h-72">
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                      <LineChart data={priceData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                         <XAxis 
                           dataKey="price" 
@@ -596,12 +607,79 @@ const MarketingPlan = () => {
                           label={{ value: 'Price (€)', position: 'insideBottom', offset: -5 }}
                         />
                         <YAxis 
+                          dataKey="units"
                           label={{ value: 'Units to Break Even', angle: -90, position: 'insideLeft' }}
                         />
                         <Tooltip
-                          content={({ active, payload, label }) => {
+                          content={({ active, payload }) => {
                             if (active && payload && payload.length) {
                               const price = payload[0].payload.price;
-                              const units = Math.ceil(productionCost / price);
+                              const units = payload[0].payload.units;
                               return (
-                                <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-
+                                <div className="bg-black/90 border border-gray-700 p-2 rounded text-white text-xs">
+                                  <p className="font-medium">Price: €{price}</p>
+                                  <p>Units to break even: {units}</p>
+                                  <p>Total revenue: €{Math.round(price * units)}</p>
+                                </div>
+                              );
+                            }
+                            return null;
+                          }}
+                        />
+                        <Line type="monotone" dataKey="units" stroke="#8884d8" dot={{ r: 6 }} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-black/20 backdrop-blur-md border border-white/5">
+                <CardHeader>
+                  <CardTitle>Marketing Timeline</CardTitle>
+                  <CardDescription>Recommended schedule for optimal results</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="relative pl-6 border-l-2 border-primary/50 pb-6">
+                      <div className="absolute w-4 h-4 bg-primary rounded-full -left-[9px] top-0"></div>
+                      <h3 className="text-sm font-medium text-primary">Month 1: Pre-launch</h3>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Teaser content and audience building phase with minimal ad spend (€100-200).
+                      </p>
+                    </div>
+                    
+                    <div className="relative pl-6 border-l-2 border-primary/50 pb-6">
+                      <div className="absolute w-4 h-4 bg-primary rounded-full -left-[9px] top-0"></div>
+                      <h3 className="text-sm font-medium text-primary">Month 2: Launch</h3>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Highest ad spend period (€{Math.round(estimatedAdBudget * 0.6)}) to achieve break-even.
+                      </p>
+                    </div>
+                    
+                    <div className="relative pl-6 border-l-2 border-primary/50 pb-6">
+                      <div className="absolute w-4 h-4 bg-primary rounded-full -left-[9px] top-0"></div>
+                      <h3 className="text-sm font-medium text-primary">Month 3: Optimization</h3>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Moderate spend (€{Math.round(estimatedAdBudget * 0.3)}) focused on best performing channels.
+                      </p>
+                    </div>
+                    
+                    <div className="relative pl-6">
+                      <div className="absolute w-4 h-4 bg-primary rounded-full -left-[9px] top-0"></div>
+                      <h3 className="text-sm font-medium text-primary">Month 4+: Maintenance</h3>
+                      <p className="text-xs text-gray-400 mt-1">
+                        Minimal sustaining budget (€100/month) to maintain visibility.
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+};
+
+export default MarketingPlan;
