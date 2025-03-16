@@ -1,11 +1,11 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { FileText, LogOut, Settings, CreditCard, Download, Image } from 'lucide-react';
+import { FileText, LogOut, Settings, CreditCard, Download, Image, Layers, ChartPie, ChartBar, TrendingUp } from 'lucide-react';
 import { toast } from 'sonner';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface StorySummary {
   id: string;
@@ -21,6 +21,20 @@ interface Storyboard {
   date: string;
   frames: number;
   hasImages: boolean;
+}
+
+interface Analysis {
+  id: string;
+  title: string;
+  date: string;
+  type: string;
+  insights: {
+    audienceSize: string;
+    primaryGender: string;
+    potentialRevenue: string;
+    marketingBudget: string;
+    breakEvenPoint: string;
+  };
 }
 
 const mockStories: StorySummary[] = [
@@ -71,15 +85,57 @@ const mockStoryboards: Storyboard[] = [
   }
 ];
 
+const mockAnalyses: Analysis[] = [
+  {
+    id: '1',
+    title: 'The Lost City',
+    date: '2023-05-20',
+    type: 'Comic Analysis',
+    insights: {
+      audienceSize: '25,000 - 35,000',
+      primaryGender: '65% Male, 35% Female',
+      potentialRevenue: '€10,500 - €15,000',
+      marketingBudget: '€2,800',
+      breakEvenPoint: '1,400 sales'
+    }
+  },
+  {
+    id: '2',
+    title: 'Beyond the Stars',
+    date: '2023-07-12',
+    type: 'Film Analysis',
+    insights: {
+      audienceSize: '15,000 - 20,000',
+      primaryGender: '55% Female, 45% Male',
+      potentialRevenue: '€23,000 - €30,000',
+      marketingBudget: '€5,500',
+      breakEvenPoint: '3,800 views'
+    }
+  },
+  {
+    id: '3',
+    title: 'The Last Guardian',
+    date: '2023-09-05',
+    type: 'Comic Analysis',
+    insights: {
+      audienceSize: '18,000 - 22,000',
+      primaryGender: '60% Male, 40% Female',
+      potentialRevenue: '€8,200 - €12,500',
+      marketingBudget: '€2,200',
+      breakEvenPoint: '1,100 sales'
+    }
+  }
+];
+
 const Profile = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<{ name?: string, email: string } | null>(null);
   const [stories, setStories] = useState<StorySummary[]>(mockStories);
   const [storyboards, setStoryboards] = useState<Storyboard[]>(mockStoryboards);
-  const [activeTab, setActiveTab] = useState<'stories' | 'storyboards'>('stories');
+  const [analyses, setAnalyses] = useState<Analysis[]>(mockAnalyses);
+  const [activeTab, setActiveTab] = useState<'stories' | 'storyboards' | 'analyses'>('stories');
 
   useEffect(() => {
-    // Check if user is logged in
     const userData = localStorage.getItem('user');
     if (!userData) {
       navigate('/sign-in');
@@ -95,10 +151,8 @@ const Profile = () => {
   }, [navigate]);
 
   const handleViewStory = (storyId: string) => {
-    // In a real app, this would navigate to a detailed view of the story
     toast.success(`Viewing story ${storyId}`);
-    // For demo purposes, we'll just show a toast
-    // In a real app: navigate(`/stories/${storyId}`);
+    navigate(`/stories/${storyId}`);
   };
 
   const handleViewStoryboard = (storyboardId: string) => {
@@ -106,9 +160,13 @@ const Profile = () => {
     navigate('/storyboard');
   };
 
+  const handleViewAnalysis = (analysisId: string) => {
+    toast.success(`Viewing analysis ${analysisId}`);
+    navigate('/analyze');
+  };
+
   const handleDownloadPDF = (storyboardId: string) => {
     toast.success(`Downloading storyboard ${storyboardId} as PDF`);
-    // In a real app, this would trigger a PDF download
   };
 
   const handleCreateStoryboard = () => {
@@ -145,7 +203,6 @@ const Profile = () => {
     <div className="min-h-screen bg-background text-foreground p-6 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar */}
           <div className="w-full md:w-1/3 lg:w-1/4">
             <Card className="bg-black/30 backdrop-blur-sm border-white/10">
               <CardHeader className="text-center">
@@ -188,7 +245,6 @@ const Profile = () => {
               </CardContent>
             </Card>
 
-            {/* Discount Card */}
             {hasStoryboardsWithImages && (
               <Card className="bg-primary/10 backdrop-blur-sm border-primary/30 mt-4">
                 <CardContent className="p-4">
@@ -208,9 +264,7 @@ const Profile = () => {
             )}
           </div>
 
-          {/* Main content */}
           <div className="w-full md:w-2/3 lg:w-3/4">
-            {/* Tabs */}
             <div className="flex border-b border-white/10 mb-6">
               <button
                 className={`px-4 py-2 font-medium ${
@@ -231,6 +285,16 @@ const Profile = () => {
                 onClick={() => setActiveTab('storyboards')}
               >
                 Your Storyboards
+              </button>
+              <button
+                className={`px-4 py-2 font-medium ${
+                  activeTab === 'analyses'
+                    ? 'text-primary border-b-2 border-primary'
+                    : 'text-gray-400 hover:text-white'
+                }`}
+                onClick={() => setActiveTab('analyses')}
+              >
+                My Analysis
               </button>
             </div>
 
@@ -341,6 +405,82 @@ const Profile = () => {
                     <CardContent className="p-6 text-center">
                       <p className="text-gray-400 mb-4">You haven't created any storyboards yet.</p>
                       <Button onClick={handleCreateStoryboard}>Create Your First Storyboard</Button>
+                    </CardContent>
+                  </Card>
+                )}
+              </>
+            )}
+
+            {activeTab === 'analyses' && (
+              <>
+                <div className="flex justify-between items-center mb-6">
+                  <h1 className="text-2xl font-bold">My Analysis Reports</h1>
+                  <Button onClick={() => navigate('/analyze')}>Create New Analysis</Button>
+                </div>
+                
+                {analyses.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-4">
+                    {analyses.map((analysis) => (
+                      <Card key={analysis.id} className="bg-black/20 backdrop-blur-sm border-white/10 hover:bg-black/30 transition-colors">
+                        <CardContent className="p-4">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between">
+                            <div className="flex items-start md:items-center mb-4 md:mb-0">
+                              <div className="rounded-full bg-primary/20 p-2 mr-4">
+                                {analysis.type.includes('Comic') ? (
+                                  <ChartPie className="h-6 w-6 text-primary" />
+                                ) : (
+                                  <ChartBar className="h-6 w-6 text-primary" />
+                                )}
+                              </div>
+                              <div>
+                                <h3 className="font-medium text-lg">{analysis.title}</h3>
+                                <div className="flex items-center text-xs text-gray-400 mt-1">
+                                  <span>{analysis.type}</span>
+                                  <span className="mx-2">•</span>
+                                  <span>{new Date(analysis.date).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <Button 
+                              variant="outline" 
+                              size="sm"
+                              onClick={() => handleViewAnalysis(analysis.id)}
+                            >
+                              View Full Analysis
+                            </Button>
+                          </div>
+                          
+                          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                              <div className="text-xs text-gray-400 mb-1">Audience Size</div>
+                              <div className="font-medium">{analysis.insights.audienceSize}</div>
+                            </div>
+                            <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                              <div className="text-xs text-gray-400 mb-1">Revenue Potential</div>
+                              <div className="font-medium">{analysis.insights.potentialRevenue}</div>
+                            </div>
+                            <div className="bg-black/30 rounded-lg p-3 border border-white/5">
+                              <div className="text-xs text-gray-400 mb-1">Break-even Point</div>
+                              <div className="font-medium">{analysis.insights.breakEvenPoint}</div>
+                            </div>
+                          </div>
+                          
+                          <div className="mt-3 text-xs text-gray-400 flex justify-between">
+                            <span>Marketing Budget: {analysis.insights.marketingBudget}</span>
+                            <div className="flex items-center text-primary">
+                              <TrendingUp className="h-3 w-3 mr-1" />
+                              <span>Sales Prediction Available</span>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <Card className="bg-black/20 backdrop-blur-sm border-white/10">
+                    <CardContent className="p-6 text-center">
+                      <p className="text-gray-400 mb-4">You haven't created any analysis reports yet.</p>
+                      <Button onClick={() => navigate('/analyze')}>Create Your First Analysis</Button>
                     </CardContent>
                   </Card>
                 )}
