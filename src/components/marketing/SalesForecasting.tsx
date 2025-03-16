@@ -274,7 +274,7 @@ const SalesForecasting: React.FC<SalesForecastingProps> = ({
                 
                 <div className="p-4 bg-gradient-to-r from-primary/10 to-transparent rounded-lg border border-primary/10">
                   <h3 className="text-sm font-medium mb-2">AI Recommendations</h3>
-                  <p className="text-xs mb-2">Based on your sales target of {customTarget} copies:</p>
+                  <p className="text-xs mb-2">Based on your sales target of {parseInt(customTarget)} copies:</p>
                   <ul className="text-xs space-y-1">
                     <li>• Focus 55% of budget on Instagram and TikTok for highest conversion</li>
                     <li>• Schedule posts between 6-8pm for optimal engagement</li>
