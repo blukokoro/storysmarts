@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BudgetProjections from '@/components/marketing/BudgetProjections';
@@ -110,6 +109,13 @@ const MarketingPlan = () => {
           estimatedAdBudget={estimatedAdBudget}
         />
         
+        {/* AI Content Tab moved directly below BreakEvenSummary */}
+        <div className="mt-6">
+          <AIContentStrategy 
+            reachProjectionData={reachProjectionData}
+          />
+        </div>
+        
         {/* AI Content Generation Banner - New Addition */}
         <div className="my-6 p-6 bg-gradient-to-r from-primary/30 to-black/40 rounded-xl border border-primary/40 shadow-lg">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -148,7 +154,7 @@ const MarketingPlan = () => {
         </div>
         
         <Tabs defaultValue="budget" className="w-full">
-          <TabsList className="grid grid-cols-3 md:grid-cols-5 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+          <TabsList className="grid grid-cols-3 md:grid-cols-4 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
             <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
               Advertising Budget
             </TabsTrigger>
@@ -159,14 +165,9 @@ const MarketingPlan = () => {
               Revenue Projections
             </TabsTrigger>
             {showNewFeatures && (
-              <>
-                <TabsTrigger value="sales" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-                  Sales Forecasting
-                </TabsTrigger>
-                <TabsTrigger value="ai-content" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-                  AI Content
-                </TabsTrigger>
-              </>
+              <TabsTrigger value="sales" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+                Sales Forecasting
+              </TabsTrigger>
             )}
           </TabsList>
           
@@ -202,23 +203,15 @@ const MarketingPlan = () => {
           </TabsContent>
           
           {showNewFeatures && (
-            <>
-              <TabsContent value="sales" className="focus-visible:outline-none focus-visible:ring-0">
-                <SalesForecasting 
-                  productionCost={productionCost}
-                  averagePrice={averagePrice}
-                  estimatedAdBudget={estimatedAdBudget}
-                  targetSales={targetSales}
-                  platformCpmData={platformCpmData}
-                />
-              </TabsContent>
-              
-              <TabsContent value="ai-content" className="focus-visible:outline-none focus-visible:ring-0">
-                <AIContentStrategy 
-                  reachProjectionData={reachProjectionData}
-                />
-              </TabsContent>
-            </>
+            <TabsContent value="sales" className="focus-visible:outline-none focus-visible:ring-0">
+              <SalesForecasting 
+                productionCost={productionCost}
+                averagePrice={averagePrice}
+                estimatedAdBudget={estimatedAdBudget}
+                targetSales={targetSales}
+                platformCpmData={platformCpmData}
+              />
+            </TabsContent>
           )}
         </Tabs>
       </div>
