@@ -5,11 +5,11 @@ import { ContentType, Platform } from '@/types/marketing';
 
 // Content types with their complexity factors
 export const contentTypes: ContentType[] = [
-  { type: 'Static image posts', icon: <Image size={16} />, factor: 1, limit: 60 },
-  { type: 'Video/reels', icon: <Video size={16} />, factor: 3, limit: 20 },
-  { type: 'Written captions', icon: <FileText size={16} />, factor: 0.5, limit: 100 },
-  { type: 'Stories', icon: <Instagram size={16} />, factor: 0.8, limit: 50 },
-  { type: 'Engagement posts', icon: <MessageSquare size={16} />, factor: 0.7, limit: 30 }
+  { type: 'Static image posts', icon: React.createElement(Image, { size: 16 }), factor: 1, limit: 60 },
+  { type: 'Video/reels', icon: React.createElement(Video, { size: 16 }), factor: 3, limit: 20 },
+  { type: 'Written captions', icon: React.createElement(FileText, { size: 16 }), factor: 0.5, limit: 100 },
+  { type: 'Stories', icon: React.createElement(Instagram, { size: 16 }), factor: 0.8, limit: 50 },
+  { type: 'Engagement posts', icon: React.createElement(MessageSquare, { size: 16 }), factor: 0.7, limit: 30 }
 ];
 
 // Platform allocation data
