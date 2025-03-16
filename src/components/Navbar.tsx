@@ -27,13 +27,11 @@ const Navbar = () => {
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="text-primary font-bold text-xl flex items-center gap-2">
-                <div className="relative w-8 h-8 flex items-center justify-center">
-                  {/* Wizard hat base with gradient */}
-                  <div className="absolute w-7 h-5 bg-gradient-to-r from-purple-600 via-violet-500 to-indigo-600 rounded-b-full bottom-0 left-0.5"></div>
-                  {/* Wizard hat tip with gradient */}
-                  <div className="absolute w-5 h-6 bg-gradient-to-tr from-indigo-600 via-purple-500 to-fuchsia-500 rounded-t-full bottom-3 left-1.5 transform rotate-6"></div>
-                  {/* Magic sparkle */}
-                  <Sparkles className="absolute w-3 h-3 text-yellow-300 top-0 right-0" />
+                <div className="relative w-7 h-7 flex items-center justify-center">
+                  {/* Minimal gradient circle background */}
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-fuchsia-500 opacity-90"></div>
+                  {/* Center sparkle */}
+                  <Sparkles className="absolute w-4 h-4 text-white/90" />
                 </div>
                 <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-fuchsia-400 bg-clip-text text-transparent font-bold">
                   StorySmarts
