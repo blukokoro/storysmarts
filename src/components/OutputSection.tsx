@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import PanelCounter from './PanelCounter';
@@ -49,9 +48,6 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
             </h3>
             <p className="text-gray-300 mb-2">
               Transform your analysis into marketing content, images, and social media posts with our AI engine.
-            </p>
-            <p className="text-sm text-amber-400 italic">
-              Note: For best results, manually enter your text in the content generator rather than using the PDF uploader.
             </p>
           </div>
           <Button asChild size="lg" className="whitespace-nowrap bg-primary hover:bg-primary/90">
