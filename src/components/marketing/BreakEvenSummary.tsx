@@ -7,18 +7,41 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 
 interface BreakEvenSummaryProps {
-  productionCost: number;
-  targetSales: number;
-  impressionsNeeded: number;
-  estimatedAdBudget: number;
+  productionCost?: number;
+  targetSales?: number;
+  impressionsNeeded?: number;
+  estimatedAdBudget?: number;
 }
 
 const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
-  productionCost,
-  targetSales,
-  impressionsNeeded,
-  estimatedAdBudget
+  productionCost: propProductionCost,
+  targetSales: propTargetSales,
+  impressionsNeeded: propImpressionsNeeded,
+  estimatedAdBudget: propEstimatedAdBudget
 }) => {
+  // Comic book production costs
+  const comicProductionCosts = {
+    conceptAndCharacterDesign: 375, // 25% of budget
+    lineArtAndInking: 570, // 38% of budget
+    coloringAndLettering: 375, // 25% of budget
+    layoutAndFinalAssembly: 180, // 12% of budget
+  };
+
+  // Calculate total production cost
+  const productionCost = propProductionCost || 
+    Object.values(comicProductionCosts).reduce((sum, cost) => sum + cost, 0);
+  
+  // Calculate other metrics based on production cost
+  const averagePrice = 3.49; // Average digital comic price
+  const conversionRate = 0.01; // 1% conversion rate
+  
+  const targetSales = propTargetSales || Math.ceil(productionCost / averagePrice);
+  const impressionsNeeded = propImpressionsNeeded || (targetSales / conversionRate);
+  
+  // Calculate average CPM from common platform data
+  const averageCpm = 4.62; // Average CPM across platforms
+  const estimatedAdBudget = propEstimatedAdBudget || Math.ceil((impressionsNeeded / 1000) * averageCpm);
+
   const handleDownloadReport = async () => {
     const marketingPlanElement = document.getElementById('marketing-plan');
     if (!marketingPlanElement) return;
@@ -65,25 +88,53 @@ const BreakEvenSummary: React.FC<BreakEvenSummaryProps> = ({
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <h2 className="text-xl font-semibold mb-2">Break-Even Analysis</h2>
-            <p className="text-sm text-gray-400 mb-4">Based on your production costs and average selling price</p>
+            <p className="text-sm text-gray-400 mb-4">Based on comic book production costs and average selling price</p>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <div className="bg-black/30 p-3 rounded-lg border border-white/10">
                 <p className="text-xs text-gray-400">Production Cost</p>
                 <p className="text-lg font-bold">€{productionCost}</p>
+                <p className="text-[10px] text-gray-500 mt-1">Comic book creation</p>
               </div>
               <div className="bg-black/30 p-3 rounded-lg border border-white/10">
                 <p className="text-xs text-gray-400">Sales Needed</p>
                 <p className="text-lg font-bold">{targetSales} copies</p>
+                <p className="text-[10px] text-gray-500 mt-1">At €{averagePrice} per copy</p>
               </div>
               <div className="bg-black/30 p-3 rounded-lg border border-white/10">
                 <p className="text-xs text-gray-400">Impressions Needed</p>
                 <p className="text-lg font-bold">{Math.ceil(impressionsNeeded).toLocaleString()}</p>
+                <p className="text-[10px] text-gray-500 mt-1">At {conversionRate * 100}% conversion rate</p>
               </div>
               <div className="bg-black/30 p-3 rounded-lg border border-white/10">
                 <p className="text-xs text-gray-400">Ad Budget Estimate</p>
                 <p className="text-lg font-bold">€{estimatedAdBudget}</p>
+                <p className="text-[10px] text-gray-500 mt-1">Based on €{averageCpm} CPM</p>
               </div>
+            </div>
+            
+            {/* Comic book production cost breakdown */}
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-2">
+              {Object.entries(comicProductionCosts).map(([category, cost], index) => {
+                const percent = Math.round((cost / productionCost) * 100);
+                const categories = {
+                  conceptAndCharacterDesign: "Concept & Character Design",
+                  lineArtAndInking: "Line Art & Inking",
+                  coloringAndLettering: "Coloring & Lettering",
+                  layoutAndFinalAssembly: "Layout & Assembly"
+                };
+                const categoryName = categories[category as keyof typeof categories];
+                
+                return (
+                  <div key={index} className="bg-black/20 p-2 rounded-lg border border-white/5">
+                    <p className="text-[10px] text-gray-400">{categoryName}</p>
+                    <p className="text-xs font-semibold flex justify-between">
+                      <span>€{cost}</span>
+                      <span className="text-primary">{percent}%</span>
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </div>
           

@@ -7,7 +7,6 @@ import RevenueAnalysis from '@/components/marketing/RevenueAnalysis';
 import BreakEvenSummary from '@/components/marketing/BreakEvenSummary';
 import SalesForecasting from '@/components/marketing/SalesForecasting'; 
 import AIContentStrategy from '@/components/marketing/AIContentStrategy';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Info } from 'lucide-react';
 
@@ -68,8 +67,18 @@ const MarketingPlan = () => {
   const mediumReach = calculateProjections(100000);
   const largeReach = calculateProjections(250000);
   
+  // Comic book production costs breakdown
+  const comicProductionCosts = {
+    conceptAndCharacterDesign: 375, // 25% of budget
+    lineArtAndInking: 570, // 38% of budget
+    coloringAndLettering: 375, // 25% of budget
+    layoutAndFinalAssembly: 180, // 12% of budget
+  };
+  
+  // Calculate total production cost
+  const productionCost = Object.values(comicProductionCosts).reduce((sum, cost) => sum + cost, 0);
+  
   // Break-even calculation
-  const productionCost = 1500; // Estimated production cost for comic
   const averagePrice = 3.49; // Average digital comic price
   const conversionRate = 0.01; // 1% conversion rate
   
