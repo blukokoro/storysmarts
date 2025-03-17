@@ -14,14 +14,14 @@ const HeroContent: React.FC = () => {
       
       {/* Main headline */}
       <div className="text-center space-y-6 relative z-10">
-        <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight mb-2 text-gradient">
-          StorySmarts
+        <h1 className="text-5xl md:text-7xl font-sans font-light tracking-tight mb-2 text-white">
+          Story<span className="font-normal">Smarts</span>
         </h1>
-        <h2 className="text-3xl md:text-4xl font-display font-medium mb-4">
+        <h2 className="text-3xl md:text-4xl font-sans font-light mb-4">
           <span className="text-white">Transform Your </span>
-          <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">Narrative</span>
+          <span className="text-gray-300">Narrative</span>
         </h2>
-        <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+        <p className="text-gray-300 max-w-2xl mx-auto text-lg font-light">
           Turn your creative ideas into ready-to-produce comics, storyboards, and film pitches with powerful AI analysis.
         </p>
         <div className="flex flex-col md:flex-row gap-4 justify-center pt-4">
@@ -44,17 +44,17 @@ const HeroContent: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12 relative z-10">
         {[
           {
-            icon: <Zap className="w-8 h-8 text-cyan-400" />,
+            icon: <Zap className="w-8 h-8 text-white" />,
             title: "AI Analysis",
             description: "Get detailed insights about your story structure, characters, and plot"
           },
           {
-            icon: <Sparkles className="w-8 h-8 text-emerald-400" />,
+            icon: <Sparkles className="w-8 h-8 text-white" />,
             title: "Visual Production",
             description: "Transform text into comic panels, storyboards or film pitch materials"
           },
           {
-            icon: <ArrowRight className="w-8 h-8 text-violet-400" />,
+            icon: <ArrowRight className="w-8 h-8 text-white" />,
             title: "Market Ready",
             description: "Receive production-ready assets with audience and budget analysis"
           }

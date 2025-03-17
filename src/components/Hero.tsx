@@ -7,7 +7,7 @@ const Hero: React.FC = () => {
   return (
     <div className="relative w-full overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-violet-950 to-blue-900 opacity-80" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 opacity-90" />
       
       {/* Canvas for the sinuous lines animation */}
       <div className="absolute inset-0">
