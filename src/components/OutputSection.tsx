@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import KeyScenesList from './KeyScenesList';
 import ArtisticStyleSuggestions from './ArtisticStyleSuggestions';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface OutputSectionProps {
   analysis: StoryAnalysis;
@@ -21,6 +22,8 @@ interface OutputSectionProps {
 }
 
 const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) => {
+  const isMobile = useIsMobile();
+
   if (!isVisible) {
     return null;
   }
@@ -43,17 +46,29 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
     <div className={`mt-8 w-full animate-slide-up transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Analysis Results Tabs - Now at the top */}
       <Tabs defaultValue="comic" className="w-full mb-6">
-        <TabsList className="grid grid-cols-5 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+        <TabsList className={`${isMobile ? 'grid grid-cols-2 gap-1' : 'grid grid-cols-5'} bg-black/30 backdrop-blur-md border border-white/10 mb-6`}>
           <TabsTrigger value="comic" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Comic Book
           </TabsTrigger>
           <TabsTrigger value="scenes" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            <Users className="h-4 w-4 mr-2" />
-            Key Scenes
+            {isMobile ? (
+              <span>Scenes</span>
+            ) : (
+              <>
+                <Users className="h-4 w-4 mr-2" />
+                Key Scenes
+              </>
+            )}
           </TabsTrigger>
           <TabsTrigger value="styles" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            <PaintBucket className="h-4 w-4 mr-2" />
-            Artistic Styles
+            {isMobile ? (
+              <span>Styles</span>
+            ) : (
+              <>
+                <PaintBucket className="h-4 w-4 mr-2" />
+                Artistic Styles
+              </>
+            )}
           </TabsTrigger>
           <TabsTrigger value="marketing" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Marketing

@@ -5,6 +5,7 @@ import BudgetProjections from '@/components/marketing/BudgetProjections';
 import ContentStrategy from '@/components/marketing/ContentStrategy';
 import RevenueAnalysis from '@/components/marketing/RevenueAnalysis';
 import SalesForecasting from '@/components/marketing/SalesForecasting';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface MarketingTabsContainerProps {
   showNewFeatures: boolean;
@@ -37,21 +38,23 @@ const MarketingTabsContainer: React.FC<MarketingTabsContainerProps> = ({
   priceData,
   productionCost
 }) => {
+  const isMobile = useIsMobile();
+  
   return (
     <Tabs defaultValue="budget" className="w-full">
-      <TabsList className="grid grid-cols-3 md:grid-cols-4 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+      <TabsList className={`${isMobile ? 'grid grid-cols-2 gap-1' : 'grid grid-cols-3 md:grid-cols-4'} bg-black/30 backdrop-blur-md border border-white/10 mb-6`}>
         <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          Advertising Budget
+          Ad Budget
         </TabsTrigger>
         <TabsTrigger value="content" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          Content Strategy
+          Content
         </TabsTrigger>
         <TabsTrigger value="projection" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-          Revenue Projections
+          Revenue
         </TabsTrigger>
         {showNewFeatures && (
           <TabsTrigger value="sales" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Sales Forecasting
+            Sales
           </TabsTrigger>
         )}
       </TabsList>

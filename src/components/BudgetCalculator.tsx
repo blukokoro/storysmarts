@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BudgetEstimate } from '@/types';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Import the component files
 import ShortFilmBudgetSummary from './budget/ShortFilmBudgetSummary';
@@ -19,6 +20,7 @@ interface BudgetCalculatorProps {
 
 const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
   const [installmentPeriod, setInstallmentPeriod] = useState<'1' | '2' | '3'>('3');
+  const isMobile = useIsMobile();
   
   // Calculate installment amounts for the film budget
   const filmMonthlyAmount = Math.ceil(data.totalEstimate / parseInt(installmentPeriod));
@@ -31,7 +33,7 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
   return (
     <Card className="glass-card h-full overflow-hidden">
       <CardHeader className="pb-2">
-        <CardTitle className="text-xl font-medium text-white flex justify-between items-center">
+        <CardTitle className={`text-xl font-medium text-white ${isMobile ? 'flex flex-col gap-2' : 'flex justify-between items-center'}`}>
           <span>Budget Estimate</span>
           <Button asChild variant="outline" size="sm" className="bg-primary/20 border-primary/40 text-primary hover:bg-primary/30">
             <Link to="/pricing">View Pricing Options</Link>

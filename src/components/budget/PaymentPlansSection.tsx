@@ -3,6 +3,7 @@ import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { BudgetEstimate } from '@/types';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface PaymentPlansSectionProps {
   data: BudgetEstimate;
@@ -21,14 +22,16 @@ const PaymentPlansSection: React.FC<PaymentPlansSectionProps> = ({
   comicTotalEstimate,
   comicMonthlyAmount
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="mt-6 space-y-4">
       <h3 className="text-md font-medium text-white">Payment Installments</h3>
       
       <Tabs defaultValue="plans" className="w-full">
-        <TabsList className="grid grid-cols-2 mb-4">
-          <TabsTrigger value="plans">Payment Plans</TabsTrigger>
-          <TabsTrigger value="comparison">Film vs Comic</TabsTrigger>
+        <TabsList className={`${isMobile ? 'flex flex-col' : 'grid grid-cols-2'} mb-4`}>
+          <TabsTrigger value="plans" className={`${isMobile ? 'justify-start pl-4' : ''}`}>Payment Plans</TabsTrigger>
+          <TabsTrigger value="comparison" className={`${isMobile ? 'justify-start pl-4' : ''}`}>Film vs Comic</TabsTrigger>
         </TabsList>
         
         <TabsContent value="plans">
@@ -94,7 +97,7 @@ const PaymentPlansSection: React.FC<PaymentPlansSectionProps> = ({
         </TabsContent>
         
         <TabsContent value="comparison">
-          <div className="grid grid-cols-2 gap-4">
+          <div className={`${isMobile ? 'space-y-4' : 'grid grid-cols-2 gap-4'}`}>
             <div className="bg-black/20 backdrop-blur-sm p-3 rounded-lg border border-white/10">
               <h4 className="font-medium text-white text-sm mb-2">AI Short Film</h4>
               <div className="space-y-1">
