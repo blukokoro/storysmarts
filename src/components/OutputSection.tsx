@@ -9,9 +9,11 @@ import TimelineGantt from './TimelineGantt';
 import { StoryAnalysis } from '@/types';
 import StoryboardGenerator from './StoryboardGenerator';
 import { Button } from '@/components/ui/button';
-import { Film, TrendingUp, Sparkles } from 'lucide-react';
+import { Film, TrendingUp, Sparkles, PaintBucket } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
+import KeyScenesList from './KeyScenesList';
+import ArtisticStyleSuggestions from './ArtisticStyleSuggestions';
 
 interface OutputSectionProps {
   analysis: StoryAnalysis;
@@ -41,9 +43,16 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
     <div className={`mt-8 w-full animate-slide-up transition-all duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       {/* Analysis Results Tabs - Now at the top */}
       <Tabs defaultValue="comic" className="w-full mb-6">
-        <TabsList className="grid grid-cols-4 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
+        <TabsList className="grid grid-cols-5 bg-black/30 backdrop-blur-md border border-white/10 mb-6">
           <TabsTrigger value="comic" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Comic Book
+          </TabsTrigger>
+          <TabsTrigger value="scenes" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            Key Scenes
+          </TabsTrigger>
+          <TabsTrigger value="styles" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            <PaintBucket className="h-4 w-4 mr-2" />
+            Artistic Styles
           </TabsTrigger>
           <TabsTrigger value="marketing" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Marketing
@@ -51,13 +60,18 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
           <TabsTrigger value="budget" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
             Budget
           </TabsTrigger>
-          <TabsTrigger value="pitch" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
-            Movie Pitch
-          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="comic" className="focus-visible:outline-none focus-visible:ring-0">
           <PanelCounter data={analysis.comicPanels} />
+        </TabsContent>
+        
+        <TabsContent value="scenes" className="focus-visible:outline-none focus-visible:ring-0">
+          <KeyScenesList scenes={analysis.comicPanels.keyScenesForPanels} />
+        </TabsContent>
+        
+        <TabsContent value="styles" className="focus-visible:outline-none focus-visible:ring-0">
+          <ArtisticStyleSuggestions story={analysis.title} />
         </TabsContent>
         
         <TabsContent value="marketing" className="focus-visible:outline-none focus-visible:ring-0">
@@ -72,10 +86,6 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
               estimatedPrice={estimatedPrice} 
             />
           </div>
-        </TabsContent>
-        
-        <TabsContent value="pitch" className="focus-visible:outline-none focus-visible:ring-0">
-          <MoviePitch data={analysis.moviePitch} />
         </TabsContent>
       </Tabs>
       
