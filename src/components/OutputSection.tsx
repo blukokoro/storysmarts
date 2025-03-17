@@ -9,7 +9,7 @@ import TimelineGantt from './TimelineGantt';
 import { StoryAnalysis } from '@/types';
 import StoryboardGenerator from './StoryboardGenerator';
 import { Button } from '@/components/ui/button';
-import { Film, TrendingUp, Sparkles, PaintBucket } from 'lucide-react';
+import { Film, TrendingUp, Sparkles, PaintBucket, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card } from '@/components/ui/card';
 import KeyScenesList from './KeyScenesList';
@@ -48,6 +48,7 @@ const OutputSection: React.FC<OutputSectionProps> = ({ analysis, isVisible }) =>
             Comic Book
           </TabsTrigger>
           <TabsTrigger value="scenes" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
+            <Users className="h-4 w-4 mr-2" />
             Key Scenes
           </TabsTrigger>
           <TabsTrigger value="styles" className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary">
