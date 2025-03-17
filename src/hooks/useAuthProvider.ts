@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '@/types/auth';
+import { supabase } from '@/lib/supabase';
 
 export function useAuthProvider() {
   const [user, setUser] = useState<User>(null);
@@ -10,38 +11,56 @@ export function useAuthProvider() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is stored in localStorage
-    const checkLocalUser = () => {
-      try {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          setUser(JSON.parse(storedUser));
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (session) {
+          const { user: supabaseUser } = session;
+          // Transform Supabase user to our User type
+          const appUser = {
+            id: supabaseUser.id,
+            email: supabaseUser.email || '',
+            name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+          };
+          setUser(appUser);
+        } else {
+          setUser(null);
         }
-      } catch (error) {
-        console.error('Error retrieving user from localStorage:', error);
-        localStorage.removeItem('user');
-      } finally {
         setLoading(false);
       }
+    );
+
+    // Check current session on load
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user) {
+        const { user: supabaseUser } = data.session;
+        const appUser = {
+          id: supabaseUser.id,
+          email: supabaseUser.email || '',
+          name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+        };
+        setUser(appUser);
+      }
+      setLoading(false);
     };
 
-    checkLocalUser();
+    checkSession();
+
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
-      
-      // Simple mock authentication
-      // In a real app, this would validate against a backend
-      const mockUser = {
-        id: `user-${Date.now()}`,
+      const { error } = await supabase.auth.signInWithPassword({
         email,
-        name: email.split('@')[0]
-      };
+        password
+      });
       
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      setUser(mockUser);
+      if (error) throw error;
       
       toast.success('Signed in successfully');
       navigate('/profile');
@@ -53,23 +72,44 @@ export function useAuthProvider() {
     }
   };
 
+  const signInWithGoogle = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/profile`,
+        }
+      });
+      
+      if (error) throw error;
+      
+    } catch (error: any) {
+      toast.error(error.message || 'Error signing in with Google');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signUp = async (email: string, password: string, name?: string) => {
     try {
       setLoading(true);
       
-      // Simple mock registration
-      // In a real app, this would create an account in a backend
-      const mockUser = {
-        id: `user-${Date.now()}`,
+      const { error } = await supabase.auth.signUp({
         email,
-        name: name || email.split('@')[0]
-      };
+        password,
+        options: {
+          data: {
+            name: name,
+          },
+        },
+      });
       
-      localStorage.setItem('user', JSON.stringify(mockUser));
-      setUser(mockUser);
+      if (error) throw error;
       
-      toast.success('Account created successfully');
-      navigate('/profile');
+      toast.success('Account created successfully! Please check your email for confirmation');
+      navigate('/sign-in');
     } catch (error: any) {
       toast.error(error.message || 'Error signing up');
       throw error;
@@ -81,7 +121,10 @@ export function useAuthProvider() {
   const signOut = async () => {
     try {
       setLoading(true);
-      localStorage.removeItem('user');
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) throw error;
+      
       setUser(null);
       toast.success('Signed out successfully');
       navigate('/');
@@ -100,15 +143,30 @@ export function useAuthProvider() {
         throw new Error('Not authenticated');
       }
 
-      const updatedUser = {
-        ...user,
-        ...updates
-      };
-      
-      localStorage.setItem('user', JSON.stringify(updatedUser));
-      setUser(updatedUser);
-      
-      toast.success('Profile updated successfully');
+      if (updates.email && updates.email !== user.email) {
+        const { error } = await supabase.auth.updateUser({
+          email: updates.email,
+        });
+        
+        if (error) throw error;
+        
+        toast.success('Email update initiated. Please check your email for confirmation');
+      }
+
+      if (updates.name) {
+        const { error } = await supabase.auth.updateUser({
+          data: { name: updates.name },
+        });
+        
+        if (error) throw error;
+        
+        setUser({
+          ...user,
+          name: updates.name,
+        });
+        
+        toast.success('Profile updated successfully');
+      }
     } catch (error: any) {
       toast.error(error.message || 'Error updating profile');
       throw error;
@@ -121,6 +179,7 @@ export function useAuthProvider() {
     user,
     loading,
     signIn,
+    signInWithGoogle,
     signUp,
     signOut,
     updateProfile
