@@ -7,7 +7,8 @@ import {
   User, 
   Menu, 
   LogIn,
-  Square
+  PenLine,
+  Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -27,9 +28,10 @@ const Navbar = () => {
             <div className="flex-shrink-0 flex items-center">
               <Link to="/" className="text-white font-sans font-light text-xl flex items-center gap-2">
                 <div className="relative w-6 h-6 flex items-center justify-center">
-                  {/* Minimal logo - just a square */}
-                  <div className="absolute inset-0 bg-white rounded-sm opacity-90"></div>
-                  <Square className="relative w-3 h-3 text-black z-10" strokeWidth={1} />
+                  {/* Pen-shaped logo with star */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-amber-300 rounded-sm opacity-90"></div>
+                  <PenLine className="relative w-3 h-3 text-black z-10" strokeWidth={1.5} />
+                  <Sparkles className="absolute top-0 right-0 w-2 h-2 text-white z-20" strokeWidth={1.5} />
                 </div>
                 <span className="font-light tracking-wide">
                   Story<span className="font-normal">Smarts</span>
@@ -37,19 +39,19 @@ const Navbar = () => {
               </Link>
             </div>
             <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
-              <Link to="/" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-light">
+              <Link to="/" className="text-amber-200 hover:text-amber-100 px-3 py-2 rounded-md text-sm font-light">
                 Home
               </Link>
-              <Link to="/pricing" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-light">
+              <Link to="/pricing" className="text-amber-200 hover:text-amber-100 px-3 py-2 rounded-md text-sm font-light">
                 Pricing
               </Link>
             </div>
           </div>
           <div className="hidden md:flex items-center">
-            <Link to="/sign-in" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-light">
+            <Link to="/sign-in" className="text-amber-200 hover:text-amber-100 px-3 py-2 rounded-md text-sm font-light">
               Sign In
             </Link>
-            <Button asChild size="sm" className="ml-4">
+            <Button asChild size="sm" className="ml-4 bg-amber-500 hover:bg-amber-600 text-black">
               <Link to="/sign-up">
                 Get Started
               </Link>
@@ -58,25 +60,25 @@ const Navbar = () => {
           <div className="flex items-center md:hidden">
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-gray-300">
+                <Button variant="ghost" size="icon" className="text-amber-200">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[250px] sm:w-[300px] bg-background border-l border-white/5">
                 <div className="flex flex-col space-y-4 mt-8">
-                  <Link to="/" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white font-light" onClick={() => setIsOpen(false)}>
+                  <Link to="/" className="flex items-center px-4 py-2 text-sm text-amber-200 hover:text-amber-100 font-light" onClick={() => setIsOpen(false)}>
                     <Book className="mr-2 h-4 w-4" /> Home
                   </Link>
-                  <Link to="/pricing" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white font-light" onClick={() => setIsOpen(false)}>
+                  <Link to="/pricing" className="flex items-center px-4 py-2 text-sm text-amber-200 hover:text-amber-100 font-light" onClick={() => setIsOpen(false)}>
                     <Film className="mr-2 h-4 w-4" /> Pricing
                   </Link>
-                  <Link to="/profile" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white font-light" onClick={() => setIsOpen(false)}>
+                  <Link to="/profile" className="flex items-center px-4 py-2 text-sm text-amber-200 hover:text-amber-100 font-light" onClick={() => setIsOpen(false)}>
                     <User className="mr-2 h-4 w-4" /> Profile
                   </Link>
-                  <Link to="/sign-in" className="flex items-center px-4 py-2 text-sm text-gray-300 hover:text-white font-light" onClick={() => setIsOpen(false)}>
+                  <Link to="/sign-in" className="flex items-center px-4 py-2 text-sm text-amber-200 hover:text-amber-100 font-light" onClick={() => setIsOpen(false)}>
                     <LogIn className="mr-2 h-4 w-4" /> Sign In
                   </Link>
-                  <Button asChild className="mt-4 mx-4">
+                  <Button asChild className="mt-4 mx-4 bg-amber-500 hover:bg-amber-600 text-black">
                     <Link to="/sign-up" onClick={() => setIsOpen(false)}>
                       Get Started
                     </Link>

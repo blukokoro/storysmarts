@@ -16,8 +16,8 @@
     --popover: 220 33% 5%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 100% 60%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 43 100% 60%;
+    --primary-foreground: 0 0% 0%;
 
     --secondary: 220 20% 13%;
     --secondary-foreground: 210 40% 98%;
@@ -33,24 +33,24 @@
 
     --border: 220 20% 13%;
     --input: 220 20% 13%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 43 100% 50%;
 
     --radius: 0.75rem;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 43 100% 50%;
+    --sidebar-primary-foreground: 0 0% 0%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-ring: 43 100% 50%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border selection:bg-primary/10 selection:text-primary;
+    @apply border-border selection:bg-amber-500/10 selection:text-amber-300;
   }
   
   body {
@@ -74,19 +74,19 @@
   }
 
   .glass-card {
-    @apply backdrop-blur-xl bg-white/5 border border-white/10 shadow-lg;
+    @apply backdrop-blur-xl bg-white/5 border border-amber-500/10 shadow-lg;
   }
   
   .glass-input {
-    @apply bg-black/30 border border-white/10 backdrop-blur-md focus:ring-1 focus:ring-primary/50;
+    @apply bg-black/30 border border-amber-500/10 backdrop-blur-md focus:ring-1 focus:ring-amber-500/30;
   }
 
   .neo-blur {
-    @apply backdrop-blur-2xl bg-black/40 border border-white/10;
+    @apply backdrop-blur-2xl bg-black/40 border border-amber-500/10;
   }
   
   .text-gradient {
-    @apply bg-gradient-to-br from-white via-white/90 to-white/70 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-amber-200 via-amber-300 to-amber-100 bg-clip-text text-transparent;
   }
   
   .gradient-border {
@@ -95,12 +95,12 @@
 
   .gradient-border::before {
     content: "";
-    @apply absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-primary/50 to-cyan-500/50 -z-10;
+    @apply absolute inset-0 rounded-lg p-[1px] bg-gradient-to-r from-amber-500/50 to-amber-300/50 -z-10;
     margin: -1px;
   }
   
   .gradient-header {
-    @apply bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amber-400 to-amber-200 bg-clip-text text-transparent;
   }
   
   .gradient-bg-blue {
