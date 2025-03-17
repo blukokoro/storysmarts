@@ -5,7 +5,8 @@ interface ComicPricingCalculatorProps {
   installmentPeriod: string;
 }
 
-const ComicPricingCalculator: React.FC<ComicPricingCalculatorProps> = ({ installmentPeriod }) => {
+// Convert to a hook function instead of a React component
+export const useComicPricingCalculator = ({ installmentPeriod }: ComicPricingCalculatorProps) => {
   // Calculate comic book budget based on panel count
   const minimumPanels = 30;
   const pricePerPanel = 9;
@@ -22,4 +23,4 @@ const ComicPricingCalculator: React.FC<ComicPricingCalculatorProps> = ({ install
   };
 };
 
-export default ComicPricingCalculator;
+export default useComicPricingCalculator;

@@ -11,7 +11,7 @@ import CostFactorsBreakdown from './budget/CostFactorsBreakdown';
 import ProjectTimeline from './budget/ProjectTimeline';
 import BudgetDetailsSection from './budget/BudgetDetailsSection';
 import PaymentPlansSection from './budget/PaymentPlansSection';
-import ComicPricingCalculator from './budget/ComicPricingCalculator';
+import { useComicPricingCalculator } from './budget/ComicPricingCalculator';
 
 interface BudgetCalculatorProps {
   data: BudgetEstimate;
@@ -23,8 +23,8 @@ const BudgetCalculator: React.FC<BudgetCalculatorProps> = ({ data }) => {
   // Calculate installment amounts for the film budget
   const filmMonthlyAmount = Math.ceil(data.totalEstimate / parseInt(installmentPeriod));
   
-  // Get comic book pricing
-  const { comicTotalEstimate, comicMonthlyAmount } = ComicPricingCalculator({ 
+  // Get comic book pricing using our hook
+  const { comicTotalEstimate, comicMonthlyAmount } = useComicPricingCalculator({ 
     installmentPeriod 
   });
 
