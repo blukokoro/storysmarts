@@ -54,7 +54,7 @@
   }
   
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-poppins;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
   }
 
@@ -139,3 +139,25 @@
     }
   }
 }
+
+/* Add consistent typography styling */
+h1, h2, h3, h4, h5, h6 {
+  @apply font-poppins font-light;
+}
+
+h1 {
+  @apply text-4xl md:text-5xl tracking-tight;
+}
+
+h2 {
+  @apply text-3xl md:text-4xl;
+}
+
+h3 {
+  @apply text-2xl md:text-3xl;
+}
+
+p, button, a, span, div {
+  @apply font-poppins;
+}
+
