@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import Hero from '@/components/Hero';
+import BenefitsSection from '@/components/BenefitsSection';
 import AnalyticsVisualizer from '@/components/AnalyticsVisualizer';
 import WorkflowSection from '@/components/WorkflowSection';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,9 @@ const Index = () => {
     <div className="min-h-screen bg-background text-foreground">
       {/* Hero Section */}
       <Hero />
+      
+      {/* Benefits Section - New section added below the hero */}
+      <BenefitsSection />
       
       {/* Analytics Visualizer Section */}
       <AnalyticsVisualizer />
