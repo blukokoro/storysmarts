@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Sparkles, Zap, FileSearch } from 'lucide-react';
@@ -46,7 +45,7 @@ const Hero: React.FC = () => {
       constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
-        this.length = Math.random() * 200 + 300;
+        this.length = canvas.width + 200; // Ensure lines span the full width plus some extra
         this.amplitude = Math.random() * 50 + 20;
         this.frequency = Math.random() * 0.02 + 0.01;
         this.phase = Math.random() * Math.PI * 2;
@@ -55,8 +54,8 @@ const Hero: React.FC = () => {
         this.color = `hsl(${40 + Math.random() * 20}, ${90 + Math.random() * 10}%, ${70 + Math.random() * 20}%)`;
         this.particlePositions = [];
         
-        // Generate particle positions along the line
-        for (let i = 0; i < 10; i++) {
+        // Generate more particle positions along the line for wider coverage
+        for (let i = 0; i < 15; i++) {
           this.particlePositions.push({
             x: Math.random() * this.length,
             y: 0
@@ -127,12 +126,12 @@ const Hero: React.FC = () => {
       }
     }
 
-    // Create lines
+    // Create lines starting off-screen to the left and spanning the full width
     const lines: SinuousLine[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) { // Added one more line for better coverage
       lines.push(new SinuousLine(
-        -100 + Math.random() * 100, 
-        100 + (canvas.height - 200) * (i / 5)
+        -200, // Start further left off-screen 
+        canvas.height * (i / 6) + 100 // Distribute evenly across the height
       ));
     }
 
@@ -163,7 +162,7 @@ const Hero: React.FC = () => {
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-blue-950 via-violet-950 to-blue-900 opacity-80" />
       
-      {/* Canvas for the sinuous lines animation */}
+      {/* Canvas for the sinuous lines animation - now positioned to take the full width */}
       <div className="absolute inset-0">
         <canvas 
           ref={canvasRef} 
