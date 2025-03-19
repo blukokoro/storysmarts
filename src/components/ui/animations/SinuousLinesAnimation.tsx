@@ -1,75 +1,16 @@
 
 import React from 'react';
-
-// Color config type definition
-interface ColorConfig {
-  baseHue: number;
-  hueRange: number;
-  gradientStart: string;
-  gradientMiddle: string;
-  gradientEnd: string;
-  particleColor: string;
-  particleFadeColor: string;
-  particleCenterColor: string;
-}
+import { getColorConfig } from './colorConfigs';
+import { SinuousLine } from './SinuousLine';
 
 export interface SinuousLinesAnimationProps {
   colorFamily: string;
 }
 
-// SinuousLinesAnimation component extracted from SectionBackground
+// Main animation component
 const SinuousLinesAnimation: React.FC<SinuousLinesAnimationProps> = ({ colorFamily }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 });
-
-  // Define color mappings for different color families
-  const getColorConfig = (colorName: string): ColorConfig => {
-    const colorConfig = {
-      amber: {
-        baseHue: 40,
-        hueRange: 20,
-        gradientStart: 'rgba(255, 215, 0, 0.1)',
-        gradientMiddle: 'rgba(255, 215, 0, 0.6)',
-        gradientEnd: 'rgba(255, 215, 0, 0.2)',
-        particleColor: 'rgba(255, 215, 0, 0.8)',
-        particleFadeColor: 'rgba(255, 215, 0, 0)',
-        particleCenterColor: 'rgba(255, 250, 220, 0.9)'
-      },
-      cyan: {
-        baseHue: 180,
-        hueRange: 20,
-        gradientStart: 'rgba(0, 215, 255, 0.1)',
-        gradientMiddle: 'rgba(0, 215, 255, 0.6)',
-        gradientEnd: 'rgba(0, 215, 255, 0.2)',
-        particleColor: 'rgba(0, 215, 255, 0.8)',
-        particleFadeColor: 'rgba(0, 215, 255, 0)',
-        particleCenterColor: 'rgba(220, 250, 255, 0.9)'
-      },
-      purple: {
-        baseHue: 270,
-        hueRange: 20,
-        gradientStart: 'rgba(180, 130, 255, 0.1)',
-        gradientMiddle: 'rgba(180, 130, 255, 0.6)',
-        gradientEnd: 'rgba(180, 130, 255, 0.2)',
-        particleColor: 'rgba(180, 130, 255, 0.8)',
-        particleFadeColor: 'rgba(180, 130, 255, 0)',
-        particleCenterColor: 'rgba(240, 230, 255, 0.9)'
-      },
-      green: {
-        baseHue: 120,
-        hueRange: 20,
-        gradientStart: 'rgba(100, 220, 100, 0.1)',
-        gradientMiddle: 'rgba(100, 220, 100, 0.6)',
-        gradientEnd: 'rgba(100, 220, 100, 0.2)',
-        particleColor: 'rgba(100, 220, 100, 0.8)',
-        particleFadeColor: 'rgba(100, 220, 100, 0)',
-        particleCenterColor: 'rgba(230, 255, 230, 0.9)'
-      }
-    };
-    
-    return colorConfig[colorName as keyof typeof colorConfig] || colorConfig.amber;
-  };
-  
   const colorConfig = getColorConfig(colorFamily);
 
   // Set up the canvas and animation
@@ -95,110 +36,14 @@ const SinuousLinesAnimation: React.FC<SinuousLinesAnimationProps> = ({ colorFami
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
 
-    // Create sinuous lines
-    class SinuousLine {
-      x: number;
-      y: number;
-      length: number;
-      amplitude: number;
-      frequency: number;
-      phase: number;
-      color: string;
-      particlePositions: { x: number, y: number }[];
-      speed: number;
-
-      constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
-        this.length = canvas.width + 200; // Ensure lines span the full width plus some extra
-        this.amplitude = Math.random() * 50 + 20;
-        this.frequency = Math.random() * 0.02 + 0.01;
-        this.phase = Math.random() * Math.PI * 2;
-        // Further reduce animation speed by another 75%
-        this.speed = (Math.random() * 0.0025 + 0.00125); // Reduced from 0.01/0.005 to 0.0025/0.00125
-        
-        // Color based on the provided color family
-        this.color = `hsl(${colorConfig.baseHue + Math.random() * colorConfig.hueRange}, ${90 + Math.random() * 10}%, ${70 + Math.random() * 20}%)`;
-        this.particlePositions = [];
-        
-        // Generate particle positions along the line
-        for (let i = 0; i < 15; i++) {
-          this.particlePositions.push({
-            x: Math.random() * this.length,
-            y: 0
-          });
-        }
-      }
-
-      update() {
-        this.phase += this.speed;
-        if (this.phase > Math.PI * 2) {
-          this.phase = 0;
-        }
-      }
-
-      draw(ctx: CanvasRenderingContext2D) {
-        ctx.beginPath();
-        
-        // Create gradient for the line
-        const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.length, this.y);
-        gradient.addColorStop(0, colorConfig.gradientStart);
-        gradient.addColorStop(0.5, colorConfig.gradientMiddle);
-        gradient.addColorStop(1, colorConfig.gradientEnd);
-        
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.5;
-        
-        // Draw the sinuous line
-        for (let i = 0; i <= this.length; i += 5) {
-          const x = this.x + i;
-          const y = this.y + Math.sin(i * this.frequency + this.phase) * this.amplitude;
-          
-          if (i === 0) {
-            ctx.moveTo(x, y);
-          } else {
-            ctx.lineTo(x, y);
-          }
-        }
-        
-        ctx.stroke();
-        
-        // Draw particles along the line - slow down particle movement too
-        this.particlePositions.forEach((particle) => {
-          particle.x += 0.25; // Reduced from 1 to 0.25 for slower particle movement
-          if (particle.x > this.length) {
-            particle.x = 0;
-          }
-          
-          const x = this.x + particle.x;
-          const y = this.y + Math.sin(particle.x * this.frequency + this.phase) * this.amplitude;
-          
-          // Draw glowing particle
-          const glow = ctx.createRadialGradient(x, y, 0, x, y, 6);
-          glow.addColorStop(0, colorConfig.particleColor);
-          glow.addColorStop(0.5, colorConfig.particleColor.replace('0.8', '0.4'));
-          glow.addColorStop(1, colorConfig.particleFadeColor);
-          
-          ctx.fillStyle = glow;
-          ctx.beginPath();
-          ctx.arc(x, y, 6, 0, Math.PI * 2);
-          ctx.fill();
-          
-          // Draw bright center
-          ctx.fillStyle = colorConfig.particleCenterColor;
-          ctx.beginPath();
-          ctx.arc(x, y, 1.5, 0, Math.PI * 2);
-          ctx.fill();
-        });
-      }
-    }
-
     // Create lines starting off-screen to the left and spanning the full width
     const lines: SinuousLine[] = [];
     for (let i = 0; i < 6; i++) {
       lines.push(new SinuousLine(
         -200, // Start further left off-screen 
-        canvas.height * (i / 6) + 100 // Distribute evenly across the height
+        canvas.height * (i / 6) + 100, // Distribute evenly across the height
+        canvas.width,
+        colorConfig
       ));
     }
 
