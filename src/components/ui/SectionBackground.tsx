@@ -136,7 +136,8 @@ const SinuousLinesAnimation: React.FC<{ colorFamily: string }> = ({ colorFamily 
         this.amplitude = Math.random() * 50 + 20;
         this.frequency = Math.random() * 0.02 + 0.01;
         this.phase = Math.random() * Math.PI * 2;
-        this.speed = Math.random() * 0.02 + 0.01;
+        // Slowing down the animation speed by reducing the speed value by 50%
+        this.speed = (Math.random() * 0.01 + 0.005); // Reduced from 0.02 to 0.01, and from 0.01 to 0.005
         
         // Color based on the provided color family
         this.color = `hsl(${colorConfig.baseHue + Math.random() * colorConfig.hueRange}, ${90 + Math.random() * 10}%, ${70 + Math.random() * 20}%)`;
