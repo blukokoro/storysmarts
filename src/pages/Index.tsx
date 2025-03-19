@@ -15,38 +15,42 @@ const Index = () => {
       {/* Hero Section */}
       <Hero />
       
-      {/* Benefits Section - With cyan background */}
+      {/* Benefits Section - With cyan animation */}
       <SectionBackground 
         gradientFrom="from-blue-950/90" 
         gradientVia="via-indigo-950/90" 
         gradientTo="to-slate-950/90"
+        animationColor="cyan"
       >
         <BenefitsSection />
       </SectionBackground>
       
-      {/* Analytics Visualizer Section - With purple background */}
+      {/* Analytics Visualizer Section - With purple animation */}
       <SectionBackground 
         gradientFrom="from-slate-950/80" 
         gradientVia="via-purple-950/80" 
         gradientTo="to-indigo-950/80"
+        animationColor="purple"
       >
         <AnalyticsVisualizer />
       </SectionBackground>
       
-      {/* Workflow Section - With green background */}
+      {/* Workflow Section - With green animation */}
       <SectionBackground 
         gradientFrom="from-blue-900/80" 
         gradientVia="via-indigo-900/80" 
         gradientTo="to-blue-950/80"
+        animationColor="green"
       >
         <WorkflowSection />
       </SectionBackground>
       
-      {/* CTA Section - With amber background */}
+      {/* CTA Section - Back to amber animation */}
       <SectionBackground 
         gradientFrom="from-blue-950/80" 
         gradientVia="via-slate-950/80" 
         gradientTo="to-amber-950/80"
+        animationColor="amber"
       >
         <div className="py-16 px-6">
           <div className="max-w-4xl mx-auto text-center">

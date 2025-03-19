@@ -20,7 +20,7 @@ export class SinuousLine {
     this.amplitude = Math.random() * 50 + 20;
     this.frequency = Math.random() * 0.02 + 0.01;
     this.phase = Math.random() * Math.PI * 2;
-    this.speed = (Math.random() * 0.0025 + 0.00125); // Reduced for slower animation
+    this.speed = (Math.random() * 0.0025 + 0.00125); // Very slow animation
     this.colorConfig = colorConfig;
     
     // Color based on the provided color family
@@ -71,7 +71,7 @@ export class SinuousLine {
     
     // Draw particles along the line
     this.particlePositions.forEach((particle) => {
-      particle.x += 0.25; // Reduced for slower particle movement
+      particle.x += 0.25; // Slow particle movement
       if (particle.x > this.length) {
         particle.x = 0;
       }
@@ -82,7 +82,7 @@ export class SinuousLine {
       // Draw glowing particle
       const glow = ctx.createRadialGradient(x, y, 0, x, y, 6);
       glow.addColorStop(0, this.colorConfig.particleColor);
-      glow.addColorStop(0.5, this.colorConfig.particleColor.replace('0.8', '0.4'));
+      glow.addColorStop(0.5, this.colorConfig.particleColor.replace('0.6', '0.3'));
       glow.addColorStop(1, this.colorConfig.particleFadeColor);
       
       ctx.fillStyle = glow;
