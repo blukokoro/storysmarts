@@ -114,8 +114,8 @@ const SinuousLinesAnimation: React.FC<SinuousLinesAnimationProps> = ({ colorFami
         this.amplitude = Math.random() * 50 + 20;
         this.frequency = Math.random() * 0.02 + 0.01;
         this.phase = Math.random() * Math.PI * 2;
-        // Slowing down the animation speed by reducing the speed value by 50%
-        this.speed = (Math.random() * 0.01 + 0.005); // Reduced from 0.02 to 0.01, and from 0.01 to 0.005
+        // Further reduce animation speed by another 75%
+        this.speed = (Math.random() * 0.0025 + 0.00125); // Reduced from 0.01/0.005 to 0.0025/0.00125
         
         // Color based on the provided color family
         this.color = `hsl(${colorConfig.baseHue + Math.random() * colorConfig.hueRange}, ${90 + Math.random() * 10}%, ${70 + Math.random() * 20}%)`;
@@ -163,9 +163,9 @@ const SinuousLinesAnimation: React.FC<SinuousLinesAnimationProps> = ({ colorFami
         
         ctx.stroke();
         
-        // Draw particles along the line
+        // Draw particles along the line - slow down particle movement too
         this.particlePositions.forEach((particle) => {
-          particle.x += 1;
+          particle.x += 0.25; // Reduced from 1 to 0.25 for slower particle movement
           if (particle.x > this.length) {
             particle.x = 0;
           }
