@@ -20,7 +20,7 @@ export class SinuousLine {
     this.amplitude = Math.random() * 50 + 20;
     this.frequency = Math.random() * 0.02 + 0.01;
     this.phase = Math.random() * Math.PI * 2;
-    this.speed = (Math.random() * 0.0025 + 0.00125); // Very slow animation
+    this.speed = (Math.random() * 0.0005 + 0.00025); // Extremely slow animation (5x slower than before)
     this.colorConfig = colorConfig;
     
     // Color based on the provided color family
@@ -71,7 +71,7 @@ export class SinuousLine {
     
     // Draw particles along the line
     this.particlePositions.forEach((particle) => {
-      particle.x += 0.25; // Slow particle movement
+      particle.x += 0.1; // Even slower particle movement (2.5x slower than before)
       if (particle.x > this.length) {
         particle.x = 0;
       }
