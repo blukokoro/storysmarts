@@ -11,19 +11,7 @@ const Navbar = () => {
   ];
 
   return (
-    <>
-      <NavBar items={navItems} />
-      
-      {/* Add the logo separately to be able to customize it */}
-      <style jsx>{`
-        .navbar-logo {
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-      `}</style>
-    </>
+    <NavBar items={navItems} />
   );
 };
 
