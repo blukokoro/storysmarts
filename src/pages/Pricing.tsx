@@ -7,6 +7,7 @@ import ProjectTimeline from '@/components/pricing/ProjectTimeline';
 import MarketingSuggestions from '@/components/pricing/MarketingSuggestions';
 import CustomSolutionCTA from '@/components/pricing/CustomSolutionCTA';
 import FreePricingTier from '@/components/pricing/FreePricingTier';
+import SubscriptionTiers from '@/components/pricing/SubscriptionTiers';
 
 const Pricing = () => {
   return (
@@ -14,6 +15,7 @@ const Pricing = () => {
       <div className="max-w-6xl mx-auto">
         <PricingHeader />
         <FreePricingTier />
+        <SubscriptionTiers />
         <ComicPricingTiers />
         <FilmPricingTiers />
         <ProjectTimeline />
