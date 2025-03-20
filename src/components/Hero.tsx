@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
       gradientVia="via-slate-900" 
       gradientTo="to-amber-950/30"
     >
-      <BackgroundPaths className="opacity-25" />
+      <BackgroundPaths className="opacity-40" />
       <div className="pt-10 pb-16 px-6 md:pt-16 md:pb-24 max-w-6xl mx-auto">
         <HeroContent />
       </div>
