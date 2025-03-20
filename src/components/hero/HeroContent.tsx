@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Sparkles, Zap, FileSearch } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, FileSearch, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AnnouncementBanner from './AnnouncementBanner';
 import FeatureCard from './FeatureCard';
@@ -35,6 +35,12 @@ const HeroContent: React.FC = () => {
             <Link to="/pricing">
               View Pricing
               <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" className="border-amber-500/20 text-amber-200 hover:bg-amber-500/10" asChild>
+            <Link to="/learn-more">
+              Learn More
+              <BookOpen className="ml-2 w-4 h-4" />
             </Link>
           </Button>
         </div>
