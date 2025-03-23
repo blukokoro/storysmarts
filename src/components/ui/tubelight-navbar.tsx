@@ -37,9 +37,10 @@ const NavItem = ({ name, url, icon: Icon, isActive }: NavItemProps) => {
 interface NavBarProps {
   items: NavItemProps[];
   className?: string;
+  children?: React.ReactNode; // Add this line to include children in the props
 }
 
-export const NavBar = ({ items, className }: NavBarProps) => {
+export const NavBar = ({ items, className, children }: NavBarProps) => {
   // Get current path to determine active state
   const pathname = window.location.pathname;
   
@@ -70,14 +71,7 @@ export const NavBar = ({ items, className }: NavBarProps) => {
           </div>
           
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/sign-in" className="text-amber-200 hover:text-amber-100 px-3 py-2 rounded-md text-sm font-light">
-              Sign In
-            </Link>
-            <Button asChild size="sm" className="bg-amber-500 hover:bg-amber-600 text-black">
-              <Link to="/sign-up">
-                Get Started
-              </Link>
-            </Button>
+            {children}
           </div>
           
           {/* Mobile menu button - we can implement mobile menu later */}
