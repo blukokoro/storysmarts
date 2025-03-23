@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -66,7 +67,7 @@ export function useAuthProvider() {
           setUser(appUser);
           
           // If user signed up or signed in, ensure their profile exists
-          if (event === 'SIGNED_IN' || event === 'SIGNED_UP') {
+          if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
             const profile = await getUserProfile(supabaseUser.id);
             
             if (!profile) {

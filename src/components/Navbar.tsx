@@ -42,7 +42,10 @@ const Navbar = () => {
   };
 
   return (
-    <NavBar items={navItems} rightContent={renderAuthButtons()} />
+    <NavBar 
+      items={navItems} 
+      children={renderAuthButtons()} 
+    />
   );
 };
 
