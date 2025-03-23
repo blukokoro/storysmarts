@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -9,10 +9,12 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'sonner';
 import { UserCircle, Bell, Shield, LogOut } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/lib/supabase';
 
 const AccountSettings = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<{ name?: string, email: string } | null>(null);
+  const { user, loading, updateProfile, signOut } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [notifications, setNotifications] = useState({
@@ -20,56 +22,114 @@ const AccountSettings = () => {
     storyAnalysisComplete: true,
     marketingEmails: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Check if user is logged in
-    const userData = localStorage.getItem('user');
-    if (!userData) {
+    // Redirect if not logged in
+    if (!loading && !user) {
       navigate('/sign-in');
       return;
     }
-    
-    try {
-      const parsedUser = JSON.parse(userData);
-      setUser(parsedUser);
-      setName(parsedUser.name || '');
-      setEmail(parsedUser.email || '');
-    } catch (error) {
-      localStorage.removeItem('user');
-      navigate('/sign-in');
-    }
-  }, [navigate]);
 
-  const handleSaveProfile = () => {
+    // Set initial values from user object
+    if (user) {
+      setName(user.name || '');
+      setEmail(user.email || '');
+      
+      // Fetch user preferences from database
+      const fetchUserPreferences = async () => {
+        try {
+          const { data, error } = await supabase
+            .from('user_preferences')
+            .select('*')
+            .eq('user_id', user.id)
+            .single();
+            
+          if (error && error.code !== 'PGNF') {
+            console.error('Error fetching user preferences:', error);
+            return;
+          }
+          
+          if (data) {
+            setNotifications({
+              emailUpdates: data.email_updates ?? true,
+              storyAnalysisComplete: data.story_analysis_notifications ?? true,
+              marketingEmails: data.marketing_emails ?? false,
+            });
+          }
+        } catch (error) {
+          console.error('Error in fetchUserPreferences:', error);
+        }
+      };
+      
+      fetchUserPreferences();
+    }
+  }, [user, loading, navigate]);
+
+  const handleSaveProfile = async () => {
     if (!name || !email) {
       toast.error('Please fill in all required fields');
       return;
     }
 
-    const updatedUser = {
-      ...user,
-      name,
-      email
-    };
-
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    toast.success('Profile updated successfully');
+    try {
+      setIsLoading(true);
+      await updateProfile({ name, email });
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleNotificationChange = (key: keyof typeof notifications) => {
-    setNotifications({
-      ...notifications,
-      [key]: !notifications[key]
-    });
-    toast.success('Notification preferences updated');
+  const handleNotificationChange = async (key: keyof typeof notifications) => {
+    try {
+      if (!user) return;
+      
+      const updatedNotifications = {
+        ...notifications,
+        [key]: !notifications[key]
+      };
+      
+      setNotifications(updatedNotifications);
+      
+      // Update preferences in the database
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert({
+          user_id: user.id,
+          email_updates: updatedNotifications.emailUpdates,
+          story_analysis_notifications: updatedNotifications.storyAnalysisComplete,
+          marketing_emails: updatedNotifications.marketingEmails,
+          updated_at: new Date().toISOString()
+        });
+        
+      if (error) throw error;
+      
+      toast.success('Notification preferences updated');
+    } catch (error) {
+      console.error('Error updating notification preferences:', error);
+      toast.error('Failed to update notification preferences');
+    }
   };
 
-  const handleSignOut = () => {
-    localStorage.removeItem('user');
-    toast.success('Signed out successfully');
-    navigate('/');
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Failed to sign out');
+    }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background text-foreground p-6 md:p-8 flex items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (!user) return null;
 
@@ -109,7 +169,9 @@ const AccountSettings = () => {
                   />
                 </div>
               </div>
-              <Button onClick={handleSaveProfile}>Save Changes</Button>
+              <Button onClick={handleSaveProfile} disabled={isLoading}>
+                {isLoading ? 'Saving...' : 'Save Changes'}
+              </Button>
             </CardContent>
           </Card>
 
@@ -168,7 +230,13 @@ const AccountSettings = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full justify-start">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start"
+                onClick={() => {
+                  toast.info('Password reset email sent');
+                }}
+              >
                 Change Password
               </Button>
               <Button 

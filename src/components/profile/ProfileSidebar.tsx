@@ -5,20 +5,26 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Settings, CreditCard, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 
 interface ProfileSidebarProps {
-  user: { name?: string; email: string } | null;
+  user: { name?: string; email: string; id: string } | null;
   hasStoryboardsWithImages: boolean;
 }
 
 const ProfileSidebar: React.FC<ProfileSidebarProps> = ({ user, hasStoryboardsWithImages }) => {
   const navigate = useNavigate();
+  const { signOut } = useAuth();
 
-  const handleSignOut = () => {
-    localStorage.removeItem('user');
-    toast.success('Signed out successfully');
-    navigate('/');
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      toast.error('Failed to sign out');
+    }
   };
 
   if (!user) return null;

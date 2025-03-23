@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -10,19 +9,75 @@ export function useAuthProvider() {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Helper function to get user profile from database
+  const getUserProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+      
+      if (error && error.code !== 'PGNF') {
+        console.error('Error fetching user profile:', error);
+        return null;
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in getUserProfile:', error);
+      return null;
+    }
+  };
+
+  // Helper function to create/update user profile in the database
+  const upsertUserProfile = async (userId: string, profileData: any) => {
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .upsert({ 
+          id: userId,
+          ...profileData,
+          updated_at: new Date().toISOString()
+        });
+      
+      if (error) {
+        console.error('Error updating profile:', error);
+      }
+    } catch (error) {
+      console.error('Error in upsertUserProfile:', error);
+    }
+  };
+
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (session) {
           const { user: supabaseUser } = session;
+          
           // Transform Supabase user to our User type
           const appUser = {
             id: supabaseUser.id,
             email: supabaseUser.email || '',
             name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
           };
+          
           setUser(appUser);
+          
+          // If user signed up or signed in, ensure their profile exists
+          if (event === 'SIGNED_IN' || event === 'SIGNED_UP') {
+            const profile = await getUserProfile(supabaseUser.id);
+            
+            if (!profile) {
+              // Create a new profile record if one doesn't exist
+              await upsertUserProfile(supabaseUser.id, {
+                email: supabaseUser.email,
+                name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+                avatar_url: supabaseUser.user_metadata?.avatar_url,
+              });
+            }
+          }
         } else {
           setUser(null);
         }
@@ -41,6 +96,16 @@ export function useAuthProvider() {
           name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
         };
         setUser(appUser);
+        
+        // Ensure profile exists in database
+        const profile = await getUserProfile(supabaseUser.id);
+        if (!profile) {
+          await upsertUserProfile(supabaseUser.id, {
+            email: supabaseUser.email,
+            name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+            avatar_url: supabaseUser.user_metadata?.avatar_url,
+          });
+        }
       }
       setLoading(false);
     };
@@ -135,7 +200,7 @@ export function useAuthProvider() {
     }
   };
 
-  const updateProfile = async (updates: { name?: string, email?: string }) => {
+  const updateProfile = async (updates: { name?: string, email?: string, avatar_url?: string }) => {
     try {
       setLoading(true);
       
@@ -143,6 +208,7 @@ export function useAuthProvider() {
         throw new Error('Not authenticated');
       }
 
+      // If email is being updated
       if (updates.email && updates.email !== user.email) {
         const { error } = await supabase.auth.updateUser({
           email: updates.email,
@@ -153,20 +219,36 @@ export function useAuthProvider() {
         toast.success('Email update initiated. Please check your email for confirmation');
       }
 
-      if (updates.name) {
+      // Update user metadata if name is provided
+      if (updates.name || updates.avatar_url) {
+        const metadata: Record<string, any> = {};
+        if (updates.name) metadata.name = updates.name;
+        if (updates.avatar_url) metadata.avatar_url = updates.avatar_url;
+        
         const { error } = await supabase.auth.updateUser({
-          data: { name: updates.name },
+          data: metadata,
         });
         
         if (error) throw error;
-        
-        setUser({
-          ...user,
-          name: updates.name,
-        });
-        
-        toast.success('Profile updated successfully');
       }
+      
+      // Update local user state
+      const updatedUser = {
+        ...user,
+        name: updates.name || user.name,
+        email: updates.email || user.email,
+      };
+      
+      setUser(updatedUser);
+      
+      // Update profile in database
+      await upsertUserProfile(user.id, {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        avatar_url: updates.avatar_url,
+      });
+      
+      toast.success('Profile updated successfully');
     } catch (error: any) {
       toast.error(error.message || 'Error updating profile');
       throw error;
