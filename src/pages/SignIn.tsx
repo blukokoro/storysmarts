@@ -15,8 +15,10 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/contexts/AuthContext';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertCircle } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { supabase } from '@/lib/supabase';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -27,6 +29,12 @@ const SignIn = () => {
   const { signIn, signInWithGoogle, user, loading } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Check if using placeholder credentials
+  const usingPlaceholderCredentials = 
+    supabase.supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
+    supabase.supabaseKey === 'your-supabase-anon-key';
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -38,10 +46,17 @@ const SignIn = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      setError(null);
       setIsSubmitting(true);
+      
+      if (usingPlaceholderCredentials) {
+        throw new Error('Authentication is not available with placeholder Supabase credentials. Please set up your Supabase project.');
+      }
+      
       await signIn(values.email, values.password);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Sign in error:', error);
+      setError(error.message || 'An error occurred during sign in');
     } finally {
       setIsSubmitting(false);
     }
@@ -49,10 +64,17 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
+      setError(null);
       setIsGoogleLoading(true);
+      
+      if (usingPlaceholderCredentials) {
+        throw new Error('Authentication is not available with placeholder Supabase credentials. Please set up your Supabase project.');
+      }
+      
       await signInWithGoogle();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Google sign in error:', error);
+      setError(error.message || 'An error occurred during Google sign in');
     } finally {
       setIsGoogleLoading(false);
     }
@@ -72,6 +94,22 @@ const SignIn = () => {
         </div>
 
         <div className="bg-black/30 backdrop-blur-sm rounded-lg p-6 border border-white/10">
+          {error && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          
+          {usingPlaceholderCredentials && (
+            <Alert variant="destructive" className="mb-6">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                You are using placeholder Supabase credentials. Authentication will not work until you set up your Supabase project.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
@@ -105,7 +143,7 @@ const SignIn = () => {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isSubmitting || loading}
+                disabled={isSubmitting || loading || usingPlaceholderCredentials}
               >
                 {isSubmitting ? (
                   <>
@@ -132,7 +170,7 @@ const SignIn = () => {
             variant="outline" 
             className="w-full mb-6"
             onClick={handleGoogleSignIn}
-            disabled={isGoogleLoading}
+            disabled={isGoogleLoading || usingPlaceholderCredentials}
           >
             {isGoogleLoading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

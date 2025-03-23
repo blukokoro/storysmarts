@@ -62,6 +62,7 @@ export function useAuthProvider() {
             id: supabaseUser.id,
             email: supabaseUser.email || '',
             name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+            avatar_url: supabaseUser.user_metadata?.avatar_url,
           };
           
           setUser(appUser);
@@ -95,6 +96,7 @@ export function useAuthProvider() {
           id: supabaseUser.id,
           email: supabaseUser.email || '',
           name: supabaseUser.user_metadata?.name || supabaseUser.email?.split('@')[0] || '',
+          avatar_url: supabaseUser.user_metadata?.avatar_url,
         };
         setUser(appUser);
         
@@ -121,6 +123,13 @@ export function useAuthProvider() {
   const signIn = async (email: string, password: string) => {
     try {
       setLoading(true);
+      
+      // Check if using placeholder credentials
+      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
+          supabaseAnonKey === 'your-supabase-anon-key') {
+        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
+      }
+      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -141,6 +150,13 @@ export function useAuthProvider() {
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
+      
+      // Check if using placeholder credentials
+      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
+          supabaseAnonKey === 'your-supabase-anon-key') {
+        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
+      }
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -161,6 +177,12 @@ export function useAuthProvider() {
   const signUp = async (email: string, password: string, name?: string) => {
     try {
       setLoading(true);
+      
+      // Check if using placeholder credentials
+      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
+          supabaseAnonKey === 'your-supabase-anon-key') {
+        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
+      }
       
       const { error } = await supabase.auth.signUp({
         email,
