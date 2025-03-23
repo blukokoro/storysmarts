@@ -1,14 +1,9 @@
 
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '../integrations/supabase/client';
 
-// Replace these with your actual Supabase project URL and anon key
-export const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://your-supabase-project-url.supabase.co'
-export const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'your-supabase-anon-key'
+// Export the supabase client
+export { supabase };
 
-// For development debugging
-if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-    supabaseAnonKey === 'your-supabase-anon-key') {
-  console.warn('⚠️ Using placeholder Supabase credentials. Authentication will not work until you set actual credentials.')
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Export the URL and anon key for use in other parts of the app
+export const supabaseUrl = "https://unpanmmpkzlmverkiwpz.supabase.co";
+export const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVucGFubW1wa3psbXZlcmtpd3B6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIwNDI1MTYsImV4cCI6MjA1NzYxODUxNn0.-dBy60MM_G6vMtcun8dz1IPY2J7VCLMzDO26oqzb5FY";

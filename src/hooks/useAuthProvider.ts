@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '@/types/auth';
-import { supabase, supabaseUrl, supabaseAnonKey } from '@/lib/supabase';
+import { supabase } from '@/integrations/supabase/client';
 
 export function useAuthProvider() {
   const [user, setUser] = useState<User>(null);
@@ -124,12 +124,6 @@ export function useAuthProvider() {
     try {
       setLoading(true);
       
-      // Check if using placeholder credentials
-      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-          supabaseAnonKey === 'your-supabase-anon-key') {
-        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
-      }
-      
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -151,12 +145,6 @@ export function useAuthProvider() {
     try {
       setLoading(true);
       
-      // Check if using placeholder credentials
-      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-          supabaseAnonKey === 'your-supabase-anon-key') {
-        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
-      }
-      
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
@@ -177,12 +165,6 @@ export function useAuthProvider() {
   const signUp = async (email: string, password: string, name?: string) => {
     try {
       setLoading(true);
-      
-      // Check if using placeholder credentials
-      if (supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-          supabaseAnonKey === 'your-supabase-anon-key') {
-        throw new Error('Cannot authenticate with placeholder Supabase credentials. Please set up your Supabase project.');
-      }
       
       const { error } = await supabase.auth.signUp({
         email,
