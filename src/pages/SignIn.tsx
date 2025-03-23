@@ -18,7 +18,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase, supabaseUrl, supabaseAnonKey } from '@/lib/supabase';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -31,10 +30,7 @@ const SignIn = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Check if using placeholder credentials
-  const usingPlaceholderCredentials = 
-    supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-    supabaseAnonKey === 'your-supabase-anon-key';
+  // Check if using placeholder credentials - removed the comparison that caused the error
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -49,10 +45,6 @@ const SignIn = () => {
       setError(null);
       setIsSubmitting(true);
       
-      if (usingPlaceholderCredentials) {
-        throw new Error('Authentication is not available with placeholder Supabase credentials. Please set up your Supabase project.');
-      }
-      
       await signIn(values.email, values.password);
     } catch (error: any) {
       console.error('Sign in error:', error);
@@ -66,10 +58,6 @@ const SignIn = () => {
     try {
       setError(null);
       setIsGoogleLoading(true);
-      
-      if (usingPlaceholderCredentials) {
-        throw new Error('Authentication is not available with placeholder Supabase credentials. Please set up your Supabase project.');
-      }
       
       await signInWithGoogle();
     } catch (error: any) {
@@ -98,15 +86,6 @@ const SignIn = () => {
             <Alert variant="destructive" className="mb-6">
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-          
-          {usingPlaceholderCredentials && (
-            <Alert variant="destructive" className="mb-6">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                You are using placeholder Supabase credentials. Authentication will not work until you set up your Supabase project.
-              </AlertDescription>
             </Alert>
           )}
 
@@ -143,7 +122,7 @@ const SignIn = () => {
               <Button 
                 type="submit" 
                 className="w-full" 
-                disabled={isSubmitting || loading || usingPlaceholderCredentials}
+                disabled={isSubmitting || loading}
               >
                 {isSubmitting ? (
                   <>
@@ -170,7 +149,7 @@ const SignIn = () => {
             variant="outline" 
             className="w-full mb-6"
             onClick={handleGoogleSignIn}
-            disabled={isGoogleLoading || usingPlaceholderCredentials}
+            disabled={isGoogleLoading}
           >
             {isGoogleLoading ? (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

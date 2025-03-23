@@ -8,7 +8,6 @@ import StoryboardsTab from '@/components/profile/StoryboardsTab';
 import AnalysisTab from '@/components/profile/AnalysisTab';
 import { StorySummary, Storyboard, Analysis } from '@/components/profile/types';
 import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/lib/supabase';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Profile = () => {
@@ -33,7 +32,10 @@ const Profile = () => {
       try {
         setLoading(true);
         
-        // In a real app, fetch stories from Supabase
+        // Since we don't have the tables yet, we'll use mock data for now
+        // In a real app, you would fetch these from Supabase tables
+        
+        /* The below code is commented out until the tables are created
         const { data: storiesData, error: storiesError } = await supabase
           .from('stories')
           .select('*')
@@ -51,50 +53,12 @@ const Profile = () => {
         })) || [];
         
         setStories(formattedStories.length > 0 ? formattedStories : mockStories);
+        */
         
-        // In a real app, fetch storyboards from Supabase
-        const { data: storyboardsData, error: storyboardsError } = await supabase
-          .from('storyboards')
-          .select('*')
-          .eq('user_id', user.id);
-          
-        if (storyboardsError) throw storyboardsError;
-        
-        // Format storyboards data
-        const formattedStoryboards = storyboardsData?.map(storyboard => ({
-          id: storyboard.id,
-          title: storyboard.title,
-          date: storyboard.created_at,
-          frames: storyboard.frame_count || 0,
-          hasImages: storyboard.has_images || false
-        })) || [];
-        
-        setStoryboards(formattedStoryboards.length > 0 ? formattedStoryboards : mockStoryboards);
-        
-        // In a real app, fetch analyses from Supabase
-        const { data: analysesData, error: analysesError } = await supabase
-          .from('analyses')
-          .select('*')
-          .eq('user_id', user.id);
-          
-        if (analysesError) throw analysesError;
-        
-        // Format analyses data
-        const formattedAnalyses = analysesData?.map(analysis => ({
-          id: analysis.id,
-          title: analysis.title,
-          date: analysis.created_at,
-          type: analysis.type || 'Comic Analysis',
-          insights: analysis.insights || {
-            audienceSize: 'Unknown',
-            primaryGender: 'Unknown',
-            potentialRevenue: 'Unknown',
-            marketingBudget: 'Unknown',
-            breakEvenPoint: 'Unknown'
-          }
-        })) || [];
-        
-        setAnalyses(formattedAnalyses.length > 0 ? formattedAnalyses : mockAnalyses);
+        // Use mock data for now
+        setStories(mockStories);
+        setStoryboards(mockStoryboards);
+        setAnalyses(mockAnalyses);
         
       } catch (error) {
         console.error('Error fetching user data:', error);
