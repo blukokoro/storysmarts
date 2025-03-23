@@ -18,7 +18,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { supabase } from '@/lib/supabase';
+import { supabase, supabaseUrl, supabaseAnonKey } from '@/lib/supabase';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
@@ -33,8 +33,8 @@ const SignIn = () => {
   
   // Check if using placeholder credentials
   const usingPlaceholderCredentials = 
-    supabase.supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
-    supabase.supabaseKey === 'your-supabase-anon-key';
+    supabaseUrl === 'https://your-supabase-project-url.supabase.co' || 
+    supabaseAnonKey === 'your-supabase-anon-key';
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

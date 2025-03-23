@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { User } from '@/types/auth';
-import { supabase } from '@/lib/supabase';
+import { supabase, supabaseUrl, supabaseAnonKey } from '@/lib/supabase';
 
 export function useAuthProvider() {
   const [user, setUser] = useState<User>(null);
